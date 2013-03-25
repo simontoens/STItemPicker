@@ -16,7 +16,6 @@
 
 @end
 
-
 @protocol ItemPickerDelegate <NSObject>
 
 - (void)pickedItem:(NSString *)item;

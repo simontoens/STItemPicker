@@ -22,32 +22,6 @@ static MultiDictionary* kAlbumsToSongs;
 
 @synthesize header = _header;
 
-+ (void)addArtist:(NSString *)artist album:(NSString *)album songs:(NSArray *)songs 
-{
-    [kArtistsToAlbums setObject:album forKey:artist];
-    for (NSString *song in songs) {
-        [kAlbumsToSongs setObject:song forKey:album];
-    }
-}
-
-+ (void)initialize 
-{
-    kArtistsToAlbums = [[MultiDictionary alloc] init];
-    kAlbumsToSongs = [[MultiDictionary alloc] init];
-    
-    [SampleItemPickerDataSource addArtist:@"Queen" album:@"Innuendo" 
-                                     songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
-    
-    [SampleItemPickerDataSource addArtist:@"Blur" album:@"Parklife" 
-                                     songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
-    
-    [SampleItemPickerDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
-                                     songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];
-
-    [SampleItemPickerDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
-                                     songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
-}
-
 - (id)init 
 {
     if (self = [super init]) {
@@ -136,6 +110,56 @@ static MultiDictionary* kAlbumsToSongs;
     {
         return nil;
     }
+}
+
++ (void)addArtist:(NSString *)artist album:(NSString *)album songs:(NSArray *)songs 
+{
+    [kArtistsToAlbums setObject:album forKey:artist];
+    for (NSString *song in songs) {
+        [kAlbumsToSongs setObject:song forKey:album];
+    }
+}
+
++ (void)initialize 
+{
+    kArtistsToAlbums = [[MultiDictionary alloc] init];
+    kAlbumsToSongs = [[MultiDictionary alloc] init];
+    
+    [SampleItemPickerDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
+                                    songs:[NSArray arrayWithObjects:@"Midnight City", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Gene" album:@"Drawn To The Deep End" 
+                                    songs:[NSArray arrayWithObjects:@"Fighting Fit", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Doves" album:@"The Last Broadcast" 
+                                    songs:[NSArray arrayWithObjects:@"Words", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Kent" album:@"Isola" 
+                                    songs:[NSArray arrayWithObjects:@"747", @"Things She Said", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Happy Mondays" album:@"Pills 'N' Thrills And Belly Aches" 
+                                    songs:[NSArray arrayWithObjects:@"Kinky Afro", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Air" album:@"Moon Safari" 
+                                    songs:[NSArray arrayWithObjects:@"La Femme d'Argent", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
+                                    songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"The Chemical Borthers" album:@"Push The Button" 
+                                    songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Queen" album:@"Innuendo" 
+                                    songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Blur" album:@"Parklife" 
+                                    songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
+                                    songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
+                                    songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
 }
 
 @end

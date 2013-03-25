@@ -4,6 +4,7 @@
 #import "TableSectionHandler.h"
 
 @interface ItemPickerViewController()
+- (int)getItemRow:(NSIndexPath *)indexPath;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 @end
@@ -38,6 +39,23 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+#pragma mark - UITableView methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    NSString *selection = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
+    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSource:selection];
+    if (nextDataSource) {
+        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];
+        controller.itemPickerDelegate = self.itemPickerDelegate;
+        [self.navigationController pushViewController:controller animated:YES];
+    } else {
+        [self.itemPickerDelegate pickedItem:selection];
+    }
+}
+
+#pragma mark - UITableViewDataSource protocol
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
     return [self.tableSectionHandler.sections count];
@@ -53,18 +71,6 @@
     NSString *s = [self.tableSectionHandler.sections objectAtIndex:section];
    return [[self.tableSectionHandler.sectionToNumberOfItems objectForKey:s] intValue];
 } 
-
-- (int)getItemRow:(NSIndexPath *)indexPath
-{
-    int row = 0;
-    for (int i = 0; i < indexPath.section; i++) 
-    {
-        NSString *s = [self.tableSectionHandler.sections objectAtIndex:i];
-        row += [[self.tableSectionHandler.sectionToNumberOfItems objectForKey:s] intValue];
-    }
-    return row + indexPath.row;
-
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 { 
@@ -83,17 +89,22 @@
     return cell; 
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    return self.tableSectionHandler.sections;
+}
+
+#pragma mark - Private methods
+
+- (int)getItemRow:(NSIndexPath *)indexPath
 {
-    NSString *selection = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
-    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSource:selection];
-    if (nextDataSource) {
-        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];
-        controller.itemPickerDelegate = self.itemPickerDelegate;
-        [self.navigationController pushViewController:controller animated:YES];
-    } else {
-        [self.itemPickerDelegate pickedItem:selection];
+    int row = 0;
+    for (int i = 0; i < indexPath.section; i++) 
+    {
+        NSString *s = [self.tableSectionHandler.sections objectAtIndex:i];
+        row += [[self.tableSectionHandler.sectionToNumberOfItems objectForKey:s] intValue];
     }
+    return row + indexPath.row;
+    
 }
 
 @end
