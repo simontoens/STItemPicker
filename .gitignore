@@ -1,4 +1,3 @@
-#xcode specific
 build/*
 *.pbxuser
 *.mode2v3
@@ -6,11 +5,9 @@ build/*
 *.perspective
 *.perspectivev3
 *~.nib
-#ignore private workspace stuff added by Xcode4
 xcuserdata
 project.xcworkspace
 
-## generic files to ignore
 *~
 *.lock
 *.DS_Store
