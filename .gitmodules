@@ -1,0 +1,3 @@
+[submodule "Submodules/STObjCToolbelt"]
+	path = Submodules/STObjCToolbelt
+	url = git://github.com/simontoens/STObjCToolbelt.git
