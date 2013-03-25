@@ -26,6 +26,7 @@
 		BEEB9CF216FFE6540021E035 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF016FFE6540021E035 /* TestViewController.m */; };
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
+		BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiDictionary.m; path = Submodules/STObjCToolbelt/Source/MultiDictionary.m; sourceTree = "<group>"; };
 		BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preconditions.h; path = Submodules/STObjCToolbelt/Source/Preconditions.h; sourceTree = "<group>"; };
 		BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preconditions.m; path = Submodules/STObjCToolbelt/Source/Preconditions.m; sourceTree = "<group>"; };
+		BEEB9D1316FFEA760021E035 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
 				BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */,
+				BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */,
 				BEEB9CDE16FFE4990021E035 /* TableSectionHandler.h */,
 				BEEB9CDF16FFE4990021E035 /* TableSectionHandler.m */,
 			);
@@ -277,6 +280,7 @@
 			files = (
 				BEEB9CB916FFE3B60021E035 /* InfoPlist.strings in Resources */,
 				BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */,
+				BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +360,14 @@
 				BEEB9CD016FFE3B60021E035 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEEB9D1316FFEA760021E035 /* en */,
+			);
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -481,6 +493,7 @@
 				BEEB9CD916FFE3B60021E035 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEEB9CDA16FFE3B60021E035 /* Build configuration list for PBXNativeTarget "STItemPickerTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +502,7 @@
 				BEEB9CDC16FFE3B60021E035 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

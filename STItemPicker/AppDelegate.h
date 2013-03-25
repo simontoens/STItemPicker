@@ -1,10 +1,4 @@
-//
-//  AppDelegate.h
-//  STItemPicker
-//
-//  Created by Simon Toens on 3/24/13.
-//  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
-//
+// @author Simon Toens 02/14/13
 
 #import <UIKit/UIKit.h>
 
