@@ -81,8 +81,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    cell.accessoryType = self.dataSource.hasDetailDataSource ? 
-        UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
         
     int row = [self getItemRow:indexPath];
     cell.textLabel.text = [self.tableSectionHandler.items objectAtIndex:row];

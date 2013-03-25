@@ -14,6 +14,4 @@
 
 @property(nonatomic, assign, readonly) BOOL sectionsEnabled;
 
-@property(nonatomic, assign, readonly) BOOL hasDetailDataSource;
-
 @end

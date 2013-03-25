@@ -54,11 +54,6 @@ static MultiDictionary* kAlbumsToSongs;
     return [self.header isEqualToString:kSongs];
 }
 
-- (BOOL)hasDetailDataSource 
-{
-    return ![self songsList];
-}
-
 - (BOOL)sectionsEnabled 
 {
     return [self artistsList];
