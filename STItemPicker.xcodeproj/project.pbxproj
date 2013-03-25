@@ -135,6 +135,7 @@
 				BEEB9CDD16FFE4710021E035 /* STItemPickerSource */,
 				BEEB9CBD16FFE3B60021E035 /* AppDelegate.h */,
 				BEEB9CBE16FFE3B60021E035 /* AppDelegate.m */,
+				BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */,
 				BEEB9CED16FFE6540021E035 /* SampleItemPickerDataSource.h */,
 				BEEB9CEE16FFE6540021E035 /* SampleItemPickerDataSource.m */,
 				BEEB9CEF16FFE6540021E035 /* TestViewController.h */,
@@ -182,7 +183,6 @@
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
 				BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */,
-				BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */,
 				BEEB9CDE16FFE4990021E035 /* TableSectionHandler.h */,
 				BEEB9CDF16FFE4990021E035 /* TableSectionHandler.m */,
 			);
