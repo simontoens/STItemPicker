@@ -8,24 +8,43 @@
     @private
     NSString * selection;
 }
+- (id)initWithHeader:(NSString *)header;
+
 @property (nonatomic, strong, readwrite) NSString *header;
+
 @end
 
 @implementation SampleItemPickerDataSource
 
-static NSString *kArtists = @"Artists";
-static NSString *kAlbums = @"Albums";
-static NSString *kSongs = @"Songs";
+static NSString *const kArtists = @"Artists";
+static NSString *const kAlbums = @"Albums";
+static NSString *const kSongs = @"Songs";
 
 static MultiDictionary* kArtistsToAlbums;
 static MultiDictionary* kAlbumsToSongs;
 
 @synthesize header = _header;
 
-- (id)init 
++ (id)artistsDataSource
 {
-    if (self = [super init]) {
-        _header = kArtists;
+    return [[SampleItemPickerDataSource alloc] initWithHeader:kArtists];
+}
+
++ (id)albumsDataSource
+{
+    return [[SampleItemPickerDataSource alloc] initWithHeader:kAlbums];
+}
+
++ (id)songsDataSource
+{
+    return [[SampleItemPickerDataSource alloc] initWithHeader:kSongs];
+}
+
+- (id)initWithHeader:(NSString *)header
+{
+    if (self = [super init]) 
+    {
+        _header = header;
     }
     return self;
 }
@@ -56,7 +75,7 @@ static MultiDictionary* kAlbumsToSongs;
 
 - (BOOL)sectionsEnabled 
 {
-    return [self artistsList];
+    return !selection;
 }
 
 - (NSArray *)items 
@@ -67,11 +86,11 @@ static MultiDictionary* kAlbumsToSongs;
     } 
     else if ([self albumsList]) 
     {
-        return [[kArtistsToAlbums objectsForKey:selection] allObjects];
+        return selection ? [[kArtistsToAlbums objectsForKey:selection] allObjects] : [kAlbumsToSongs allKeys];
     } 
     else if ([self songsList]) 
     {
-        return [[kAlbumsToSongs objectsForKey:selection] allObjects];
+        return selection ? [[kAlbumsToSongs objectsForKey:selection] allObjects] : [kAlbumsToSongs allValues];
     } 
     else 
     {
@@ -142,7 +161,7 @@ static MultiDictionary* kAlbumsToSongs;
                                     songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
     
     [SampleItemPickerDataSource addArtist:@"The Chemical Borthers" album:@"Push The Button" 
-                                    songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
+                                    songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
     
     [SampleItemPickerDataSource addArtist:@"Queen" album:@"Innuendo" 
                                     songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
@@ -155,6 +174,9 @@ static MultiDictionary* kAlbumsToSongs;
     
     [SampleItemPickerDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
                                     songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
+    
+    [SampleItemPickerDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
+                                    songs:[NSArray arrayWithObjects:@"### stupid!", nil]];
 }
 
 @end

@@ -19,19 +19,12 @@
     if (self = [super initWithNibName:@"ItemPickerViewController" bundle:nil]) 
     {
         _dataSource = dataSource;
+        self.title = _dataSource.header;
+        self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:_dataSource.items 
+                                                                alreadySorted:_dataSource.itemsAlreadySorted];
+        self.tableSectionHandler.sectionsEnabled = _dataSource.sectionsEnabled;
     }
     return self;
-}
-
-- (void)viewDidLoad 
-{    
-    [super viewDidLoad];
-    self.title = self.dataSource.header;
-    
-    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:self.dataSource.items 
-                                                            alreadySorted:self.dataSource.itemsAlreadySorted];
-    
-    self.tableSectionHandler.sectionsEnabled = self.dataSource.sectionsEnabled;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

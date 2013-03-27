@@ -14,7 +14,12 @@
 
 - (IBAction)onClick:(id)sender 
 {
-    ItemPicker *mediaPicker = [[ItemPicker alloc] initWithDataSource:[[SampleItemPickerDataSource alloc] init]];
+    NSArray *dataSources = [NSArray arrayWithObjects:
+                            [SampleItemPickerDataSource artistsDataSource], 
+                            [SampleItemPickerDataSource albumsDataSource],
+                            [SampleItemPickerDataSource songsDataSource], nil];
+    
+    ItemPicker *mediaPicker = [[ItemPicker alloc] initWithDataSources:dataSources];
     mediaPicker.delegate = self;
     [self.navigationController presentModalViewController:mediaPicker.viewController animated:YES];
 }

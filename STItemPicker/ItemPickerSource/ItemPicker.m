@@ -5,33 +5,50 @@
 @interface ItemPicker() 
 {
     @private 
-    id<ItemPickerDataSource> dataSource;
-    UINavigationController *navigationController;
+    NSArray *dataSources;
+    UIViewController *viewController;
 }
+- (UIViewController *)getControllerForDataSource:(id<ItemPickerDataSource>)dataSource;
 @end
 
 @implementation ItemPicker
 
 @synthesize delegate;
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)aDataSource 
+- (id)initWithDataSources:(NSArray *)someDataSources
 {
     if (self = [super init]) 
     {
-        dataSource = aDataSource;
+        dataSources = someDataSources;
     }
     return self;
 }
 
 - (UIViewController *)viewController 
 {
-    if (!navigationController) 
+    if (!viewController) 
     {
-        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:dataSource];
-        controller.itemPickerDelegate = self.delegate;
-        navigationController = [[UINavigationController alloc] initWithRootViewController:controller];      
+        if ([dataSources count] > 1) {
+            NSMutableArray *viewControllers = [[NSMutableArray alloc]initWithCapacity:[dataSources count]];
+            for (id<ItemPickerDataSource> dataSource in dataSources) {
+                [viewControllers addObject:[self getControllerForDataSource:dataSource]];
+            }
+            viewController = [[UITabBarController alloc] init];
+            [(id)viewController setViewControllers:viewControllers];
+        } 
+        else 
+        {
+            viewController = [self getControllerForDataSource:[dataSources lastObject]];
+        }
     }
-    return navigationController;
+    return viewController;
+}
+
+- (UIViewController *)getControllerForDataSource:(id<ItemPickerDataSource>)dataSource
+{
+    ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:dataSource];
+    controller.itemPickerDelegate = self.delegate;
+    return [[UINavigationController alloc] initWithRootViewController:controller];    
 }
 
 @end

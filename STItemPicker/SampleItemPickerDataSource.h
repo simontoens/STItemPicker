@@ -6,4 +6,8 @@
 
 @interface SampleItemPickerDataSource : NSObject <ItemPickerDataSource>
 
++ (id)artistsDataSource;
++ (id)albumsDataSource;
++ (id)songsDataSource;
+
 @end

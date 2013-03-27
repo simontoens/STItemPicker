@@ -16,8 +16,8 @@
 
 @implementation TableSectionHandler
 
-NSString const *kTableSectionHandlerNumberHeader = @"0-9";
-NSString const *kTableSectionHandlerSymbolHeader = @"#$%";
+NSString const *kTableSectionHandlerNumberHeader = @"0";
+NSString const *kTableSectionHandlerSymbolHeader = @"#";
 
 static NSCharacterSet *letterCharacterSet;
 static NSCharacterSet *numberCharacterSet;

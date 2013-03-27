@@ -8,7 +8,7 @@
 
 @interface ItemPicker : NSObject
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
+- (id)initWithDataSources:(NSArray *)dataSource;
 
 @property (nonatomic, strong, readonly) UIViewController *viewController;
 
