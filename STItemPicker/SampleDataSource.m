@@ -1,9 +1,9 @@
 // @author Simon Toens 03/16/13
 
-#import "SampleItemPickerDataSource.h"
+#import "SampleDataSource.h"
 #import "MultiDictionary.h"
 
-@interface SampleItemPickerDataSource() 
+@interface SampleDataSource() 
 {
     @private
     NSString * selection;
@@ -14,7 +14,7 @@
 
 @end
 
-@implementation SampleItemPickerDataSource
+@implementation SampleDataSource
 
 static NSString *const kArtists = @"Artists";
 static NSString *const kAlbums = @"Albums";
@@ -27,17 +27,17 @@ static MultiDictionary* kAlbumsToSongs;
 
 + (id)artistsDataSource
 {
-    return [[SampleItemPickerDataSource alloc] initWithHeader:kArtists];
+    return [[SampleDataSource alloc] initWithHeader:kArtists];
 }
 
 + (id)albumsDataSource
 {
-    return [[SampleItemPickerDataSource alloc] initWithHeader:kAlbums];
+    return [[SampleDataSource alloc] initWithHeader:kAlbums];
 }
 
 + (id)songsDataSource
 {
-    return [[SampleItemPickerDataSource alloc] initWithHeader:kSongs];
+    return [[SampleDataSource alloc] initWithHeader:kSongs];
 }
 
 - (id)initWithHeader:(NSString *)header
@@ -116,7 +116,7 @@ static MultiDictionary* kAlbumsToSongs;
     } 
     if (header) 
     {
-        SampleItemPickerDataSource *s = [[SampleItemPickerDataSource alloc] initWithParentSelection:aSelection];
+        SampleDataSource *s = [[SampleDataSource alloc] initWithParentSelection:aSelection];
         s.header = header;
         return s;
     } 
@@ -139,43 +139,43 @@ static MultiDictionary* kAlbumsToSongs;
     kArtistsToAlbums = [[MultiDictionary alloc] init];
     kAlbumsToSongs = [[MultiDictionary alloc] init];
     
-    [SampleItemPickerDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
+    [SampleDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
                                     songs:[NSArray arrayWithObjects:@"Midnight City", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Gene" album:@"Drawn To The Deep End" 
+    [SampleDataSource addArtist:@"Gene" album:@"Drawn To The Deep End" 
                                     songs:[NSArray arrayWithObjects:@"Fighting Fit", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Doves" album:@"The Last Broadcast" 
+    [SampleDataSource addArtist:@"Doves" album:@"The Last Broadcast" 
                                     songs:[NSArray arrayWithObjects:@"Words", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Kent" album:@"Isola" 
+    [SampleDataSource addArtist:@"Kent" album:@"Isola" 
                                     songs:[NSArray arrayWithObjects:@"747", @"Things She Said", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Happy Mondays" album:@"Pills 'N' Thrills And Belly Aches" 
+    [SampleDataSource addArtist:@"Happy Mondays" album:@"Pills 'N' Thrills And Belly Aches" 
                                     songs:[NSArray arrayWithObjects:@"Kinky Afro", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Air" album:@"Moon Safari" 
+    [SampleDataSource addArtist:@"Air" album:@"Moon Safari" 
                                     songs:[NSArray arrayWithObjects:@"La Femme d'Argent", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
+    [SampleDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
                                     songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"The Chemical Borthers" album:@"Push The Button" 
+    [SampleDataSource addArtist:@"The Chemical Borthers" album:@"Push The Button" 
                                     songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Queen" album:@"Innuendo" 
+    [SampleDataSource addArtist:@"Queen" album:@"Innuendo" 
                                     songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Blur" album:@"Parklife" 
+    [SampleDataSource addArtist:@"Blur" album:@"Parklife" 
                                     songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
+    [SampleDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
                                     songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
+    [SampleDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
                                     songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
     
-    [SampleItemPickerDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
+    [SampleDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
                                     songs:[NSArray arrayWithObjects:@"### stupid!", nil]];
 }
 

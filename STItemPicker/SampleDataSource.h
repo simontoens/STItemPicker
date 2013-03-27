@@ -4,7 +4,7 @@
 
 #import "ItemPickerDataSource.h"
 
-@interface SampleItemPickerDataSource : NSObject <ItemPickerDataSource>
+@interface SampleDataSource : NSObject <ItemPickerDataSource>
 
 + (id)artistsDataSource;
 + (id)albumsDataSource;

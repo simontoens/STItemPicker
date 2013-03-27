@@ -2,7 +2,7 @@
 
 #import "ItemPickerViewController.h"
 #import "TestViewController.h"
-#import "SampleItemPickerDataSource.h"
+#import "SampleDataSource.h"
 
 @interface TestViewController()
 @property(nonatomic, weak) IBOutlet UILabel *pickLabel;
@@ -15,9 +15,9 @@
 - (IBAction)onClick:(id)sender 
 {
     NSArray *dataSources = [NSArray arrayWithObjects:
-                            [SampleItemPickerDataSource artistsDataSource], 
-                            [SampleItemPickerDataSource albumsDataSource],
-                            [SampleItemPickerDataSource songsDataSource], nil];
+                            [SampleDataSource artistsDataSource], 
+                            [SampleDataSource albumsDataSource],
+                            [SampleDataSource songsDataSource], nil];
     
     ItemPicker *mediaPicker = [[ItemPicker alloc] initWithDataSources:dataSources];
     mediaPicker.delegate = self;

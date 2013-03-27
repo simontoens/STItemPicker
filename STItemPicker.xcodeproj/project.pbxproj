@@ -22,7 +22,7 @@
 		BEEB9CEA16FFE5870021E035 /* ItemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CE516FFE5870021E035 /* ItemPicker.m */; };
 		BEEB9CEB16FFE5870021E035 /* ItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */; };
 		BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */; };
-		BEEB9CF116FFE6540021E035 /* SampleItemPickerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CEE16FFE6540021E035 /* SampleItemPickerDataSource.m */; };
+		BEEB9CF116FFE6540021E035 /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CEE16FFE6540021E035 /* SampleDataSource.m */; };
 		BEEB9CF216FFE6540021E035 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF016FFE6540021E035 /* TestViewController.m */; };
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
@@ -63,8 +63,8 @@
 		BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerViewController.h; path = ItemPickerSource/ItemPickerViewController.h; sourceTree = "<group>"; };
 		BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerViewController.m; path = ItemPickerSource/ItemPickerViewController.m; sourceTree = "<group>"; };
 		BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerViewController.xib; path = ItemPickerSource/ItemPickerViewController.xib; sourceTree = "<group>"; };
-		BEEB9CED16FFE6540021E035 /* SampleItemPickerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleItemPickerDataSource.h; sourceTree = "<group>"; };
-		BEEB9CEE16FFE6540021E035 /* SampleItemPickerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleItemPickerDataSource.m; sourceTree = "<group>"; };
+		BEEB9CED16FFE6540021E035 /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SampleDataSource.h; sourceTree = "<group>"; };
+		BEEB9CEE16FFE6540021E035 /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleDataSource.m; sourceTree = "<group>"; };
 		BEEB9CEF16FFE6540021E035 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		BEEB9CF016FFE6540021E035 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		BEEB9CF716FFE8AE0021E035 /* MultiDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiDictionary.h; path = Submodules/STObjCToolbelt/Source/MultiDictionary.h; sourceTree = "<group>"; };
@@ -98,6 +98,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE3A0C031702B9D1001B18EC /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				BEEB9CED16FFE6540021E035 /* SampleDataSource.h */,
+				BEEB9CEE16FFE6540021E035 /* SampleDataSource.m */,
+			);
+			name = DataSources;
+			sourceTree = "<group>";
+		};
 		BEEB9C9F16FFE3B60021E035 = {
 			isa = PBXGroup;
 			children = (
@@ -133,11 +142,10 @@
 			isa = PBXGroup;
 			children = (
 				BEEB9CDD16FFE4710021E035 /* STItemPickerSource */,
+				BE3A0C031702B9D1001B18EC /* DataSources */,
 				BEEB9CBD16FFE3B60021E035 /* AppDelegate.h */,
 				BEEB9CBE16FFE3B60021E035 /* AppDelegate.m */,
 				BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */,
-				BEEB9CED16FFE6540021E035 /* SampleItemPickerDataSource.h */,
-				BEEB9CEE16FFE6540021E035 /* SampleItemPickerDataSource.m */,
 				BEEB9CEF16FFE6540021E035 /* TestViewController.h */,
 				BEEB9CF016FFE6540021E035 /* TestViewController.m */,
 				BEEB9CB516FFE3B60021E035 /* Supporting Files */,
@@ -320,7 +328,7 @@
 				BEEB9CE016FFE4990021E035 /* TableSectionHandler.m in Sources */,
 				BEEB9CEA16FFE5870021E035 /* ItemPicker.m in Sources */,
 				BEEB9CEB16FFE5870021E035 /* ItemPickerViewController.m in Sources */,
-				BEEB9CF116FFE6540021E035 /* SampleItemPickerDataSource.m in Sources */,
+				BEEB9CF116FFE6540021E035 /* SampleDataSource.m in Sources */,
 				BEEB9CF216FFE6540021E035 /* TestViewController.m in Sources */,
 				BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */,
 				BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */,
