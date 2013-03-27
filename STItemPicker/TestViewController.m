@@ -24,10 +24,13 @@
     [self.navigationController presentModalViewController:mediaPicker.viewController animated:YES];
 }
 
-- (void)pickedItem:(NSString *)item 
+- (void)pickedItem:(NSString *)item atIndex:(NSUInteger)index; 
 {
     [self.navigationController dismissModalViewControllerAnimated:YES];
-    [self.pickLabel setText:[NSString stringWithFormat:@"%@\n%@", self.pickLabel.text, item]];
+    if ([self.pickLabel.text length] == 0) {
+        [self.pickLabel setText:@"Picked:"];
+    }
+    [self.pickLabel setText:[NSString stringWithFormat:@"%@\n%@ at %i", self.pickLabel.text, item, index]];
 }
 
 @end

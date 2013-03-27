@@ -4,7 +4,7 @@
 #import "TableSectionHandler.h"
 
 @interface ItemPickerViewController()
-- (int)getItemRow:(NSIndexPath *)indexPath;
+- (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 @end
@@ -13,16 +13,16 @@
 
 @synthesize itemPickerDelegate;
 @synthesize dataSource = _dataSource;
-@synthesize tableSectionHandler;
+@synthesize tableSectionHandler = _tableSectionHandler;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource {
     if (self = [super initWithNibName:@"ItemPickerViewController" bundle:nil]) 
     {
         _dataSource = dataSource;
-        self.title = _dataSource.header;
-        self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:_dataSource.items 
+        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:_dataSource.items 
                                                                 alreadySorted:_dataSource.itemsAlreadySorted];
-        self.tableSectionHandler.sectionsEnabled = _dataSource.sectionsEnabled;
+        _tableSectionHandler.sectionsEnabled = _dataSource.sectionsEnabled;
+        self.title = _dataSource.header;
     }
     return self;
 }
@@ -43,7 +43,7 @@
         controller.itemPickerDelegate = self.itemPickerDelegate;
         [self.navigationController pushViewController:controller animated:YES];
     } else {
-        [self.itemPickerDelegate pickedItem:selection];
+        [self.itemPickerDelegate pickedItem:selection atIndex:[self getItemRow:indexPath]];
     }
 }
 
@@ -87,16 +87,15 @@
 
 #pragma mark - Private methods
 
-- (int)getItemRow:(NSIndexPath *)indexPath
+- (NSInteger)getItemRow:(NSIndexPath *)indexPath
 {
-    int row = 0;
+    NSInteger row = 0;
     for (int i = 0; i < indexPath.section; i++) 
     {
         NSString *s = [self.tableSectionHandler.sections objectAtIndex:i];
         row += [[self.tableSectionHandler.sectionToNumberOfItems objectForKey:s] intValue];
     }
     return row + indexPath.row;
-    
 }
 
 @end

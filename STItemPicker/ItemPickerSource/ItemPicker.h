@@ -18,6 +18,6 @@
 
 @protocol ItemPickerDelegate <NSObject>
 
-- (void)pickedItem:(NSString *)item;
+- (void)pickedItem:(NSString *)item atIndex:(NSUInteger)index;
 
 @end
