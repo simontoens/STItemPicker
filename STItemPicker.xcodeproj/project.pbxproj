@@ -141,7 +141,7 @@
 		BEEB9CB416FFE3B60021E035 /* STItemPicker */ = {
 			isa = PBXGroup;
 			children = (
-				BEEB9CDD16FFE4710021E035 /* STItemPickerSource */,
+				BEEB9CDD16FFE4710021E035 /* ItemPickerSource */,
 				BE3A0C031702B9D1001B18EC /* DataSources */,
 				BEEB9CBD16FFE3B60021E035 /* AppDelegate.h */,
 				BEEB9CBE16FFE3B60021E035 /* AppDelegate.m */,
@@ -182,7 +182,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BEEB9CDD16FFE4710021E035 /* STItemPickerSource */ = {
+		BEEB9CDD16FFE4710021E035 /* ItemPickerSource */ = {
 			isa = PBXGroup;
 			children = (
 				BEEB9CE416FFE5870021E035 /* ItemPicker.h */,
@@ -194,7 +194,7 @@
 				BEEB9CDE16FFE4990021E035 /* TableSectionHandler.h */,
 				BEEB9CDF16FFE4990021E035 /* TableSectionHandler.m */,
 			);
-			name = STItemPickerSource;
+			name = ItemPickerSource;
 			sourceTree = "<group>";
 		};
 		BEEB9CF316FFE8840021E035 /* Submodules */ = {
