@@ -38,11 +38,14 @@
 {
     NSString *selection = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
     id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSource:selection];
-    if (nextDataSource) {
+    if (nextDataSource) 
+    {
         ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];
         controller.itemPickerDelegate = self.itemPickerDelegate;
         [self.navigationController pushViewController:controller animated:YES];
-    } else {
+    } 
+    else 
+    {
         [self.itemPickerDelegate pickedItem:selection atIndex:[self getItemRow:indexPath]];
     }
 }

@@ -90,13 +90,17 @@ static NSCharacterSet *numberCharacterSet;
     NSMutableDictionary *sectionCount = [[NSMutableDictionary alloc] init];
 
     int itemsInSectionCount = 0;
-    for (NSString *item in self.items) {
+    for (NSString *item in self.items) 
+    {
         NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
         if ([theSections count] == 0) {
             [theSections addObject:sectionNameForCurrentItem];
-        } else {
+        } 
+        else 
+        {
             NSString *lastSectionName = [theSections lastObject];
-            if (![lastSectionName isEqualToString:sectionNameForCurrentItem]) {
+            if (![lastSectionName isEqualToString:sectionNameForCurrentItem]) 
+            {
                 [sectionCount setObject:[NSNumber numberWithInt:itemsInSectionCount] forKey:lastSectionName];
                 itemsInSectionCount = 1;
                 [theSections addObject:sectionNameForCurrentItem];
