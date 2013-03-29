@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
+		BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEA0289E170552C1009FD721 /* ModernLife.jpg */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
 		BEEB9CB116FFE3B60021E035 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB016FFE3B60021E035 /* Foundation.framework */; };
 		BEEB9CB316FFE3B60021E035 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB216FFE3B60021E035 /* CoreGraphics.framework */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
+		BEA0289E170552C1009FD721 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/ModernLife.jpg; sourceTree = "<group>"; };
 		BEEB9CAA16FFE3B60021E035 /* STItemPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = STItemPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEEB9CAE16FFE3B60021E035 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEEB9CB016FFE3B60021E035 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -107,6 +109,14 @@
 			name = DataSources;
 			sourceTree = "<group>";
 		};
+		BEA0289D1705524B009FD721 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				BEA0289E170552C1009FD721 /* ModernLife.jpg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		BEEB9C9F16FFE3B60021E035 = {
 			isa = PBXGroup;
 			children = (
@@ -141,8 +151,9 @@
 		BEEB9CB416FFE3B60021E035 /* STItemPicker */ = {
 			isa = PBXGroup;
 			children = (
-				BEEB9CDD16FFE4710021E035 /* ItemPickerSource */,
 				BE3A0C031702B9D1001B18EC /* DataSources */,
+				BEA0289D1705524B009FD721 /* Images */,
+				BEEB9CDD16FFE4710021E035 /* ItemPickerSource */,
 				BEEB9CBD16FFE3B60021E035 /* AppDelegate.h */,
 				BEEB9CBE16FFE3B60021E035 /* AppDelegate.m */,
 				BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */,
@@ -289,6 +300,7 @@
 				BEEB9CB916FFE3B60021E035 /* InfoPlist.strings in Resources */,
 				BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */,
 				BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */,
+				BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

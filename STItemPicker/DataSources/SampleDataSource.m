@@ -8,9 +8,12 @@
     @private
     NSString * selection;
 }
-- (id)initWithHeader:(NSString *)header;
+- (id)initWithTitle:(NSString *)header;
+- (BOOL)artistsList;
+- (BOOL)albumsList;
+- (BOOL)songsList;
 
-@property (nonatomic, strong, readwrite) NSString *header;
+@property (nonatomic, strong, readwrite) NSString *title;
 
 @end
 
@@ -23,28 +26,28 @@ static NSString *const kSongs = @"Songs";
 static MultiDictionary* kArtistsToAlbums;
 static MultiDictionary* kAlbumsToSongs;
 
-@synthesize header = _header;
+@synthesize title = _title;
 
 + (id)artistsDataSource
 {
-    return [[SampleDataSource alloc] initWithHeader:kArtists];
+    return [[SampleDataSource alloc] initWithTitle:kArtists];
 }
 
 + (id)albumsDataSource
 {
-    return [[SampleDataSource alloc] initWithHeader:kAlbums];
+    return [[SampleDataSource alloc] initWithTitle:kAlbums];
 }
 
 + (id)songsDataSource
 {
-    return [[SampleDataSource alloc] initWithHeader:kSongs];
+    return [[SampleDataSource alloc] initWithTitle:kSongs];
 }
 
-- (id)initWithHeader:(NSString *)header
+- (id)initWithTitle:(NSString *)title
 {
     if (self = [super init]) 
     {
-        _header = header;
+        _title = title;
     }
     return self;
 }
@@ -58,19 +61,11 @@ static MultiDictionary* kAlbumsToSongs;
     return self;
 }
 
-- (BOOL)artistsList 
-{
-    return [self.header isEqualToString:kArtists];
-}
+# pragma mark - ItemPickerDataSource methods
 
-- (BOOL)albumsList 
+- (UIImage *)headerImage
 {
-    return [self.header isEqualToString:kAlbums];
-}
-
-- (BOOL)songsList 
-{
-    return [self.header isEqualToString:kSongs];
+    return [self songsList] && selection ? [UIImage imageNamed:@"ModernLife.jpg"] : nil;
 }
 
 - (BOOL)sectionsEnabled 
@@ -106,24 +101,41 @@ static MultiDictionary* kAlbumsToSongs;
 
 - (id<ItemPickerDataSource>)getNextDataSource:(NSString *)aSelection 
 {
-    NSString *header = nil;
+    NSString *title = nil;
     if ([self artistsList]) 
     {
-        header = kAlbums;
+        title = kAlbums;
     } else if ([self albumsList]) 
     {
-        header = kSongs;
+        title = kSongs;
     } 
-    if (header) 
+    if (title) 
     {
         SampleDataSource *s = [[SampleDataSource alloc] initWithParentSelection:aSelection];
-        s.header = header;
+        s.title = title;
         return s;
     } 
     else 
     {
         return nil;
     }
+}
+
+# pragma mark - Private methods
+
+- (BOOL)artistsList 
+{
+    return [self.title isEqualToString:kArtists];
+}
+
+- (BOOL)albumsList 
+{
+    return [self.title isEqualToString:kAlbums];
+}
+
+- (BOOL)songsList 
+{
+    return [self.title isEqualToString:kSongs];
 }
 
 + (void)addArtist:(NSString *)artist album:(NSString *)album songs:(NSArray *)songs 

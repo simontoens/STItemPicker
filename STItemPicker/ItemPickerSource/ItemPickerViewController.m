@@ -4,6 +4,7 @@
 #import "TableSectionHandler.h"
 
 @interface ItemPickerViewController()
+- (void)configureHeaderView;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
@@ -22,7 +23,7 @@
         _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:_dataSource.items 
                                                                 alreadySorted:_dataSource.itemsAlreadySorted];
         _tableSectionHandler.sectionsEnabled = _dataSource.sectionsEnabled;
-        self.title = _dataSource.header;
+        self.title = _dataSource.title;
     }
     return self;
 }
@@ -30,6 +31,12 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self configureHeaderView];
 }
 
 #pragma mark - UITableView methods
@@ -89,6 +96,18 @@
 }
 
 #pragma mark - Private methods
+
+- (void)configureHeaderView {
+    UIImage *headerImage = self.dataSource.headerImage;
+    if (headerImage) 
+    {
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width, 0, 110)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
+        [imageView setImage:headerImage];
+        [headerView addSubview:imageView];
+        self.tableView.tableHeaderView = headerView;
+    }    
+}
 
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath
 {
