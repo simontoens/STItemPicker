@@ -1,6 +1,7 @@
 // @author Simon Toens 12/14/12
 
 #import "ItemPickerViewController.h"
+#import "Preconditions.h"
 #import "TableSectionHandler.h"
 
 @interface ItemPickerViewController()
@@ -16,12 +17,14 @@
 @synthesize dataSource = _dataSource;
 @synthesize tableSectionHandler = _tableSectionHandler;
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource {
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
+{
     if (self = [super initWithNibName:@"ItemPickerViewController" bundle:nil]) 
     {
+        [Preconditions assertNotNil:dataSource];
         _dataSource = dataSource;
         _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:_dataSource.items 
-                                                                alreadySorted:_dataSource.itemsAlreadySorted];
+                                                            alreadySorted:_dataSource.itemsAlreadySorted];
         _tableSectionHandler.sectionsEnabled = _dataSource.sectionsEnabled;
         self.title = _dataSource.title;
     }

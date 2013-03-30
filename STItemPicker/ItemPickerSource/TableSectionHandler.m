@@ -1,5 +1,6 @@
 // @author Simon Toens 03/18/13
 
+#import "Preconditions.h"
 #import "TableSectionHandler.h"
 
 @interface TableSectionHandler() 
@@ -47,6 +48,7 @@ static NSCharacterSet *numberCharacterSet;
 {
     if (self = [super init]) 
     {
+        [Preconditions assertNotEmpty:items];
         _items = items;
         _alreadySorted = alreadySorted;
         _sectionsEnabled = YES;
