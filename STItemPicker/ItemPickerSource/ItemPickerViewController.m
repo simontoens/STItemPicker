@@ -131,12 +131,30 @@
     return [selections count] >= 2 ? [selections objectAtIndex:[selections count] - 2] : nil;
 }
 
+- (NSString *)buildHeaderLabel:(ItemPickerContext *)ctx
+{
+    return ctx.selectedItem;
+}
+
 - (void)configureHeaderView 
 {        
     UIImage *headerImage = self.context.dataSource.headerImage;
-    if (headerImage) 
+    if (headerImage)
     {
-        self.tableView.tableHeaderView = [TableHeaderView newTableHeaderView:headerImage];
+        NSString *label1 = nil;
+        NSString *label2 = nil;
+        NSArray *selections = [self getSelections];
+        int counter = 1;
+        for (int i = [selections count] - 2; i >= 0; i--)
+        {
+            switch (counter)
+            {
+                case 1: label1 = [self buildHeaderLabel:[selections objectAtIndex:i]]; break;
+                case 2: label2 = [self buildHeaderLabel:[selections objectAtIndex:i]]; break;
+            }
+            counter++;
+        }
+        self.tableView.tableHeaderView = [TableHeaderView newTableHeaderView:headerImage label1:label1 label2:label2];
     }    
 }
 

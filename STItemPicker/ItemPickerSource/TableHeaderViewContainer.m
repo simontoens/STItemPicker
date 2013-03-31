@@ -1,10 +1,4 @@
-//
-//  TableHeaderViewContainer.m
-//  STItemPicker
-//
-//  Created by Simon Toens on 3/30/13.
-//  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
-//
+// @author Simon Toens 03/30/13
 
 #import "TableHeaderViewContainer.h"
 
@@ -14,13 +8,12 @@
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *label1;
 @property (nonatomic, weak) IBOutlet UILabel *label2;
-@property (nonatomic, weak) IBOutlet UILabel *label3;
 
 @end
 
 @implementation TableHeaderViewContainer
 
-@synthesize label1, label2, label3;
+@synthesize label1, label2;
 @synthesize imageView;
 @synthesize tableHeaderView;
 
@@ -28,11 +21,13 @@
 
 @implementation TableHeaderView
 
-+ (TableHeaderView *)newTableHeaderView:(UIImage *)headerImage
++ (TableHeaderView *)newTableHeaderView:(UIImage *)image label1:(NSString *)l1 label2:(NSString *)l2
 {
     TableHeaderViewContainer *container = [[TableHeaderViewContainer alloc] init];
     [[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:container options:nil];
-    [container.imageView setImage:headerImage];
+    [container.imageView setImage:image];
+    [container.label1 setText:l1];
+    [container.label2 setText:l2];
     return container.tableHeaderView;
 }
 
