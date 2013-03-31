@@ -99,7 +99,7 @@ static MultiDictionary* kAlbumsToSongs;
     return NO;
 }
 
-- (id<ItemPickerDataSource>)getNextDataSource:(NSString *)aSelection 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
 {
     NSString *title = nil;
     if ([self artistsList]) 
@@ -111,7 +111,7 @@ static MultiDictionary* kAlbumsToSongs;
     } 
     if (title) 
     {
-        SampleDataSource *s = [[SampleDataSource alloc] initWithParentSelection:aSelection];
+        SampleDataSource *s = [[SampleDataSource alloc] initWithParentSelection:item];
         s.title = title;
         return s;
     } 
@@ -180,6 +180,9 @@ static MultiDictionary* kAlbumsToSongs;
     
     [SampleDataSource addArtist:@"Blur" album:@"Parklife" 
                                     songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
+    
+    [SampleDataSource addArtist:@"Blur" album:@"Modern Life Is Rubbish" 
+                          songs:[NSArray arrayWithObjects:@"For Tomorrow", @"Checmical World", @"Blue Jeans", nil]];
     
     [SampleDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
                                     songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];

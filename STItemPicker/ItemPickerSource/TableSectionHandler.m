@@ -48,7 +48,7 @@ static NSCharacterSet *numberCharacterSet;
 {
     if (self = [super init]) 
     {
-        [Preconditions assertNotEmpty:items];
+        [Preconditions assertNotEmpty:items message:@"items cannot be nil or empty"];
         _items = items;
         _alreadySorted = alreadySorted;
         _sectionsEnabled = YES;

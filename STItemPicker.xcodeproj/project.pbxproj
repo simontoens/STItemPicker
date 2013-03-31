@@ -11,6 +11,8 @@
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
 		BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEA0289E170552C1009FD721 /* ModernLife.jpg */; };
+		BEB54D361707DF4A002042CD /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D351707DF4A002042CD /* ItemPickerContext.m */; };
+		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
 		BEEB9CB116FFE3B60021E035 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB016FFE3B60021E035 /* Foundation.framework */; };
 		BEEB9CB316FFE3B60021E035 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB216FFE3B60021E035 /* CoreGraphics.framework */; };
@@ -49,6 +51,10 @@
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
 		BEA0289E170552C1009FD721 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/ModernLife.jpg; sourceTree = "<group>"; };
+		BEB54D341707DF49002042CD /* ItemPickerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerContext.h; path = ItemPickerSource/ItemPickerContext.h; sourceTree = "<group>"; };
+		BEB54D351707DF4A002042CD /* ItemPickerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerContext.m; path = ItemPickerSource/ItemPickerContext.m; sourceTree = "<group>"; };
+		BEB54D4917080731002042CD /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = Submodules/STObjCToolbelt/Source/Stack.h; sourceTree = "<group>"; };
+		BEB54D4A17080731002042CD /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = Submodules/STObjCToolbelt/Source/Stack.m; sourceTree = "<group>"; };
 		BEEB9CAA16FFE3B60021E035 /* STItemPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = STItemPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEEB9CAE16FFE3B60021E035 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEEB9CB016FFE3B60021E035 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -203,6 +209,8 @@
 			children = (
 				BEEB9CE416FFE5870021E035 /* ItemPicker.h */,
 				BEEB9CE516FFE5870021E035 /* ItemPicker.m */,
+				BEB54D341707DF49002042CD /* ItemPickerContext.h */,
+				BEB54D351707DF4A002042CD /* ItemPickerContext.m */,
 				BEEB9CE616FFE5870021E035 /* ItemPickerDataSource.h */,
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
@@ -231,6 +239,8 @@
 				BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */,
 				BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */,
 				BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */,
+				BEB54D4917080731002042CD /* Stack.h */,
+				BEB54D4A17080731002042CD /* Stack.m */,
 			);
 			name = STObjCToolbelt;
 			sourceTree = "<group>";
@@ -354,6 +364,8 @@
 				BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */,
 				BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */,
 				BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */,
+				BEB54D361707DF4A002042CD /* ItemPickerContext.m in Sources */,
+				BEB54D4B17080731002042CD /* Stack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

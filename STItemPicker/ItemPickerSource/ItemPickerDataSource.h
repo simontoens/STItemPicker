@@ -4,7 +4,7 @@
 
 @protocol ItemPickerDataSource <NSObject>
 
-- (id<ItemPickerDataSource>)getNextDataSource:(NSString *)selection;
+- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item;
 
 /**
  * title is the view's title and the tab's title.

@@ -1,5 +1,6 @@
 // @author Simon Toens 12/14/12
 
+#import "ItemPickerContext.h"
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
 #import "TableHeaderViewContainer.h"
@@ -8,26 +9,33 @@
 @interface ItemPickerViewController()
 - (void)configureHeaderView;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
-@property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
+
+/**
+ * Returns an array of ItemPickerContext instances.
+ */
+- (NSArray *)getSelections;
+
+
+@property(nonatomic, strong) ItemPickerContext *context;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
+
 @end
 
 @implementation ItemPickerViewController
 
+@synthesize context = _context;
 @synthesize itemPickerDelegate;
-@synthesize dataSource = _dataSource;
 @synthesize tableSectionHandler = _tableSectionHandler;
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
     if (self = [super initWithNibName:@"ItemPickerViewController" bundle:nil]) 
     {
-        [Preconditions assertNotNil:dataSource];
-        _dataSource = dataSource;
-        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:_dataSource.items 
-                                                            alreadySorted:_dataSource.itemsAlreadySorted];
-        _tableSectionHandler.sectionsEnabled = _dataSource.sectionsEnabled;
-        self.title = _dataSource.title;
+        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items 
+                                                            alreadySorted:dataSource.itemsAlreadySorted];
+        _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
+        _context = [[ItemPickerContext alloc] initWithDataSource:dataSource];
+        self.title = dataSource.title;
     }
     return self;
 }
@@ -47,8 +55,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    NSString *selection = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
-    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSource:selection];
+    self.context.selectedIndex = [self getItemRow:indexPath];
+    self.context.selectedItem = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
+    
+    NSLog(@"Selection path %@", [self getSelections]);
+
+    id<ItemPickerDataSource> nextDataSource = [self.context.dataSource getNextDataSourceForSelectedRow:self.context.selectedIndex
+                                                                                          selectedItem:self.context.selectedItem];
     if (nextDataSource) 
     {
         ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];
@@ -57,7 +70,7 @@
     } 
     else 
     {
-        [self.itemPickerDelegate pickedItem:selection atIndex:[self getItemRow:indexPath]];
+        [self.itemPickerDelegate pickedItem:self.context.selectedItem atIndex:self.context.selectedIndex];
     }
 }
 
@@ -102,9 +115,19 @@
 
 #pragma mark - Private methods
 
+- (NSArray *)getSelections
+{
+    NSMutableArray *selections = [[NSMutableArray alloc] initWithCapacity:[self.navigationController.viewControllers count]];
+    for (ItemPickerViewController *vc in self.navigationController.viewControllers) 
+    {
+        [selections addObject:vc.context];
+    }
+    return selections;
+}
+
 - (void)configureHeaderView 
 {        
-    UIImage *headerImage = self.dataSource.headerImage;
+    UIImage *headerImage = self.context.dataSource.headerImage;
     if (headerImage) 
     {
         self.tableView.tableHeaderView = [TableHeaderView newTableHeaderView:headerImage];
