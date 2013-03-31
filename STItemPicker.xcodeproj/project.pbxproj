@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
+		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
 		BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEA0289E170552C1009FD721 /* ModernLife.jpg */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
@@ -41,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
+		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
+		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
 		BEA0289E170552C1009FD721 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/ModernLife.jpg; sourceTree = "<group>"; };
@@ -202,6 +207,9 @@
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
 				BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */,
+				BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */,
+				BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */,
+				BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */,
 				BEEB9CDE16FFE4990021E035 /* TableSectionHandler.h */,
 				BEEB9CDF16FFE4990021E035 /* TableSectionHandler.m */,
 			);
@@ -301,6 +309,7 @@
 				BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */,
 				BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */,
 				BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */,
+				BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +353,7 @@
 				BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */,
 				BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */,
 				BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */,
+				BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

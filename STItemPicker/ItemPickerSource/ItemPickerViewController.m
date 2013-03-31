@@ -2,6 +2,7 @@
 
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
+#import "TableHeaderViewContainer.h"
 #import "TableSectionHandler.h"
 
 @interface ItemPickerViewController()
@@ -94,21 +95,19 @@
     return cell; 
 }
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
+{
     return self.tableSectionHandler.sections;
 }
 
 #pragma mark - Private methods
 
-- (void)configureHeaderView {
+- (void)configureHeaderView 
+{        
     UIImage *headerImage = self.dataSource.headerImage;
     if (headerImage) 
     {
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.width, 0, 110)];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, 100, 100)];
-        [imageView setImage:headerImage];
-        [headerView addSubview:imageView];
-        self.tableView.tableHeaderView = headerView;
+        self.tableView.tableHeaderView = [TableHeaderView newTableHeaderView:headerImage];
     }    
 }
 
