@@ -36,7 +36,7 @@
 
 - (void)testNumberSections {
     [self runTestItems:[NSArray arrayWithObjects:@"3", @"3003", nil]
-      expectedSections:[NSArray arrayWithObjects:@"0-9", nil]
+      expectedSections:[NSArray arrayWithObjects:kTableSectionHandlerNumberHeader, nil]
     expectedItemCounts:(int[]){2}
     itemsAlreadySorted:YES];
 }
