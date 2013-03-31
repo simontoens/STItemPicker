@@ -12,6 +12,7 @@
 - (BOOL)artistsList;
 - (BOOL)albumsList;
 - (BOOL)songsList;
++ (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs;
 
 @property (nonatomic, strong, readwrite) NSString *title;
 
@@ -25,6 +26,8 @@ static NSString *const kSongs = @"Songs";
 
 static MultiDictionary* kArtistsToAlbums;
 static MultiDictionary* kAlbumsToSongs;
+static NSMutableDictionary *kAlbumToArtwork;
+static UIImage *kDefaultArtwork;
 
 @synthesize title = _title;
 
@@ -65,7 +68,12 @@ static MultiDictionary* kAlbumsToSongs;
 
 - (UIImage *)headerImage
 {
-    return [self songsList] && selection ? [UIImage imageNamed:@"ModernLife.jpg"] : nil;
+    if ([self songsList] && selection) 
+    {
+        UIImage *image = [kAlbumToArtwork objectForKey:selection];
+        return image ? image : kDefaultArtwork;
+    }
+    return nil;
 }
 
 - (BOOL)sectionsEnabled 
@@ -140,9 +148,19 @@ static MultiDictionary* kAlbumsToSongs;
 
 + (void)addArtist:(NSString *)artist album:(NSString *)album songs:(NSArray *)songs 
 {
+    [self addArtist:artist album:album imageName:nil songs:songs];
+}
+
++ (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs
+{
     [kArtistsToAlbums setObject:album forKey:artist];
     for (NSString *song in songs) {
         [kAlbumsToSongs setObject:song forKey:album];
+    }
+    if (imageName) 
+    {
+        UIImage *image = [UIImage imageNamed:imageName];
+        [kAlbumToArtwork setObject:image forKey:album];
     }
 }
 
@@ -150,48 +168,50 @@ static MultiDictionary* kAlbumsToSongs;
 {
     kArtistsToAlbums = [[MultiDictionary alloc] init];
     kAlbumsToSongs = [[MultiDictionary alloc] init];
+    kAlbumToArtwork = [[NSMutableDictionary alloc] init];
+    kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
     
     [SampleDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
-                                    songs:[NSArray arrayWithObjects:@"Midnight City", nil]];
+                          songs:[NSArray arrayWithObjects:@"Midnight City", nil]];
     
     [SampleDataSource addArtist:@"Gene" album:@"Drawn To The Deep End" 
-                                    songs:[NSArray arrayWithObjects:@"Fighting Fit", nil]];
+                          songs:[NSArray arrayWithObjects:@"Fighting Fit", nil]];
     
-    [SampleDataSource addArtist:@"Doves" album:@"The Last Broadcast" 
-                                    songs:[NSArray arrayWithObjects:@"Words", nil]];
+    [SampleDataSource addArtist:@"Doves" album:@"The Last Broadcast" imageName:@"TheLastBroadcast.jpg"
+                          songs:[NSArray arrayWithObjects:@"Words", nil]];
     
     [SampleDataSource addArtist:@"Kent" album:@"Isola" 
-                                    songs:[NSArray arrayWithObjects:@"747", @"Things She Said", nil]];
+                          songs:[NSArray arrayWithObjects:@"747", @"Things She Said", nil]];
     
     [SampleDataSource addArtist:@"Happy Mondays" album:@"Pills 'N' Thrills And Belly Aches" 
-                                    songs:[NSArray arrayWithObjects:@"Kinky Afro", nil]];
+                          songs:[NSArray arrayWithObjects:@"Kinky Afro", nil]];
     
-    [SampleDataSource addArtist:@"Air" album:@"Moon Safari" 
-                                    songs:[NSArray arrayWithObjects:@"La Femme d'Argent", nil]];
+    [SampleDataSource addArtist:@"Air" album:@"Moon Safari" imageName:@"MoonSafari.jpg"
+                          songs:[NSArray arrayWithObjects:@"La Femme d'Argent", nil]];
     
     [SampleDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
-                                    songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
+                          songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
     
     [SampleDataSource addArtist:@"The Chemical Borthers" album:@"Push The Button" 
-                                    songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
+                          songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
     
-    [SampleDataSource addArtist:@"Queen" album:@"Innuendo" 
-                                    songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
+    [SampleDataSource addArtist:@"Queen" album:@"Innuendo" imageName:@"Innuendo.jpg"
+                          songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
     
-    [SampleDataSource addArtist:@"Blur" album:@"Parklife" 
-                                    songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
+    [SampleDataSource addArtist:@"Blur" album:@"Parklife" imageName:@"Parklife.jpg"
+                          songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
     
-    [SampleDataSource addArtist:@"Blur" album:@"Modern Life Is Rubbish" 
+    [SampleDataSource addArtist:@"Blur" album:@"Modern Life Is Rubbish" imageName:@"ModernLife.jpg"
                           songs:[NSArray arrayWithObjects:@"For Tomorrow", @"Chemical World", @"Blue Jeans", nil]];
     
     [SampleDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
-                                    songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];
+                          songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];
     
     [SampleDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
-                                    songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
+                          songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
     
     [SampleDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
-                                    songs:[NSArray arrayWithObjects:@"### stupid!", nil]];
+                          songs:[NSArray arrayWithObjects:@"### stupid!", nil]];
 }
 
 @end

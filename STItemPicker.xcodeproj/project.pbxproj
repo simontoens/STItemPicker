@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = BE0400861708F04900B09BDA /* DefaultNoArtwork.png */; };
 		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
-		BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BEA0289E170552C1009FD721 /* ModernLife.jpg */; };
+		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
+		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
+		BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B71708EFC80082AF30 /* MoonSafari.jpg */; };
+		BE4751BC1708EFC80082AF30 /* Parklife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B81708EFC80082AF30 /* Parklife.jpg */; };
+		BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */; };
 		BEB54D361707DF4A002042CD /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D351707DF4A002042CD /* ItemPickerContext.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
@@ -45,12 +50,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BE0400861708F04900B09BDA /* DefaultNoArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultNoArtwork.png; path = Images/Sample/DefaultNoArtwork.png; sourceTree = "<group>"; };
 		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
 		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
-		BEA0289E170552C1009FD721 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/ModernLife.jpg; sourceTree = "<group>"; };
+		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
+		BE4751B61708EFC80082AF30 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/Sample/ModernLife.jpg; sourceTree = "<group>"; };
+		BE4751B71708EFC80082AF30 /* MoonSafari.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MoonSafari.jpg; path = Images/Sample/MoonSafari.jpg; sourceTree = "<group>"; };
+		BE4751B81708EFC80082AF30 /* Parklife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Parklife.jpg; path = Images/Sample/Parklife.jpg; sourceTree = "<group>"; };
+		BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TheLastBroadcast.jpg; path = Images/Sample/TheLastBroadcast.jpg; sourceTree = "<group>"; };
 		BEB54D341707DF49002042CD /* ItemPickerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerContext.h; path = ItemPickerSource/ItemPickerContext.h; sourceTree = "<group>"; };
 		BEB54D351707DF4A002042CD /* ItemPickerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerContext.m; path = ItemPickerSource/ItemPickerContext.m; sourceTree = "<group>"; };
 		BEB54D4917080731002042CD /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = Submodules/STObjCToolbelt/Source/Stack.h; sourceTree = "<group>"; };
@@ -120,10 +130,23 @@
 			name = DataSources;
 			sourceTree = "<group>";
 		};
+		BE4751A81708E9AB0082AF30 /* Albums */ = {
+			isa = PBXGroup;
+			children = (
+				BE0400861708F04900B09BDA /* DefaultNoArtwork.png */,
+				BE4751B41708EF990082AF30 /* Innuendo.jpg */,
+				BE4751B61708EFC80082AF30 /* ModernLife.jpg */,
+				BE4751B71708EFC80082AF30 /* MoonSafari.jpg */,
+				BE4751B81708EFC80082AF30 /* Parklife.jpg */,
+				BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */,
+			);
+			name = Albums;
+			sourceTree = "<group>";
+		};
 		BEA0289D1705524B009FD721 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				BEA0289E170552C1009FD721 /* ModernLife.jpg */,
+				BE4751A81708E9AB0082AF30 /* Albums */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -318,8 +341,13 @@
 				BEEB9CB916FFE3B60021E035 /* InfoPlist.strings in Resources */,
 				BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */,
 				BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */,
-				BEA0289F170552C1009FD721 /* ModernLife.jpg in Resources */,
 				BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */,
+				BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */,
+				BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */,
+				BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */,
+				BE4751BC1708EFC80082AF30 /* Parklife.jpg in Resources */,
+				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
+				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
