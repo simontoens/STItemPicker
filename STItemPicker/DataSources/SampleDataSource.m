@@ -182,7 +182,7 @@ static MultiDictionary* kAlbumsToSongs;
                                     songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
     
     [SampleDataSource addArtist:@"Blur" album:@"Modern Life Is Rubbish" 
-                          songs:[NSArray arrayWithObjects:@"For Tomorrow", @"Checmical World", @"Blue Jeans", nil]];
+                          songs:[NSArray arrayWithObjects:@"For Tomorrow", @"Chemical World", @"Blue Jeans", nil]];
     
     [SampleDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
                                     songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];

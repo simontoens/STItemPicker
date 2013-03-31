@@ -8,13 +8,14 @@
 
 @interface ItemPickerViewController()
 - (void)configureHeaderView;
+- (void)configureTitle;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 
 /**
  * Returns an array of ItemPickerContext instances.
  */
 - (NSArray *)getSelections;
-
+- (ItemPickerContext *)getPreviousSelection;
 
 @property(nonatomic, strong) ItemPickerContext *context;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
@@ -48,6 +49,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    [self configureTitle];
     [self configureHeaderView];
 }
 
@@ -58,8 +60,6 @@
     self.context.selectedIndex = [self getItemRow:indexPath];
     self.context.selectedItem = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
     
-    NSLog(@"Selection path %@", [self getSelections]);
-
     id<ItemPickerDataSource> nextDataSource = [self.context.dataSource getNextDataSourceForSelectedRow:self.context.selectedIndex
                                                                                           selectedItem:self.context.selectedItem];
     if (nextDataSource) 
@@ -125,6 +125,12 @@
     return selections;
 }
 
+- (ItemPickerContext *)getPreviousSelection
+{
+    NSArray *selections = [self getSelections];
+    return [selections count] >= 2 ? [selections objectAtIndex:[selections count] - 2] : nil;
+}
+
 - (void)configureHeaderView 
 {        
     UIImage *headerImage = self.context.dataSource.headerImage;
@@ -132,6 +138,15 @@
     {
         self.tableView.tableHeaderView = [TableHeaderView newTableHeaderView:headerImage];
     }    
+}
+
+- (void)configureTitle 
+{
+    ItemPickerContext *prevSelection = [self getPreviousSelection];
+    if (prevSelection)
+    {
+        self.title = prevSelection.selectedItem;
+    }
 }
 
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath
