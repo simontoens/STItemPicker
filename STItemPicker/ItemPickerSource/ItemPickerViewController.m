@@ -4,6 +4,7 @@
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
 #import "TableHeaderViewContainer.h"
+#import "TableViewCellContainer.h"
 #import "TableSectionHandler.h"
 
 @interface ItemPickerViewController()
@@ -94,15 +95,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 { 
-    static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STItemPickerCell"];
     if (cell == nil) 
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [TableViewCellContainer newTableViewCell];
     }
-    
-    cell.accessoryType = UITableViewCellAccessoryNone;
-        
     int row = [self getItemRow:indexPath];
     cell.textLabel.text = [self.tableSectionHandler.items objectAtIndex:row];
     return cell; 
@@ -154,7 +151,7 @@
             }
             counter++;
         }
-        self.tableView.tableHeaderView = [TableHeaderView newTableHeaderView:headerImage label1:label1 label2:label2];
+        self.tableView.tableHeaderView = [TableHeaderViewContainer newTableHeaderView:headerImage label1:label1 label2:label2];
     }    
 }
 

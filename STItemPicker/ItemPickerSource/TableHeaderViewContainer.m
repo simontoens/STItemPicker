@@ -2,9 +2,9 @@
 
 #import "TableHeaderViewContainer.h"
 
-@interface TableHeaderViewContainer : NSObject
+@interface TableHeaderViewContainer()
 
-@property (nonatomic, weak) IBOutlet TableHeaderView *tableHeaderView;
+@property (nonatomic, weak) IBOutlet UIView *tableHeaderView;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UILabel *label1;
 @property (nonatomic, weak) IBOutlet UILabel *label2;
@@ -17,11 +17,7 @@
 @synthesize imageView;
 @synthesize tableHeaderView;
 
-@end
-
-@implementation TableHeaderView
-
-+ (TableHeaderView *)newTableHeaderView:(UIImage *)image label1:(NSString *)l1 label2:(NSString *)l2
++ (UIView *)newTableHeaderView:(UIImage *)image label1:(NSString *)l1 label2:(NSString *)l2
 {
     TableHeaderViewContainer *container = [[TableHeaderViewContainer alloc] init];
     [[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:container options:nil];

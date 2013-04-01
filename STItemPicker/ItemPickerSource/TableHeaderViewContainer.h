@@ -2,8 +2,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TableHeaderView : UIView
+@interface TableHeaderViewContainer : NSObject
 
-+ (TableHeaderView *)newTableHeaderView:(UIImage *)image label1:(NSString *)l1 label2:(NSString *)l2;
++ (UIView *)newTableHeaderView:(UIImage *)image label1:(NSString *)l1 label2:(NSString *)l2;
 
 @end
