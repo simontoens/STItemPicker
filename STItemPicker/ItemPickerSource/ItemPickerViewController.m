@@ -128,9 +128,9 @@
     return [selections count] >= 2 ? [selections objectAtIndex:[selections count] - 2] : nil;
 }
 
-- (NSString *)buildHeaderLabel:(ItemPickerContext *)ctx
+- (ItemPickerContext *)getContextFrom:(NSArray *)selections atOffsetFromEnd:(NSUInteger)offset
 {
-    return ctx.selectedItem;
+    return [selections count] > offset ? [selections objectAtIndex:[selections count] - 1 - offset] : nil;
 }
 
 - (void)configureHeaderView 
@@ -138,20 +138,12 @@
     UIImage *headerImage = self.context.dataSource.headerImage;
     if (headerImage)
     {
-        NSString *label1 = nil;
-        NSString *label2 = nil;
         NSArray *selections = [self getSelections];
-        int counter = 1;
-        for (int i = [selections count] - 2; i >= 0; i--)
-        {
-            switch (counter)
-            {
-                case 1: label1 = [self buildHeaderLabel:[selections objectAtIndex:i]]; break;
-                case 2: label2 = [self buildHeaderLabel:[selections objectAtIndex:i]]; break;
-            }
-            counter++;
-        }
-        self.tableView.tableHeaderView = [TableHeaderViewContainer newTableHeaderView:headerImage label1:label1 label2:label2];
+        NSString *grandfatherSelection = [self getContextFrom:selections atOffsetFromEnd:1].selectedItem;
+        NSString *parentSelection = [self getContextFrom:selections atOffsetFromEnd:2].selectedItem;
+        NSString *numItems = [NSString stringWithFormat:@"%i %@", [self.tableSectionHandler.items count], self.context.dataSource.title];
+        
+        self.tableView.tableHeaderView = [TableHeaderViewContainer newTableHeaderView:headerImage label1:grandfatherSelection label2:parentSelection label3:numItems];
     }    
 }
 
