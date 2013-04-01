@@ -12,6 +12,7 @@
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
 		BE26E7CC17090287000850F2 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7CB17090287000850F2 /* TableViewCell.xib */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
+		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
 		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
@@ -57,8 +58,10 @@
 		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
 		BE26E7CB17090287000850F2 /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewCell.xib; path = ItemPickerSource/TableViewCell.xib; sourceTree = "<group>"; };
-		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
+		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
 		BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellContainer.m; path = ItemPickerSource/TableViewCellContainer.m; sourceTree = "<group>"; };
+		BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Reflection.h"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.h"; sourceTree = "<group>"; };
+		BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+Reflection.m"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.m"; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
 		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
@@ -272,6 +275,8 @@
 				BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */,
 				BEB54D4917080731002042CD /* Stack.h */,
 				BEB54D4A17080731002042CD /* Stack.m */,
+				BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */,
+				BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */,
 			);
 			name = STObjCToolbelt;
 			sourceTree = "<group>";
@@ -404,6 +409,7 @@
 				BEB54D361707DF4A002042CD /* ItemPickerContext.m in Sources */,
 				BEB54D4B17080731002042CD /* Stack.m in Sources */,
 				BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */,
+				BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
