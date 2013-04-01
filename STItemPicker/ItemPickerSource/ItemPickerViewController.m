@@ -95,10 +95,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 { 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STItemPickerCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STItemPickerDefaultCell"];
     if (cell == nil) 
     {
-        cell = [TableViewCellContainer newTableViewCell];
+        cell = [TableViewCellContainer newDefaultTableViewCell];
     }
     int row = [self getItemRow:indexPath];
     cell.textLabel.text = [self.tableSectionHandler.items objectAtIndex:row];

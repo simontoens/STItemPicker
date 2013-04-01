@@ -12,10 +12,10 @@
 
 @synthesize tableViewCell;
 
-+ (UITableViewCell *)newTableViewCell
++ (UITableViewCell *)newDefaultTableViewCell
 {
     TableViewCellContainer *container = [[TableViewCellContainer alloc] init];
-    [[NSBundle mainBundle] loadNibNamed:@"TableViewCell" owner:container options:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"DefaultTableViewCell" owner:container options:nil];
     return container.tableViewCell;
 }
 

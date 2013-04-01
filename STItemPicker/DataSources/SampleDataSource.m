@@ -212,6 +212,10 @@ static UIImage *kDefaultArtwork;
     
     [SampleDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
                           songs:[NSArray arrayWithObjects:@"### stupid!", nil]];
+    
+    [SampleDataSource addArtist:@"Daft Punk" album:@"Homework" 
+                          songs:[NSArray arrayWithObjects:@"Revolution 909", @"Around The World", nil]];
+
 }
 
 @end

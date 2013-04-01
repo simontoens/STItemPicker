@@ -4,6 +4,6 @@
 
 @interface TableViewCellContainer : NSObject
 
-+ (UITableViewCell *)newTableViewCell;
++ (UITableViewCell *)newDefaultTableViewCell;
 
 @end
