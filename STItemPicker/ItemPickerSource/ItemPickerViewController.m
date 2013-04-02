@@ -54,7 +54,7 @@
     [self configureHeaderView];
 }
 
-#pragma mark - UITableView methods
+#pragma mark - UITableViewDelegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
@@ -73,6 +73,11 @@
     {
         [self.itemPickerDelegate pickedItem:self.context.selectedItem atIndex:self.context.selectedIndex];
     }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    cell.backgroundColor = [self getItemRow:indexPath] % 2 == 0 ? [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1] : [UIColor whiteColor];
 }
 
 #pragma mark - UITableViewDataSource protocol
@@ -102,6 +107,7 @@
     }
     int row = [self getItemRow:indexPath];
     cell.textLabel.text = [self.tableSectionHandler.items objectAtIndex:row];
+    cell.backgroundColor = [UIColor redColor];
     return cell; 
 }
 
