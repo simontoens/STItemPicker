@@ -187,7 +187,7 @@ static UIImage *kDefaultArtwork;
                           songs:[NSArray arrayWithObjects:@"Kinky Afro", nil]];
     
     [SampleDataSource addArtist:@"Air" album:@"Moon Safari" imageName:@"MoonSafari.jpg"
-                          songs:[NSArray arrayWithObjects:@"La Femme d'Argent", nil]];
+                          songs:[NSArray arrayWithObjects:@"La Femme d'Argent", @"Sexy Boy", @"All I Need", @"Kelly Watch The Stars", @"Talisman", @"Remember", @"You Make It Easy", @"Ce Matin-La", @"New Star In The Sky", @"Le Voyage De Penelope", nil]];
     
     [SampleDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
                           songs:[NSArray arrayWithObjects:@"Come Inside", nil]];

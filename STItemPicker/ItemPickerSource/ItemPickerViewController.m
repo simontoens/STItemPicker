@@ -10,6 +10,7 @@
 @interface ItemPickerViewController()
 - (void)configureHeaderView;
 - (void)configureTitle;
+- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 
 /**
@@ -25,13 +26,22 @@
 
 @implementation ItemPickerViewController
 
+UIColor *kGreyBackgroundColor;
+
 @synthesize context = _context;
 @synthesize itemPickerDelegate;
 @synthesize tableSectionHandler = _tableSectionHandler;
 
+
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
-    if (self = [super initWithNibName:@"ItemPickerViewController" bundle:nil]) 
+    NSString *nibName = dataSource.sectionsEnabled ? @"PlainItemPickerTableView" : @"GroupedItemPickerTableView";
+    return [self initWithNibName:nibName dataSource:dataSource];
+}
+
+- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource
+{
+    if (self = [super initWithNibName:nibName bundle:nil]) 
     {
         _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items 
                                                             alreadySorted:dataSource.itemsAlreadySorted];
@@ -41,6 +51,7 @@
     }
     return self;
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -75,11 +86,6 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-    cell.backgroundColor = [self getItemRow:indexPath] % 2 == 0 ? [UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1] : [UIColor whiteColor];
-}
-
 #pragma mark - UITableViewDataSource protocol
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -107,7 +113,6 @@
     }
     int row = [self getItemRow:indexPath];
     cell.textLabel.text = [self.tableSectionHandler.items objectAtIndex:row];
-    cell.backgroundColor = [UIColor redColor];
     return cell; 
 }
 

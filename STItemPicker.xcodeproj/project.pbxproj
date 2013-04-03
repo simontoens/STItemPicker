@@ -15,6 +15,7 @@
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
 		BE26E7EE1709498C000850F2 /* SelectableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7ED1709498B000850F2 /* SelectableTableViewCell.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
+		BE41BBFB170BEC1200223945 /* GroupedItemPickerTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
 		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
 		BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B71708EFC80082AF30 /* MoonSafari.jpg */; };
@@ -36,7 +37,7 @@
 		BEEB9CE316FFE50A0021E035 /* TableSectionHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CE116FFE4DC0021E035 /* TableSectionHandlerTest.m */; };
 		BEEB9CEA16FFE5870021E035 /* ItemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CE516FFE5870021E035 /* ItemPicker.m */; };
 		BEEB9CEB16FFE5870021E035 /* ItemPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */; };
-		BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */; };
+		BEEB9CEC16FFE5870021E035 /* PlainItemPickerTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9CE916FFE5870021E035 /* PlainItemPickerTableView.xib */; };
 		BEEB9CF216FFE6540021E035 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF016FFE6540021E035 /* TestViewController.m */; };
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
@@ -66,6 +67,7 @@
 		BE26E7ED1709498B000850F2 /* SelectableTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SelectableTableViewCell.xib; path = ItemPickerSource/SelectableTableViewCell.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
+		BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GroupedItemPickerTableView.xib; path = ItemPickerSource/GroupedItemPickerTableView.xib; sourceTree = "<group>"; };
 		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
 		BE4751B61708EFC80082AF30 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/Sample/ModernLife.jpg; sourceTree = "<group>"; };
 		BE4751B71708EFC80082AF30 /* MoonSafari.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MoonSafari.jpg; path = Images/Sample/MoonSafari.jpg; sourceTree = "<group>"; };
@@ -97,7 +99,7 @@
 		BEEB9CE616FFE5870021E035 /* ItemPickerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerDataSource.h; path = ItemPickerSource/ItemPickerDataSource.h; sourceTree = "<group>"; };
 		BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerViewController.h; path = ItemPickerSource/ItemPickerViewController.h; sourceTree = "<group>"; };
 		BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerViewController.m; path = ItemPickerSource/ItemPickerViewController.m; sourceTree = "<group>"; };
-		BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerViewController.xib; path = ItemPickerSource/ItemPickerViewController.xib; sourceTree = "<group>"; };
+		BEEB9CE916FFE5870021E035 /* PlainItemPickerTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlainItemPickerTableView.xib; path = ItemPickerSource/PlainItemPickerTableView.xib; sourceTree = "<group>"; };
 		BEEB9CEF16FFE6540021E035 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		BEEB9CF016FFE6540021E035 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		BEEB9CF716FFE8AE0021E035 /* MultiDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiDictionary.h; path = Submodules/STObjCToolbelt/Source/MultiDictionary.h; sourceTree = "<group>"; };
@@ -247,7 +249,8 @@
 				BEEB9CE616FFE5870021E035 /* ItemPickerDataSource.h */,
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
-				BEEB9CE916FFE5870021E035 /* ItemPickerViewController.xib */,
+				BEEB9CE916FFE5870021E035 /* PlainItemPickerTableView.xib */,
+				BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */,
 				BE26E7CB17090287000850F2 /* DefaultTableViewCell.xib */,
 				BE26E7ED1709498B000850F2 /* SelectableTableViewCell.xib */,
 				BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */,
@@ -355,7 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEEB9CB916FFE3B60021E035 /* InfoPlist.strings in Resources */,
-				BEEB9CEC16FFE5870021E035 /* ItemPickerViewController.xib in Resources */,
+				BEEB9CEC16FFE5870021E035 /* PlainItemPickerTableView.xib in Resources */,
 				BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */,
 				BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */,
 				BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */,
@@ -366,6 +369,7 @@
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
 				BE26E7CC17090287000850F2 /* DefaultTableViewCell.xib in Resources */,
 				BE26E7EE1709498C000850F2 /* SelectableTableViewCell.xib in Resources */,
+				BE41BBFB170BEC1200223945 /* GroupedItemPickerTableView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
