@@ -7,7 +7,7 @@
 - (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item;
 
 /**
- * title is the view's title and the tab's title.
+ * The view's title and the tab's title.
  */
 @property(nonatomic, strong, readonly) NSString *title;
 
@@ -30,5 +30,10 @@
  * Return YES to show section headers and a section index.
  */
 @property(nonatomic, assign, readonly) BOOL sectionsEnabled;
+
+/**
+ * Return YES to skip intermediary item lists with only a single item.
+ */
+@property(nonatomic, assign, readonly) BOOL skipIntermediaryLists;
 
 @end

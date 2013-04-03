@@ -13,9 +13,9 @@
 		BE26E7CC17090287000850F2 /* DefaultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7CB17090287000850F2 /* DefaultTableViewCell.xib */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
-		BE26E7EE1709498C000850F2 /* SelectableTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7ED1709498B000850F2 /* SelectableTableViewCell.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
 		BE41BBFB170BEC1200223945 /* GroupedItemPickerTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */; };
+		BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
 		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
 		BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B71708EFC80082AF30 /* MoonSafari.jpg */; };
@@ -64,10 +64,10 @@
 		BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellContainer.m; path = ItemPickerSource/TableViewCellContainer.m; sourceTree = "<group>"; };
 		BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Reflection.h"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.h"; sourceTree = "<group>"; };
 		BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+Reflection.m"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.m"; sourceTree = "<group>"; };
-		BE26E7ED1709498B000850F2 /* SelectableTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SelectableTableViewCell.xib; path = ItemPickerSource/SelectableTableViewCell.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
 		BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GroupedItemPickerTableView.xib; path = ItemPickerSource/GroupedItemPickerTableView.xib; sourceTree = "<group>"; };
+		BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TalkieWalkie.jpg; path = Images/Sample/TalkieWalkie.jpg; sourceTree = "<group>"; };
 		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
 		BE4751B61708EFC80082AF30 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/Sample/ModernLife.jpg; sourceTree = "<group>"; };
 		BE4751B71708EFC80082AF30 /* MoonSafari.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MoonSafari.jpg; path = Images/Sample/MoonSafari.jpg; sourceTree = "<group>"; };
@@ -150,6 +150,7 @@
 				BE4751B61708EFC80082AF30 /* ModernLife.jpg */,
 				BE4751B71708EFC80082AF30 /* MoonSafari.jpg */,
 				BE4751B81708EFC80082AF30 /* Parklife.jpg */,
+				BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */,
 				BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */,
 			);
 			name = Sample;
@@ -252,7 +253,6 @@
 				BEEB9CE916FFE5870021E035 /* PlainItemPickerTableView.xib */,
 				BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */,
 				BE26E7CB17090287000850F2 /* DefaultTableViewCell.xib */,
-				BE26E7ED1709498B000850F2 /* SelectableTableViewCell.xib */,
 				BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */,
 				BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */,
 				BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */,
@@ -368,8 +368,8 @@
 				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
 				BE26E7CC17090287000850F2 /* DefaultTableViewCell.xib in Resources */,
-				BE26E7EE1709498C000850F2 /* SelectableTableViewCell.xib in Resources */,
 				BE41BBFB170BEC1200223945 /* GroupedItemPickerTableView.xib in Resources */,
+				BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -74,6 +74,16 @@ UIColor *kGreyBackgroundColor;
     
     id<ItemPickerDataSource> nextDataSource = [self.context.dataSource getNextDataSourceForSelectedRow:self.context.selectedIndex
                                                                                           selectedItem:self.context.selectedItem];
+    if (nextDataSource.skipIntermediaryLists)
+    {
+        NSArray *items = nextDataSource.items;
+        if (items && [items count] == 1)
+        {
+            // blah - context can't be associated with the controller since we won't even
+            // create a controller instance in this case.
+        }
+    }
+    
     if (nextDataSource) 
     {
         ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];

@@ -129,6 +129,11 @@ static UIImage *kDefaultArtwork;
     }
 }
 
+- (BOOL)skipIntermediaryLists
+{
+    return YES;
+}
+
 # pragma mark - Private methods
 
 - (BOOL)artistsList 
@@ -189,10 +194,13 @@ static UIImage *kDefaultArtwork;
     [SampleDataSource addArtist:@"Air" album:@"Moon Safari" imageName:@"MoonSafari.jpg"
                           songs:[NSArray arrayWithObjects:@"La Femme d'Argent", @"Sexy Boy", @"All I Need", @"Kelly Watch The Stars", @"Talisman", @"Remember", @"You Make It Easy", @"Ce Matin-La", @"New Star In The Sky", @"Le Voyage De Penelope", nil]];
     
+    [SampleDataSource addArtist:@"Air" album:@"Talkie Walkie" imageName:@"TalkieWalkie.jpg"
+                          songs:[NSArray arrayWithObjects:@"Venus", @"Cherry Blossom Girl", @"Run", @"Universal Traveler", @"Mike Millis", @"Surfing On A Rocket", @"Another Day", @"Alpha Beta Gaga", @"Biological", @"Alone In Kyoto", nil]];
+    
     [SampleDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
                           songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
     
-    [SampleDataSource addArtist:@"The Chemical Borthers" album:@"Push The Button" 
+    [SampleDataSource addArtist:@"Chemical Borthers" album:@"Push The Button" 
                           songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
     
     [SampleDataSource addArtist:@"Queen" album:@"Innuendo" imageName:@"Innuendo.jpg"
