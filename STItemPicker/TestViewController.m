@@ -17,7 +17,8 @@
     NSArray *dataSources = [NSArray arrayWithObjects:
                             [SampleDataSource artistsDataSource], 
                             [SampleDataSource albumsDataSource],
-                            [SampleDataSource songsDataSource], nil];
+                            [SampleDataSource songsDataSource], 
+                            nil];
     
     ItemPicker *mediaPicker = [[ItemPicker alloc] initWithDataSources:dataSources];
     mediaPicker.delegate = self;

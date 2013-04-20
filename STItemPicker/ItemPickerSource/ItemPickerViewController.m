@@ -35,8 +35,7 @@ UIColor *kGreyBackgroundColor;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
-    NSString *nibName = dataSource.sectionsEnabled ? @"PlainItemPickerTableView" : @"GroupedItemPickerTableView";
-    return [self initWithNibName:nibName dataSource:dataSource];
+    return [self initWithNibName:@"PlainItemPickerTableView" dataSource:dataSource];
 }
 
 - (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource
@@ -48,6 +47,10 @@ UIColor *kGreyBackgroundColor;
         _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
         _context = [[ItemPickerContext alloc] initWithDataSource:dataSource];
         self.title = dataSource.title;
+        if (self.tabBarItem) 
+        {
+            self.tabBarItem.image = dataSource.tabImage;
+        }
     }
     return self;
 }
@@ -66,6 +69,17 @@ UIColor *kGreyBackgroundColor;
 }
 
 #pragma mark - UITableViewDelegate methods
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{    
+    // hack to get rid of empty rows in table view (also see heightForFooterInSection)
+    return [[UIView alloc] init];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return section == [self.tableSectionHandler.sections count] - 1 ? 100 : 0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {

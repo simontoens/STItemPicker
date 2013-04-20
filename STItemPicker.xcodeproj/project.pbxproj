@@ -14,13 +14,15 @@
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
 		BE3A0C071702BE26001B18EC /* SampleDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleDataSource.m */; };
-		BE41BBFB170BEC1200223945 /* GroupedItemPickerTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */; };
 		BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
 		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
 		BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B71708EFC80082AF30 /* MoonSafari.jpg */; };
 		BE4751BC1708EFC80082AF30 /* Parklife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B81708EFC80082AF30 /* Parklife.jpg */; };
 		BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */; };
+		BE541ED617234072001088BC /* Albums.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED317234072001088BC /* Albums.png */; };
+		BE541ED717234072001088BC /* Artists.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED417234072001088BC /* Artists.png */; };
+		BE541ED817234072001088BC /* Songs.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED517234072001088BC /* Songs.png */; };
 		BEB54D361707DF4A002042CD /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D351707DF4A002042CD /* ItemPickerContext.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
@@ -66,13 +68,15 @@
 		BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+Reflection.m"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.m"; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleDataSource.h; path = DataSources/SampleDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleDataSource.m; path = DataSources/SampleDataSource.m; sourceTree = "<group>"; };
-		BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GroupedItemPickerTableView.xib; path = ItemPickerSource/GroupedItemPickerTableView.xib; sourceTree = "<group>"; };
 		BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TalkieWalkie.jpg; path = Images/Sample/TalkieWalkie.jpg; sourceTree = "<group>"; };
 		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
 		BE4751B61708EFC80082AF30 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/Sample/ModernLife.jpg; sourceTree = "<group>"; };
 		BE4751B71708EFC80082AF30 /* MoonSafari.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MoonSafari.jpg; path = Images/Sample/MoonSafari.jpg; sourceTree = "<group>"; };
 		BE4751B81708EFC80082AF30 /* Parklife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Parklife.jpg; path = Images/Sample/Parklife.jpg; sourceTree = "<group>"; };
 		BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TheLastBroadcast.jpg; path = Images/Sample/TheLastBroadcast.jpg; sourceTree = "<group>"; };
+		BE541ED317234072001088BC /* Albums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Albums.png; path = Images/Sample/Albums.png; sourceTree = "<group>"; };
+		BE541ED417234072001088BC /* Artists.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Artists.png; path = Images/Sample/Artists.png; sourceTree = "<group>"; };
+		BE541ED517234072001088BC /* Songs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Songs.png; path = Images/Sample/Songs.png; sourceTree = "<group>"; };
 		BEB54D341707DF49002042CD /* ItemPickerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerContext.h; path = ItemPickerSource/ItemPickerContext.h; sourceTree = "<group>"; };
 		BEB54D351707DF4A002042CD /* ItemPickerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerContext.m; path = ItemPickerSource/ItemPickerContext.m; sourceTree = "<group>"; };
 		BEB54D4917080731002042CD /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = Submodules/STObjCToolbelt/Source/Stack.h; sourceTree = "<group>"; };
@@ -145,11 +149,14 @@
 		BE4751A81708E9AB0082AF30 /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				BE541ED317234072001088BC /* Albums.png */,
+				BE541ED417234072001088BC /* Artists.png */,
 				BE0400861708F04900B09BDA /* DefaultNoArtwork.png */,
 				BE4751B41708EF990082AF30 /* Innuendo.jpg */,
 				BE4751B61708EFC80082AF30 /* ModernLife.jpg */,
 				BE4751B71708EFC80082AF30 /* MoonSafari.jpg */,
 				BE4751B81708EFC80082AF30 /* Parklife.jpg */,
+				BE541ED517234072001088BC /* Songs.png */,
 				BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */,
 				BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */,
 			);
@@ -251,7 +258,6 @@
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
 				BEEB9CE916FFE5870021E035 /* PlainItemPickerTableView.xib */,
-				BE41BBFA170BEC1200223945 /* GroupedItemPickerTableView.xib */,
 				BE26E7CB17090287000850F2 /* DefaultTableViewCell.xib */,
 				BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */,
 				BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */,
@@ -368,8 +374,10 @@
 				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
 				BE26E7CC17090287000850F2 /* DefaultTableViewCell.xib in Resources */,
-				BE41BBFB170BEC1200223945 /* GroupedItemPickerTableView.xib in Resources */,
 				BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */,
+				BE541ED617234072001088BC /* Albums.png in Resources */,
+				BE541ED717234072001088BC /* Artists.png in Resources */,
+				BE541ED817234072001088BC /* Songs.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

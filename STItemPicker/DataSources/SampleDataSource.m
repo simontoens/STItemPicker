@@ -76,6 +76,22 @@ static UIImage *kDefaultArtwork;
     return nil;
 }
 
+- (UIImage *)tabImage
+{
+    if ([self artistsList]) 
+    {
+        return [UIImage imageNamed:@"Artists.png"];
+    }
+    else if ([self albumsList]) 
+    {
+        return [UIImage imageNamed:@"Albums.png"];        
+    } 
+    else
+    {
+        return [UIImage imageNamed:@"Songs.png"];                
+    }
+}
+
 - (BOOL)sectionsEnabled 
 {
     return !selection;
