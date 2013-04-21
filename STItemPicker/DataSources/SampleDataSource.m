@@ -118,6 +118,31 @@ static UIImage *kDefaultArtwork;
     }
 }
 
+- (NSArray *)itemImages
+{
+    if ([self albumsList]) 
+    {
+        NSArray *albums = self.items;
+        NSMutableArray *albumImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
+        for (NSString *album in albums) 
+        {
+            UIImage *image = [kAlbumToArtwork objectForKey:album];
+            if (image == nil)
+            {
+                [albumImages addObject:[NSNull null]];
+            } 
+            else 
+            {
+                [albumImages addObject:image];
+            }
+            
+        }
+        return albumImages;
+    }
+    return nil;
+}
+
+
 - (BOOL)itemsAlreadySorted 
 {
     return NO;

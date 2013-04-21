@@ -12,7 +12,8 @@
 
 @implementation TableSectionHandlerTest
 
-- (void)testBasicSections {
+- (void)testBasicSections 
+{
     [self runTestItems:[NSArray arrayWithObjects:@"a", @"b", @"c", nil]
       expectedSections:[NSArray arrayWithObjects:@"A", @"B", @"C", nil]
     expectedItemCounts:(int[]){1, 1, 1}
@@ -34,27 +35,31 @@
     itemsAlreadySorted:YES];
 }
 
-- (void)testNumberSections {
+- (void)testNumberSections 
+{
     [self runTestItems:[NSArray arrayWithObjects:@"3", @"3003", nil]
       expectedSections:[NSArray arrayWithObjects:kTableSectionHandlerNumberHeader, nil]
     expectedItemCounts:(int[]){2}
     itemsAlreadySorted:YES];
 }
 
-- (void)testSymbolSections {
+- (void)testSymbolSections 
+{
     [self runTestItems:[NSArray arrayWithObjects:@"*a", @"!44", @"@444", @"%$#", nil]
       expectedSections:[NSArray arrayWithObject:kTableSectionHandlerSymbolHeader]
     expectedItemCounts:(int[]){4}
     itemsAlreadySorted:YES];    
 }
 
-- (void)testAllLetters {
+- (void)testAllLetters 
+{
     NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz";
     STAssertEquals([alphabet length], (NSUInteger)26, @"bad number of letters");
     NSMutableArray *lowerCaseItems = [NSMutableArray arrayWithCapacity:[alphabet length]];
     NSMutableArray *upperCaseItems = [NSMutableArray arrayWithCapacity:[alphabet length]];
     int counts[[alphabet length]];
-    for (int i = 0; i < [alphabet length]; i++) {
+    for (int i = 0; i < [alphabet length]; i++) 
+    {
         NSRange r;
         r.location = i;
         r.length = 1;
@@ -68,7 +73,8 @@
     [self runTestItems:upperCaseItems expectedSections:upperCaseItems expectedItemCounts:counts itemsAlreadySorted:YES];
 }
 
-- (void)testAllNumbers {
+- (void)testAllNumbers 
+{
     NSString *numbers = @"0123456789";
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:[numbers length]];
     for (int i = 0; i < [numbers length]; i++) {
@@ -81,6 +87,21 @@
     [self runTestItems:items 
       expectedSections:[NSArray arrayWithObject:kTableSectionHandlerNumberHeader] 
     expectedItemCounts:(int[]){10} itemsAlreadySorted:YES];
+}
+
+- (void)testItemImagesSort 
+{
+    NSArray *items = [NSArray arrayWithObjects:@"3", @"2", @"1", nil];
+    NSArray *images = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", nil];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items alreadySorted:NO];
+    handler.sectionsEnabled = NO;
+    handler.itemImages = images;
+
+    NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
+    STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
+    
+    NSArray *expectedImages = [NSArray arrayWithObjects:@"cc", @"bb", @"aa", nil];
+    STAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
 }
 
 - (void)runTestItems:(NSArray *)items 

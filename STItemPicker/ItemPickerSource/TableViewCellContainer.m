@@ -4,19 +4,19 @@
 
 @interface TableViewCellContainer()
 
-@property (nonatomic, weak) IBOutlet UITableViewCell *tableViewCell;
+@property (nonatomic, weak) IBOutlet TableViewCell *cell;
 
 @end
 
 @implementation TableViewCellContainer
 
-@synthesize tableViewCell;
+@synthesize cell;
 
-+ (UITableViewCell *)newDefaultTableViewCell
++ (TableViewCell *)newTableViewCell
 {
     TableViewCellContainer *container = [[TableViewCellContainer alloc] init];
-    [[NSBundle mainBundle] loadNibNamed:@"DefaultTableViewCell" owner:container options:nil];
-    return container.tableViewCell;
+    [[NSBundle mainBundle] loadNibNamed:@"TableViewCellWithImage" owner:container options:nil];
+    return container.cell;
 }
 
 @end

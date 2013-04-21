@@ -4,13 +4,15 @@
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
 #import "TableHeaderViewContainer.h"
-#import "TableViewCellContainer.h"
 #import "TableSectionHandler.h"
+#import "TableViewCell.h"
+#import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
 - (void)configureHeaderView;
 - (void)configureTitle;
 - (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource;
+- (UIImage *)getCellImageForRow:(NSUInteger)row;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 
 /**
@@ -42,10 +44,12 @@ UIColor *kGreyBackgroundColor;
 {
     if (self = [super initWithNibName:nibName bundle:nil]) 
     {
+        _context = [[ItemPickerContext alloc] initWithDataSource:dataSource];
         _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items 
                                                             alreadySorted:dataSource.itemsAlreadySorted];
         _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
-        _context = [[ItemPickerContext alloc] initWithDataSource:dataSource];
+        _tableSectionHandler.itemImages = dataSource.itemImages;
+                
         self.title = dataSource.title;
         if (self.tabBarItem) 
         {
@@ -78,7 +82,7 @@ UIColor *kGreyBackgroundColor;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return section == [self.tableSectionHandler.sections count] - 1 ? 100 : 0;
+    return section == [self.tableSectionHandler.sections count] - 1 ? 1 : 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -129,14 +133,17 @@ UIColor *kGreyBackgroundColor;
 } 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{ 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STItemPickerDefaultCell"];
+{     
+    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STItemPickerDefaultCell"];
     if (cell == nil) 
     {
-        cell = [TableViewCellContainer newDefaultTableViewCell];
+        cell = [TableViewCellContainer newTableViewCell];
     }
+    
     int row = [self getItemRow:indexPath];
-    cell.textLabel.text = [self.tableSectionHandler.items objectAtIndex:row];
+    cell.label.text = [self.tableSectionHandler.items objectAtIndex:row];
+    cell.iview.image = [self getCellImageForRow:row];
+    
     return cell; 
 }
 
@@ -146,6 +153,20 @@ UIColor *kGreyBackgroundColor;
 }
 
 #pragma mark - Private methods
+
+- (UIImage *)getCellImageForRow:(NSUInteger)row
+{
+    UIImage *cellImage = nil;       
+    if (self.tableSectionHandler.itemImages)
+    {
+        id thing = [self.tableSectionHandler.itemImages objectAtIndex:row];
+        if (thing != [NSNull null])
+        {
+            cellImage = thing;
+        }
+    }
+    return cellImage;
+}
 
 - (NSArray *)getSelections
 {

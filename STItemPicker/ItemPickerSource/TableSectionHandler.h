@@ -18,6 +18,8 @@
 @property(nonatomic, strong, readonly) NSArray *sections;
 @property(nonatomic, strong, readonly) NSDictionary *sectionToNumberOfItems;
 
+@property(nonatomic, strong, readwrite) NSArray *itemImages;
+
 extern NSString *kTableSectionHandlerNumberHeader;
 extern NSString *kTableSectionHandlerSymbolHeader;
 

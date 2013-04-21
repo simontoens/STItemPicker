@@ -2,6 +2,13 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ * The ItemPickerDataSource Protocol encapsulates data access to the data that drives the ItemPicker UI.
+ * 
+ * Many of the properties are optional (todo: actually make them optional).
+ *
+ * The ItemPicker code ensures that properties are not referenced multiple times unecessarily.
+ */
 @protocol ItemPickerDataSource <NSObject>
 
 - (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item;
@@ -20,6 +27,14 @@
  * The items displayed in the table view.  Must return a non-empty array.
  */
 @property(nonatomic, strong, readonly) NSArray *items;
+
+/**
+ * Optional images to display next to each item.  The length of the returned NSArray
+ * must have the same length as the items NSArray.  Elements in the returned NSArray
+ * may be NSNull for those items that don't have an image.  Return nil if 
+ * there aren't any images to display for any items.
+ */
+@property(nonatomic, strong, readonly) NSArray *itemImages;
 
 /**
  * Return YES if items are sorted alphanumerically, NO otherwise.
