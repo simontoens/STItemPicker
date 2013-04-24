@@ -1,28 +1,40 @@
 // @author Simon Toens 03/03/13
 
 #import "ItemPickerViewController.h"
+#import "SampleMediaDataSource.h"
+#import "SampleCityDataSource.h"
 #import "TestViewController.h"
-#import "SampleDataSource.h"
+
 
 @interface TestViewController()
 @property(nonatomic, weak) IBOutlet UILabel *pickLabel;
+- (void)showItemPickerWithDataSources:(NSArray *)dataSources;
 @end
 
 @implementation TestViewController
 
 @synthesize pickLabel;
 
-- (IBAction)onClick:(id)sender 
+- (IBAction)onSampleMediaDataSource:(id)sender 
 {
-    NSArray *dataSources = [NSArray arrayWithObjects:
-                            [SampleDataSource artistsDataSource], 
-                            [SampleDataSource albumsDataSource],
-                            [SampleDataSource songsDataSource], 
-                            nil];
-    
+    [self showItemPickerWithDataSources:
+        [NSArray arrayWithObjects:
+            [SampleMediaDataSource artistsDataSource], 
+            [SampleMediaDataSource albumsDataSource],
+            [SampleMediaDataSource songsDataSource], 
+            nil]];
+}
+
+- (IBAction)onSampleCityDataSource:(id)sender
+{
+    [self showItemPickerWithDataSources:[NSArray arrayWithObject:[[SampleCityDataSource alloc] init]]];
+}
+
+- (void)showItemPickerWithDataSources:(NSArray *)dataSources
+{
     ItemPicker *mediaPicker = [[ItemPicker alloc] initWithDataSources:dataSources];
     mediaPicker.delegate = self;
-    [self.navigationController presentModalViewController:mediaPicker.viewController animated:YES];
+    [self.navigationController presentModalViewController:mediaPicker.viewController animated:YES];    
 }
 
 - (void)pickedItem:(NSString *)item atIndex:(NSUInteger)index; 

@@ -1,6 +1,7 @@
 // @author Simon Toens 03/17/13
 
 #import "ItemPickerViewController.h"
+#import "ItemPickerDataSourceDefaults.h"
 
 @interface ItemPicker() 
 {
@@ -48,7 +49,8 @@
 
 - (UIViewController *)getControllerForDataSource:(id<ItemPickerDataSource>)dataSource
 {
-    ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:dataSource];
+    id<ItemPickerDataSource> wrappedDataSource = [[ItemPickerDataSourceDefaults alloc] initWithDataSource:dataSource];
+    ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:wrappedDataSource];
     controller.itemPickerDelegate = self.delegate;
     return [[UINavigationController alloc] initWithRootViewController:controller];    
 }

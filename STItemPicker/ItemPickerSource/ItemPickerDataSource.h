@@ -5,12 +5,23 @@
 /**
  * The ItemPickerDataSource Protocol encapsulates data access to the data that drives the ItemPicker UI.
  * 
- * Many of the properties are optional (todo: actually make them optional).
+ * Many of the properties are optional.
  *
  * The ItemPicker code ensures that properties are not referenced multiple times unecessarily.
  */
 @protocol ItemPickerDataSource <NSObject>
 
+@required
+
+/**
+ * The items displayed in the table view.  Must return a non-empty array.
+ */
+@property(nonatomic, strong, readonly) NSArray *items;
+
+/**
+ * Called when an item is selected.  Return the data source for the next table view, or nil if this 
+ * item does not have any detail.
+ */
 - (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item;
 
 /**
@@ -18,15 +29,19 @@
  */
 @property(nonatomic, strong, readonly) NSString *title;
 
-/**
- * Used as header image, return nil if no header image.
- */
-@property(nonatomic, strong, readonly) UIImage *headerImage;
+
+
+@optional
 
 /**
- * The items displayed in the table view.  Must return a non-empty array.
+ * Return YES if items are sorted alphanumerically, NO otherwise.
  */
-@property(nonatomic, strong, readonly) NSArray *items;
+@property(nonatomic, assign, readonly) BOOL itemsAlreadySorted;
+
+/**
+ * Optional table view header image, return nil if no header image.
+ */
+@property(nonatomic, strong, readonly) UIImage *headerImage;
 
 /**
  * Optional images to display next to each item.  The length of the returned NSArray
@@ -35,11 +50,6 @@
  * there aren't any images to display for any items.
  */
 @property(nonatomic, strong, readonly) NSArray *itemImages;
-
-/**
- * Return YES if items are sorted alphanumerically, NO otherwise.
- */
-@property(nonatomic, assign, readonly) BOOL itemsAlreadySorted;
 
 /**
  * Return YES to show section headers and a section index.
