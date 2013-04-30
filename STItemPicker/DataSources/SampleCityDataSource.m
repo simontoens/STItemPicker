@@ -83,7 +83,18 @@ static NSArray *kAllHeaders;
                 region:@"Pacific Northwest" 
                  state:@"Washington" 
                 cities:[NSArray arrayWithObjects:@"Seattle", @"Kirkland", @"Bellevue", @"Olympia", nil]];
-
+    
+    [self addContinent:@"Europe" 
+               country:@"Spain" 
+                region:@"Andalusia" 
+                 state:@"Cadiz" 
+                cities:[NSArray arrayWithObjects:@"Barbate", @"Conil de la Frontera", @"Medina Sidonia", nil]];
+    
+    [self addContinent:@"Europe" 
+               country:@"Spain" 
+                region:@"Catalonia" 
+                 state:@"Tarragona" 
+                cities:[NSArray arrayWithObjects:@"Reus", @"Salou", @"Tortosa", @"Valls", nil]];
 }
 
 @end
