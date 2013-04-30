@@ -170,11 +170,6 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (BOOL)skipIntermediaryLists
-{
-    return YES;
-}
-
 # pragma mark - Private methods
 
 - (BOOL)artistsList 

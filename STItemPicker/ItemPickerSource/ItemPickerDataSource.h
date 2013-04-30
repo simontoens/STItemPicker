@@ -57,11 +57,6 @@
 @property(nonatomic, assign, readonly) BOOL sectionsEnabled;
 
 /**
- * Return YES to skip intermediary item lists with only a single item.
- */
-@property(nonatomic, assign, readonly) BOOL skipIntermediaryLists;
-
-/**
  * The image to display in the tab, nil for no image.
  */
 @property(nonatomic, assign, readonly) UIImage *tabImage;

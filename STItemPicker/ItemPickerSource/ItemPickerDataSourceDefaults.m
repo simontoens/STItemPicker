@@ -55,11 +55,6 @@
     return [self.dataSource respondsToSelector:@selector(sectionsEnabled)] ? self.dataSource.sectionsEnabled : NO;
 }
 
-- (BOOL)skipIntermediaryLists
-{
-    return [self.dataSource respondsToSelector:@selector(skipIntermediaryLists)] ? self.dataSource.skipIntermediaryLists : NO;
-}
-
 - (UIImage *)tabImage
 {
     return [self.dataSource respondsToSelector:@selector(tabImage)] ? self.dataSource.tabImage : nil;
