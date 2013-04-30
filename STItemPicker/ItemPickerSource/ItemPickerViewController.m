@@ -49,10 +49,10 @@ UIColor *kGreyBackgroundColor;
                                                             alreadySorted:dataSource.itemsAlreadySorted];
         _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
         _tableSectionHandler.itemImages = dataSource.itemImages;
-                
-        self.title = dataSource.title;
+
         if (self.tabBarItem) 
         {
+            self.title = dataSource.title;
             self.tabBarItem.image = dataSource.tabImage;
         }
     }
@@ -68,8 +68,8 @@ UIColor *kGreyBackgroundColor;
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureTitle];
     [self configureHeaderView];
+    [self configureTitle];
 }
 
 #pragma mark - UITableViewDelegate methods
@@ -219,10 +219,7 @@ UIColor *kGreyBackgroundColor;
 - (void)configureTitle 
 {
     ItemPickerContext *prevSelection = [self getPreviousSelection];
-    if (prevSelection)
-    {
-        self.title = prevSelection.selectedItem;
-    }
+    self.title = prevSelection ? prevSelection.selectedItem : self.context.dataSource.title;
 }
 
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath
