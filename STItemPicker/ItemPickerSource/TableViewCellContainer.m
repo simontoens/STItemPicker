@@ -4,6 +4,8 @@
 
 @interface TableViewCellContainer()
 
++ (TableViewCell *)newTableViewCellWithNibName:(NSString *)nibName;
+
 @property (nonatomic, weak) IBOutlet TableViewCell *cell;
 
 @end
@@ -12,11 +14,31 @@
 
 @synthesize cell;
 
-+ (TableViewCell *)newTableViewCell
++ (TableViewCell *)newPlainTableViewCell
+{
+    return [TableViewCellContainer newTableViewCellWithNibName:@"PlainTableViewCell"];
+}
+
++ (NSString *)plainTableViewCellIdentifier
+{
+    return @"STItemPickerPlainCell";
+}
+
++ (TableViewCell *)newImageTableViewCell
+{
+    return [TableViewCellContainer newTableViewCellWithNibName:@"ImageTableViewCell"];
+}
+
++ (NSString *)imageTableViewCellIdentifier
+{
+    return @"STItemPickerImageCell";
+}
+
++ (TableViewCell *)newTableViewCellWithNibName:(NSString *)nibName
 {
     TableViewCellContainer *container = [[TableViewCellContainer alloc] init];
-    [[NSBundle mainBundle] loadNibNamed:@"TableViewCellWithImage" owner:container options:nil];
-    return container.cell;
+    [[NSBundle mainBundle] loadNibNamed:nibName owner:container options:nil];
+    return container.cell;    
 }
 
 @end

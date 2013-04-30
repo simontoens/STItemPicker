@@ -133,17 +133,30 @@ UIColor *kGreyBackgroundColor;
 } 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{     
-    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"STItemPickerDefaultCell"];
-    if (cell == nil) 
+{  
+    int row = [self getItemRow:indexPath];
+    UIImage *cellImage = [self getCellImageForRow:row];
+    TableViewCell *cell = nil;
+    
+    if (cellImage)
     {
-        cell = [TableViewCellContainer newTableViewCell];
+        cell = [tableView dequeueReusableCellWithIdentifier:[TableViewCellContainer imageTableViewCellIdentifier]];
+        if (cell == nil) 
+        {
+            cell = [TableViewCellContainer newImageTableViewCell];
+        }
+        cell.iview.image = [self getCellImageForRow:row];
+    }
+    else 
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:[TableViewCellContainer plainTableViewCellIdentifier]];
+        if (cell == nil) 
+        {
+            cell = [TableViewCellContainer newPlainTableViewCell];
+        }        
     }
     
-    int row = [self getItemRow:indexPath];
     cell.label.text = [self.tableSectionHandler.items objectAtIndex:row];
-    cell.iview.image = [self getCellImageForRow:row];
-    
     return cell; 
 }
 

@@ -11,9 +11,10 @@
 		BE074E57172397FD001681EE /* Tuple.m in Sources */ = {isa = PBXBuildFile; fileRef = BE074E56172397FD001681EE /* Tuple.m */; };
 		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
-		BE26E7CC17090287000850F2 /* TableViewCellWithImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7CB17090287000850F2 /* TableViewCellWithImage.xib */; };
+		BE26E7CC17090287000850F2 /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7CB17090287000850F2 /* ImageTableViewCell.xib */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
+		BE386309172F867B0059378C /* PlainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE386308172F867B0059378C /* PlainTableViewCell.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */; };
 		BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
@@ -67,11 +68,12 @@
 		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
 		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
-		BE26E7CB17090287000850F2 /* TableViewCellWithImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableViewCellWithImage.xib; path = ItemPickerSource/TableViewCellWithImage.xib; sourceTree = "<group>"; };
+		BE26E7CB17090287000850F2 /* ImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageTableViewCell.xib; path = ItemPickerSource/ImageTableViewCell.xib; sourceTree = "<group>"; };
 		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
 		BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellContainer.m; path = ItemPickerSource/TableViewCellContainer.m; sourceTree = "<group>"; };
 		BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Reflection.h"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.h"; sourceTree = "<group>"; };
 		BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+Reflection.m"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.m"; sourceTree = "<group>"; };
+		BE386308172F867B0059378C /* PlainTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PlainTableViewCell.xib; path = ItemPickerSource/PlainTableViewCell.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleMediaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediaDataSource.h; path = DataSources/SampleMediaDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediaDataSource.m; path = DataSources/SampleMediaDataSource.m; sourceTree = "<group>"; };
 		BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TalkieWalkie.jpg; path = Images/Sample/TalkieWalkie.jpg; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		BEEB9CDD16FFE4710021E035 /* ItemPickerSource */ = {
 			isa = PBXGroup;
 			children = (
+				BE26E7CB17090287000850F2 /* ImageTableViewCell.xib */,
 				BEEB9CE416FFE5870021E035 /* ItemPicker.h */,
 				BEEB9CE516FFE5870021E035 /* ItemPicker.m */,
 				BEB54D341707DF49002042CD /* ItemPickerContext.h */,
@@ -273,12 +276,12 @@
 				BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */,
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
+				BE386308172F867B0059378C /* PlainTableViewCell.xib */,
 				BEEB9CE916FFE5870021E035 /* PlainItemPickerTableView.xib */,
 				BE541ED917235087001088BC /* TableViewCell.h */,
 				BE541EDA17235087001088BC /* TableViewCell.m */,
 				BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */,
 				BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */,
-				BE26E7CB17090287000850F2 /* TableViewCellWithImage.xib */,
 				BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */,
 				BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */,
 				BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */,
@@ -393,11 +396,12 @@
 				BE4751BC1708EFC80082AF30 /* Parklife.jpg in Resources */,
 				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
-				BE26E7CC17090287000850F2 /* TableViewCellWithImage.xib in Resources */,
+				BE26E7CC17090287000850F2 /* ImageTableViewCell.xib in Resources */,
 				BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */,
 				BE541ED617234072001088BC /* Albums.png in Resources */,
 				BE541ED717234072001088BC /* Artists.png in Resources */,
 				BE541ED817234072001088BC /* Songs.png in Resources */,
+				BE386309172F867B0059378C /* PlainTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

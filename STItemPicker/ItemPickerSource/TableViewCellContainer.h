@@ -5,6 +5,10 @@
 
 @interface TableViewCellContainer : NSObject
 
-+ (TableViewCell *)newTableViewCell;
++ (TableViewCell *)newPlainTableViewCell;
++ (NSString *)plainTableViewCellIdentifier;
+
++ (TableViewCell *)newImageTableViewCell;
++ (NSString *)imageTableViewCellIdentifier;
 
 @end
