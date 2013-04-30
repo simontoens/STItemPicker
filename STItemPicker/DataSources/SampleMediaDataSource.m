@@ -129,7 +129,7 @@ static UIImage *kDefaultArtwork;
             UIImage *image = [kAlbumToArtwork objectForKey:album];
             if (image == nil)
             {
-                [albumImages addObject:[NSNull null]];
+                [albumImages addObject:kDefaultArtwork];
             } 
             else 
             {
