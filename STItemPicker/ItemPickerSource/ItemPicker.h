@@ -12,12 +12,22 @@
 
 @property (nonatomic, strong, readonly) UIViewController *viewController;
 
+/**
+ * This delegate receives callbacks from the picker.  Must be set.
+ */
 @property (nonatomic, weak) id<ItemPickerDelegate> delegate;
+
+/**
+ * Whether to show a cancel button on the right of the navigation bar.  Defaults to NO.
+ */
+@property (nonatomic, assign) BOOL showCancelButton;
 
 @end
 
 @protocol ItemPickerDelegate <NSObject>
 
-- (void)pickedItem:(NSString *)item atIndex:(NSUInteger)index;
+- (void)onPickItem:(NSString *)item atIndex:(NSUInteger)index;
+
+- (void)onCancel;
 
 @end

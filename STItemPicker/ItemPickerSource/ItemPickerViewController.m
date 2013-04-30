@@ -10,6 +10,7 @@
 
 @interface ItemPickerViewController()
 - (void)configureHeaderView;
+- (void)configureNavigationItem;
 - (void)configureTitle;
 - (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource;
 - (UIImage *)getCellImageForRow:(NSUInteger)row;
@@ -32,6 +33,7 @@ UIColor *kGreyBackgroundColor;
 
 @synthesize context = _context;
 @synthesize itemPickerDelegate;
+@synthesize showCancelButton;
 @synthesize tableSectionHandler = _tableSectionHandler;
 
 
@@ -69,6 +71,7 @@ UIColor *kGreyBackgroundColor;
 {
     [super viewDidLoad];
     [self configureHeaderView];
+    [self configureNavigationItem];
     [self configureTitle];
 }
 
@@ -96,11 +99,12 @@ UIColor *kGreyBackgroundColor;
     {
         ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];
         controller.itemPickerDelegate = self.itemPickerDelegate;
+        controller.showCancelButton = self.showCancelButton;
         [self.navigationController pushViewController:controller animated:YES];
     } 
     else 
     {
-        [self.itemPickerDelegate pickedItem:self.context.selectedItem atIndex:self.context.selectedIndex];
+        [self.itemPickerDelegate onPickItem:self.context.selectedItem atIndex:self.context.selectedIndex];
     }
 }
 
@@ -210,6 +214,18 @@ UIColor *kGreyBackgroundColor;
 {
     ItemPickerContext *prevSelection = [self getPreviousSelection];
     self.title = prevSelection ? prevSelection.selectedItem : self.context.dataSource.title;
+}
+
+- (void)configureNavigationItem
+{
+    if (self.showCancelButton)
+    {
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" 
+                                                                         style:UIBarButtonItemStyleBordered 
+                                                                        target:self.itemPickerDelegate
+                                                                        action:@selector(onCancel)];
+        self.navigationItem.rightBarButtonItem = cancelButton;
+    }
 }
 
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath
