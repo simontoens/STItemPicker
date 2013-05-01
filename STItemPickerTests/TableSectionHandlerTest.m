@@ -35,6 +35,14 @@
     itemsAlreadySorted:YES];
 }
 
+- (void)testNonEnglishAlphabetSections
+{
+    [self runTestItems:[NSArray arrayWithObjects:@"äa", @"ÄB", @"üC", @"Ücc", @"あんまり覚えてないや", @"öc", @"ÖB", nil]
+      expectedSections:[NSArray arrayWithObjects:@"A",@"O", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader, nil]
+    expectedItemCounts:(int[]){2, 2, 2, 1}
+    itemsAlreadySorted:NO];    
+}
+
 - (void)testNumberSections 
 {
     [self runTestItems:[NSArray arrayWithObjects:@"3", @"3003", nil]

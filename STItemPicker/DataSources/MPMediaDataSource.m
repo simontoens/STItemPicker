@@ -22,6 +22,11 @@
     return @"Songs";
 }
 
+- (BOOL)sectionsEnabled
+{
+    return YES;
+}
+
 - (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
 {
     return nil;

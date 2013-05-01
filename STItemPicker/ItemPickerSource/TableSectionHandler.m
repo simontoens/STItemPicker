@@ -26,21 +26,27 @@
 
 NSString const *kTableSectionHandlerNumberHeader = @"0";
 NSString const *kTableSectionHandlerSymbolHeader = @"#";
+NSString const *kTableSectionHandlerNonLatinLetterSymbolHeader = @"あ";
 
 const void *kImageAssociationKey = @"image";
 
-static NSCharacterSet *letterCharacterSet;
-static NSCharacterSet *numberCharacterSet;
+static NSCharacterSet *kEnglishLetterCharacterSet;
+static NSCharacterSet *kAllLetterCharacterSet;
+static NSCharacterSet *kNumberCharacterSet;
+static NSCharacterSet *kACharacterSet;
+static NSCharacterSet *kOCharacterSet;
+static NSCharacterSet *kUCharacterSet;
 
-@synthesize sectionsEnabled = _sectionsEnabled;
 @synthesize alreadySorted = _alreadySorted;
 @synthesize items = _items;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
+@synthesize sectionsEnabled = _sectionsEnabled;
 @synthesize sectionToNumberOfItems = _sectionToNumberOfItems;
 
-+ (void)initialize 
+
++ (NSCharacterSet *)getEnglishCharacterSet
 {
     NSMutableCharacterSet *cset = [[NSMutableCharacterSet alloc] init];
     NSRange range;
@@ -50,12 +56,20 @@ static NSCharacterSet *numberCharacterSet;
     
     range.location = (unsigned int)'A';
     [cset addCharactersInRange:range];    
-    letterCharacterSet = cset;
-
-    numberCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    return cset;
 }
 
-- (id)initWithItems:(NSArray *)items alreadySorted:(BOOL)alreadySorted 
++ (void)initialize 
+{
+    kEnglishLetterCharacterSet = [TableSectionHandler getEnglishCharacterSet];
+    kAllLetterCharacterSet = [NSCharacterSet letterCharacterSet];
+    kNumberCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    kACharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"äÄ"];
+    kOCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"öÖ"];
+    kUCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"üÜ"];
+}
+
+- (id)initWithItems:(NSArray *)items alreadySorted:(BOOL)alreadySorted
 {
     if (self = [super init]) 
     {
@@ -118,15 +132,33 @@ static NSCharacterSet *numberCharacterSet;
 - (NSString const*)getSectionNameForItem:(NSString *)item 
 {
     unichar c = [item characterAtIndex:0];
-    if ([letterCharacterSet characterIsMember:c]) 
+    
+    if ([kACharacterSet characterIsMember:c])
     {
-        return [[item substringToIndex:1] uppercaseString];
+        c = 'a';
+    }
+    else if ([kOCharacterSet characterIsMember:c])
+    {
+        c = 'o';
+    }
+    else if ([kUCharacterSet characterIsMember:c])
+    {
+        c = 'u';
+    }
+        
+    if ([kEnglishLetterCharacterSet characterIsMember:c]) 
+    {
+        return [[NSString stringWithCharacters:&c length:1] uppercaseString];
     } 
-    else if ([numberCharacterSet characterIsMember:c]) 
+    else if ([kNumberCharacterSet characterIsMember:c]) 
     {
         return kTableSectionHandlerNumberHeader;
     } 
-    else 
+    else if ([kAllLetterCharacterSet characterIsMember:c])
+    {
+        return kTableSectionHandlerNonLatinLetterSymbolHeader;
+    }
+    else
     {
         return kTableSectionHandlerSymbolHeader;
     }

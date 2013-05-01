@@ -22,5 +22,6 @@
 
 extern NSString *kTableSectionHandlerNumberHeader;
 extern NSString *kTableSectionHandlerSymbolHeader;
+extern NSString *kTableSectionHandlerNonLatinLetterSymbolHeader;
 
 @end

@@ -37,7 +37,7 @@
 
 - (BOOL)itemsAlreadySorted
 {
-    return [self.dataSource respondsToSelector:@selector(itemsAlreadySorted)] ? self.dataSource.itemsAlreadySorted: NO;
+    return [self.dataSource respondsToSelector:@selector(itemsAlreadySorted)] ? self.dataSource.itemsAlreadySorted : NO;
 }
 
 - (UIImage *)headerImage
