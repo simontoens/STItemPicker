@@ -1,6 +1,7 @@
 // @author Simon Toens 03/03/13
 
 #import "ItemPickerViewController.h"
+#import "MPMediaDataSource.h"
 #import "SampleMediaDataSource.h"
 #import "SampleCityDataSource.h"
 #import "TestViewController.h"
@@ -28,6 +29,11 @@
 - (IBAction)onSampleCityDataSource:(id)sender
 {
     [self showItemPickerWithDataSources:[NSArray arrayWithObject:[[SampleCityDataSource alloc] init]] showCancelButton:YES];
+}
+
+- (IBAction)onMPMediaDataSource:(id)sender
+{
+    [self showItemPickerWithDataSources:[NSArray arrayWithObject:[[MPMediaDataSource alloc] init]] showCancelButton:NO];    
 }
 
 - (void)showItemPickerWithDataSources:(NSArray *)dataSources showCancelButton:(BOOL)showCancelButton

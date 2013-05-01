@@ -49,6 +49,8 @@
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
 		BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */; };
+		BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */; };
+		BEF2916D1730C96D002D3BB3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,10 @@
 		BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preconditions.h; path = Submodules/STObjCToolbelt/Source/Preconditions.h; sourceTree = "<group>"; };
 		BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preconditions.m; path = Submodules/STObjCToolbelt/Source/Preconditions.m; sourceTree = "<group>"; };
 		BEEB9D1316FFEA760021E035 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		BEF291661730C7FA002D3BB3 /* MPMediaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPMediaDataSource.h; path = DataSources/MPMediaDataSource.h; sourceTree = "<group>"; };
+		BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPMediaDataSource.m; path = DataSources/MPMediaDataSource.m; sourceTree = "<group>"; };
+		BEF2916A1730C900002D3BB3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEF2916D1730C96D002D3BB3 /* MediaPlayer.framework in Frameworks */,
 				BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */,
 				BEEB9CB116FFE3B60021E035 /* Foundation.framework in Frameworks */,
 				BEEB9CB316FFE3B60021E035 /* CoreGraphics.framework in Frameworks */,
@@ -154,6 +161,8 @@
 		BE3A0C031702B9D1001B18EC /* DataSources */ = {
 			isa = PBXGroup;
 			children = (
+				BEF291661730C7FA002D3BB3 /* MPMediaDataSource.h */,
+				BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */,
 				BEC6FCDF1724CBBC00A00165 /* SampleCityDataSource.h */,
 				BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */,
 				BE3A0C051702BE26001B18EC /* SampleMediaDataSource.h */,
@@ -190,6 +199,8 @@
 		BEEB9C9F16FFE3B60021E035 = {
 			isa = PBXGroup;
 			children = (
+				BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */,
+				BEF2916A1730C900002D3BB3 /* CoreMedia.framework */,
 				BEEB9CB416FFE3B60021E035 /* STItemPicker */,
 				BEEB9CCC16FFE3B60021E035 /* STItemPickerTests */,
 				BEEB9CAD16FFE3B60021E035 /* Frameworks */,
@@ -454,6 +465,7 @@
 				BE074E57172397FD001681EE /* Tuple.m in Sources */,
 				BEC6FCE11724CBBC00A00165 /* SampleCityDataSource.m in Sources */,
 				BE669C4317257E58007F153A /* ItemPickerDataSourceDefaults.m in Sources */,
+				BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
