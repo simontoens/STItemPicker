@@ -9,8 +9,9 @@
 @interface TableSectionHandler() 
 - (NSString *)getSectionNameForItem:(NSString *)item;
 - (void)process;
+- (BOOL)itemsAreStrings;
+- (void)setItemsValue;
 
-@property(nonatomic, assign) BOOL alreadySorted;
 @property(nonatomic, assign) BOOL processed;
 
 @property(nonatomic, strong, readwrite) NSArray *items;
@@ -37,9 +38,10 @@ static NSCharacterSet *kACharacterSet;
 static NSCharacterSet *kOCharacterSet;
 static NSCharacterSet *kUCharacterSet;
 
-@synthesize alreadySorted = _alreadySorted;
 @synthesize items = _items;
+@synthesize itemsAlreadySorted = _itemsAlreadySorted;
 @synthesize itemImages = _itemImages;
+@synthesize itemValueSelector;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
 @synthesize sectionsEnabled = _sectionsEnabled;
@@ -69,14 +71,14 @@ static NSCharacterSet *kUCharacterSet;
     kUCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"üÜ"];
 }
 
-- (id)initWithItems:(NSArray *)items alreadySorted:(BOOL)alreadySorted
+- (id)initWithItems:(NSArray *)items
 {
     if (self = [super init]) 
     {
         [Preconditions assertNotEmpty:items message:@"items cannot be nil or empty"];
         _items = items;
-        _alreadySorted = alreadySorted;
-        _sectionsEnabled = YES;
+        _itemsAlreadySorted = NO;
+        _sectionsEnabled = NO;
         _processed = NO;
     }
     return self;
@@ -127,6 +129,11 @@ static NSCharacterSet *kUCharacterSet;
     
     [self sortItems];
     [self buildSections];
+    
+    if (![self itemsAreStrings])
+    {
+        [self setItemsValue];
+    }
 }
 
 - (NSString const*)getSectionNameForItem:(NSString *)item 
@@ -166,7 +173,7 @@ static NSCharacterSet *kUCharacterSet;
 
 - (void)sortItems
 {
-    if (!self.alreadySorted) 
+    if (!self.itemsAlreadySorted)
     {
         if (self.itemImages)
         {
@@ -175,7 +182,12 @@ static NSCharacterSet *kUCharacterSet;
                 objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, [self.itemImages objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);
             }
         }
-        self.items = [self.items sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
+        self.items = [self.items sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+            NSString *first = self.itemValueSelector ? [a performSelector:self.itemValueSelector] : a;
+            NSString *second = self.itemValueSelector ? [b performSelector:self.itemValueSelector] : b;
+            return [first localizedCaseInsensitiveCompare:second];
+        }];
         
         if (self.itemImages) 
         {
@@ -188,7 +200,6 @@ static NSCharacterSet *kUCharacterSet;
             }
             self.itemImages = sortedItemImages;
         }
-        
     }
 }
 
@@ -204,9 +215,21 @@ static NSCharacterSet *kUCharacterSet;
     NSMutableArray *theSections = [[NSMutableArray alloc] init];
     NSMutableDictionary *sectionCount = [[NSMutableDictionary alloc] init];
     
-    int itemsInSectionCount = 0;
-    for (NSString *item in self.items) 
+    NSMutableArray *stringItems = nil;
+    if (![self itemsAreStrings] && self.itemValueSelector)
     {
+        stringItems = [NSMutableArray arrayWithCapacity:[self.items count]];
+    }
+    
+    int itemsInSectionCount = 0;
+    for (NSString __strong *item in self.items) 
+    {
+        if (stringItems)
+        {
+            item = (NSString *)[item performSelector:self.itemValueSelector];
+            [stringItems addObject:item];
+        }
+        
         NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
         if ([theSections count] == 0) {
             [theSections addObject:sectionNameForCurrentItem];
@@ -226,9 +249,33 @@ static NSCharacterSet *kUCharacterSet;
     }
     NSString *currentSectionName = [theSections lastObject];
     [sectionCount setObject:[NSNumber numberWithInt:itemsInSectionCount] forKey:currentSectionName];
+
+    
+    if (stringItems)
+    {
+        self.items = stringItems;
+    }
     
     self.sections = theSections;
     self.sectionToNumberOfItems = sectionCount;
+}
+
+- (BOOL)itemsAreStrings
+{
+    return [[self.items lastObject] isKindOfClass:[NSString class]];
+}
+
+- (void)setItemsValue
+{
+    if (self.itemValueSelector)
+    {
+        NSMutableArray *stringItems = [NSMutableArray arrayWithCapacity:[self.items count]];
+        for (id thing in self.items)
+        {
+            [stringItems addObject:[thing performSelector:self.itemValueSelector]];
+        }
+        self.items = stringItems;
+    }
 }
 
 @end

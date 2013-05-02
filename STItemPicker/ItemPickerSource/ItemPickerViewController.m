@@ -47,8 +47,8 @@ UIColor *kGreyBackgroundColor;
     if (self = [super initWithNibName:nibName bundle:nil]) 
     {
         _context = [[ItemPickerContext alloc] initWithDataSource:dataSource];
-        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items 
-                                                            alreadySorted:dataSource.itemsAlreadySorted];
+        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items];
+        _tableSectionHandler.itemsAlreadySorted = dataSource.itemsAlreadySorted;
         _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
         _tableSectionHandler.itemImages = dataSource.itemImages;
 

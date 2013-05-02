@@ -4,13 +4,23 @@
 
 @interface TableSectionHandler : NSObject
 
-- (id)initWithItems:(NSArray *)items alreadySorted:(BOOL)alreadySorted;
+- (id)initWithItems:(NSArray *)items;
+
+/**
+ * Defaults to NO.
+ */
+@property(nonatomic, assign) BOOL itemsAlreadySorted;
+
+/**
+ * If not nil, use this selector to get the item NSString representation.  If nil, all items must be NSStrings.
+ */
+@property(nonatomic, assign) SEL itemValueSelector;
 
 /**
  * If YES, sorts items (unless already sorted) and creates alphabetical sections based on the first letter of each item.
  * If NO, there's a single section with all items.
  *
- * Defaults to YES.
+ * Defaults to NO.
  */
 @property(nonatomic, assign) BOOL sectionsEnabled;
 
@@ -19,6 +29,8 @@
 @property(nonatomic, strong, readonly) NSDictionary *sectionToNumberOfItems;
 
 @property(nonatomic, strong, readwrite) NSArray *itemImages;
+
+
 
 extern NSString *kTableSectionHandlerNumberHeader;
 extern NSString *kTableSectionHandlerSymbolHeader;
