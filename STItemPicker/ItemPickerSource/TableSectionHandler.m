@@ -1,25 +1,25 @@
 // @author Simon Toens 03/18/13
 
 #import <objc/runtime.h>
+#import <MediaPlayer/MediaPlayer.h>
 
+#import "ItemPickerSection.h"
 #import "Preconditions.h"
 #import "TableSectionHandler.h"
 #import "Tuple.h"
 
 @interface TableSectionHandler() 
+- (void)buildSections;
+- (void)buildSectionTitles;
 - (NSString *)getSectionNameForItem:(NSString *)item;
 - (void)process;
-- (BOOL)itemsAreStrings;
-- (void)setItemsValue;
+- (void)sortItems;
 
 @property(nonatomic, assign) BOOL processed;
 
 @property(nonatomic, strong, readwrite) NSArray *items;
-@property(nonatomic, strong, readwrite) NSArray *sections;
-@property(nonatomic, strong, readwrite) NSDictionary *sectionToNumberOfItems;
-
-- (void)buildSections;
-- (void)sortItems;
+@property(nonatomic, strong, readwrite) NSMutableArray *internalSections;
+@property(nonatomic, strong, readwrite) NSArray *sectionTitles;
 
 @end
 
@@ -34,18 +34,18 @@ const void *kImageAssociationKey = @"image";
 static NSCharacterSet *kEnglishLetterCharacterSet;
 static NSCharacterSet *kAllLetterCharacterSet;
 static NSCharacterSet *kNumberCharacterSet;
+static NSCharacterSet *kPunctuationCharacterSet;
 static NSCharacterSet *kACharacterSet;
 static NSCharacterSet *kOCharacterSet;
 static NSCharacterSet *kUCharacterSet;
 
+@synthesize internalSections = _internalSections;
 @synthesize items = _items;
 @synthesize itemsAlreadySorted = _itemsAlreadySorted;
 @synthesize itemImages = _itemImages;
-@synthesize itemValueSelector;
 @synthesize processed = _processed;
-@synthesize sections = _sections;
 @synthesize sectionsEnabled = _sectionsEnabled;
-@synthesize sectionToNumberOfItems = _sectionToNumberOfItems;
+@synthesize sectionTitles = _sectionTitles;
 
 
 + (NSCharacterSet *)getEnglishCharacterSet
@@ -66,6 +66,7 @@ static NSCharacterSet *kUCharacterSet;
     kEnglishLetterCharacterSet = [TableSectionHandler getEnglishCharacterSet];
     kAllLetterCharacterSet = [NSCharacterSet letterCharacterSet];
     kNumberCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    kPunctuationCharacterSet = [NSCharacterSet punctuationCharacterSet];
     kACharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"äÄ"];
     kOCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"öÖ"];
     kUCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"üÜ"];
@@ -109,13 +110,13 @@ static NSCharacterSet *kUCharacterSet;
 - (NSArray *)sections 
 {
     [self process];
-    return _sections;
+    return self.internalSections;
 }
 
-- (NSDictionary *)sectionToNumberOfItems 
+- (NSArray *)sectionTitles
 {
     [self process];
-    return _sectionToNumberOfItems;
+    return _sectionTitles;
 }
 
 - (void)process 
@@ -129,16 +130,17 @@ static NSCharacterSet *kUCharacterSet;
     
     [self sortItems];
     [self buildSections];
-    
-    if (![self itemsAreStrings])
-    {
-        [self setItemsValue];
-    }
+    [self buildSectionTitles];
 }
 
 - (NSString const*)getSectionNameForItem:(NSString *)item 
 {
     unichar c = [item characterAtIndex:0];
+    
+    if ([kPunctuationCharacterSet characterIsMember:c] && [item length] > 1)
+    {
+        c = [item characterAtIndex:1];
+    }
     
     if ([kACharacterSet characterIsMember:c])
     {
@@ -183,9 +185,19 @@ static NSCharacterSet *kUCharacterSet;
             }
         }
 
-        self.items = [self.items sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-            NSString *first = self.itemValueSelector ? [a performSelector:self.itemValueSelector] : a;
-            NSString *second = self.itemValueSelector ? [b performSelector:self.itemValueSelector] : b;
+        self.items = [self.items sortedArrayUsingComparator:^NSComparisonResult(NSString *first, NSString *second) {
+
+            unichar c = [first characterAtIndex:0];
+            if ([kPunctuationCharacterSet characterIsMember:c])
+            {
+                first = [first substringFromIndex:1];
+            }
+            c = [second characterAtIndex:0];
+            if ([kPunctuationCharacterSet characterIsMember:c])
+            {
+                second = [second substringFromIndex:1];
+            }
+
             return [first localizedCaseInsensitiveCompare:second];
         }];
         
@@ -203,79 +215,56 @@ static NSCharacterSet *kUCharacterSet;
     }
 }
 
-- (void)buildSections
+- (void)addSection:(NSString *)title location:(int)location length:(int)length
 {
-    if (!self.sectionsEnabled) 
+    ItemPickerSection *section = [[ItemPickerSection alloc] initWithTitle:title range:NSMakeRange(location, length)];
+    [self.internalSections addObject:section];
+}
+
+- (void)buildSections
+{    
+    self.internalSections = [[NSMutableArray alloc] init];
+    
+    if (!self.sectionsEnabled)
     {
-        self.sections = [NSArray arrayWithObject:@""];
-        self.sectionToNumberOfItems = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:[self.items count]] forKey:@""];
+        [self addSection:@"" location:0 length:[self.items count]];
         return;
     }
-    
-    NSMutableArray *theSections = [[NSMutableArray alloc] init];
-    NSMutableDictionary *sectionCount = [[NSMutableDictionary alloc] init];
-    
-    NSMutableArray *stringItems = nil;
-    if (![self itemsAreStrings] && self.itemValueSelector)
-    {
-        stringItems = [NSMutableArray arrayWithCapacity:[self.items count]];
-    }
+
     
     int itemsInSectionCount = 0;
-    for (NSString __strong *item in self.items) 
-    {
-        if (stringItems)
+    NSString *previousSectionName = nil;
+    
+    for (int i = 0; i < [_items count]; i++)
+    {        
+        NSString *item = [_items objectAtIndex:i];
+        NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
+        if (!previousSectionName)
         {
-            item = (NSString *)[item performSelector:self.itemValueSelector];
-            [stringItems addObject:item];
+            previousSectionName = sectionNameForCurrentItem;
         }
         
-        NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
-        if ([theSections count] == 0) {
-            [theSections addObject:sectionNameForCurrentItem];
-        } 
-        else 
+        if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
         {
-            NSString *lastSectionName = [theSections lastObject];
-            if (![lastSectionName isEqualToString:sectionNameForCurrentItem]) 
-            {
-                [sectionCount setObject:[NSNumber numberWithInt:itemsInSectionCount] forKey:lastSectionName];
-                itemsInSectionCount = 1;
-                [theSections addObject:sectionNameForCurrentItem];
-                continue;
-            }
+            [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount];
+            itemsInSectionCount = 0;
+            previousSectionName = sectionNameForCurrentItem;
         }
-        itemsInSectionCount += 1;
-    }
-    NSString *currentSectionName = [theSections lastObject];
-    [sectionCount setObject:[NSNumber numberWithInt:itemsInSectionCount] forKey:currentSectionName];
-
-    
-    if (stringItems)
-    {
-        self.items = stringItems;
+        
+        itemsInSectionCount += 1;        
     }
     
-    self.sections = theSections;
-    self.sectionToNumberOfItems = sectionCount;
+    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount];            
 }
 
-- (BOOL)itemsAreStrings
+- (void)buildSectionTitles
 {
-    return [[self.items lastObject] isKindOfClass:[NSString class]];
-}
-
-- (void)setItemsValue
-{
-    if (self.itemValueSelector)
+    NSMutableArray *titles = [[NSMutableArray alloc] initWithCapacity:[self.sections count]];
+    for (id section in self.sections)
     {
-        NSMutableArray *stringItems = [NSMutableArray arrayWithCapacity:[self.items count]];
-        for (id thing in self.items)
-        {
-            [stringItems addObject:[thing performSelector:self.itemValueSelector]];
-        }
-        self.items = stringItems;
+        [titles addObject:[section title]];
     }
+    self.sectionTitles = titles;
 }
 
 @end

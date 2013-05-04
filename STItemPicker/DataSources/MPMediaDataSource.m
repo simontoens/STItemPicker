@@ -9,6 +9,7 @@
 {
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
     NSArray *mediaItems = songsQuery.items;
+    NSLog(@"%@", songsQuery.itemSections);
     NSMutableArray *songTitles = [NSMutableArray arrayWithCapacity:[mediaItems count]];
     for (MPMediaItem *item in mediaItems)
     {
@@ -23,6 +24,11 @@
 }
 
 - (BOOL)sectionsEnabled
+{
+    return NO;
+}
+
+- (BOOL)itemsAlreadySorted
 {
     return YES;
 }

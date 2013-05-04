@@ -39,9 +39,14 @@
 - (void)testNonEnglishAlphabetSections
 {
     [self runTestItems:[NSArray arrayWithObjects:@"äa", @"ÄB", @"üC", @"Ücc", @"あんまり覚えてないや", @"öc", @"ÖB", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A",@"O", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader, nil]
+      expectedSections:[NSArray arrayWithObjects:@"A", @"O", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader, nil]
     expectedItemCounts:(int[]){2, 2, 2, 1}
-    itemsAlreadySorted:NO];    
+    itemsAlreadySorted:NO];
+    
+    [self runTestItems:[NSArray arrayWithObjects:@"(äÄÜ)", nil]
+      expectedSections:[NSArray arrayWithObjects:@"A", nil]
+    expectedItemCounts:(int[]){1}
+    itemsAlreadySorted:NO];
 }
 
 - (void)testNumberSections 
@@ -54,10 +59,10 @@
 
 - (void)testSymbolSections 
 {
-    [self runTestItems:[NSArray arrayWithObjects:@"*a", @"!44", @"@444", @"%$#", nil]
-      expectedSections:[NSArray arrayWithObject:kTableSectionHandlerSymbolHeader]
-    expectedItemCounts:(int[]){4}
-    itemsAlreadySorted:YES];    
+    [self runTestItems:[NSArray arrayWithObjects:@"*a", @"(zzz)", @"!44", @"@444", @"%$#", nil]
+      expectedSections:[NSArray arrayWithObjects:kTableSectionHandlerSymbolHeader, kTableSectionHandlerNumberHeader, @"A", @"Z", nil]
+    expectedItemCounts:(int[]){1, 2, 1, 1}
+    itemsAlreadySorted:NO];    
 }
 
 - (void)testAllLetters 
@@ -120,64 +125,21 @@
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemsAlreadySorted = itemsAlreadySorted;
     handler.sectionsEnabled = YES;
-    
-    STAssertEqualObjects(handler.sections, expectedSections, @"Unexpected sections");
-    
-    STAssertEquals([handler.sectionToNumberOfItems count], [handler.sections count], @"Unexpected number of section counts");
-    for (int i = 0; i < [handler.sections count]; i++) {
-        NSString *section = [handler.sections objectAtIndex:i];
-        NSNumber *count = [handler.sectionToNumberOfItems objectForKey:section];
-        STAssertNotNil(count, @"No count for section %@", section);
-        STAssertEquals([count intValue], expectedItemCounts[i], @"Unexpected item count for section: %@", section);
+
+    STAssertEquals([handler.sections count], [expectedSections count], @"Unexpected number of sections");
+
+    int expectedLocation = 0;
+    for (int numSection = 0; numSection < [handler.sections count]; numSection++) {
+        id section = [handler.sections objectAtIndex:numSection];
+        NSString *title = [section title];
+        NSRange range = [section range];
+        STAssertEqualObjects(title, [expectedSections objectAtIndex:numSection], @"Unexpected section title for section: %@", section);        
+        STAssertEquals(range.location, (NSUInteger)expectedLocation, @"Unexpected section location for section: %@", section);
+        STAssertEquals(range.length, (NSUInteger)expectedItemCounts[numSection], @"Unexpected item count for section: %@", section);
+        expectedLocation += range.length;
     }
-}
-
-- (void)testNonStringItems
-{
-    NSArray *items = [NSArray arrayWithObjects:
-                     [Tuple tupleWithValues:@"a" t2:@"b"], 
-                     [Tuple tupleWithValues:@"m" t2:@"n"],
-                     [Tuple tupleWithValues:@"x" t2:@"y"], nil];
     
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
-    handler.itemsAlreadySorted = YES;
-    handler.sectionsEnabled = NO;
-    handler.itemValueSelector = @selector(t1);
-    
-    NSArray *expected = [NSArray arrayWithObjects:@"a", @"m", @"x", nil];
-    STAssertEqualObjects(handler.items, expected, @"Unexpected items");
-}
-
-- (void)testNonStringItemsSortItems
-{
-    NSArray *items = [NSArray arrayWithObjects:
-                      [Tuple tupleWithValues:@"z" t2:@"b"],
-                      [Tuple tupleWithValues:@"f" t2:@"n"],
-                      [Tuple tupleWithValues:@"a" t2:@"y"], nil];
-    
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
-    handler.itemsAlreadySorted = NO;
-    handler.sectionsEnabled = NO;
-    handler.itemValueSelector = @selector(t1);
-    
-    NSArray *expected = [NSArray arrayWithObjects:@"a", @"f", @"z", nil];
-    STAssertEqualObjects(handler.items, expected, @"Unexpected items");
-}
-
-- (void)testNonStringItemsBuildSections
-{
-    NSArray *items = [NSArray arrayWithObjects:
-                      [Tuple tupleWithValues:@"a" t2:@"b"], 
-                      [Tuple tupleWithValues:@"b" t2:@"n"],
-                      [Tuple tupleWithValues:@"c" t2:@"y"], nil];
-    
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
-    handler.itemsAlreadySorted = YES;
-    handler.sectionsEnabled = YES;
-    handler.itemValueSelector = @selector(t1);
-    
-    NSArray *expected = [NSArray arrayWithObjects:@"a", @"b", @"c", nil];
-    STAssertEqualObjects(handler.items, expected, @"Unexpected items");
+    STAssertEqualObjects(handler.sectionTitles, expectedSections, @"Unexpected section titles");
 }
 
 @end

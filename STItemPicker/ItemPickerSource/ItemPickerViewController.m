@@ -117,13 +117,13 @@ UIColor *kGreyBackgroundColor;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
-    return [self.tableSectionHandler.sections objectAtIndex:section];
+    return [[self.tableSectionHandler.sections objectAtIndex:section] title];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-    NSString *s = [self.tableSectionHandler.sections objectAtIndex:section];
-   return [[self.tableSectionHandler.sectionToNumberOfItems objectForKey:s] intValue];
+    NSRange range = [[self.tableSectionHandler.sections objectAtIndex:section] range];
+    return range.length;
 } 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -156,7 +156,7 @@ UIColor *kGreyBackgroundColor;
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
 {
-    return self.tableSectionHandler.sections;
+    return self.tableSectionHandler.sectionTitles;
 }
 
 #pragma mark - Private methods
@@ -233,8 +233,8 @@ UIColor *kGreyBackgroundColor;
     NSInteger row = 0;
     for (int i = 0; i < indexPath.section; i++) 
     {
-        NSString *s = [self.tableSectionHandler.sections objectAtIndex:i];
-        row += [[self.tableSectionHandler.sectionToNumberOfItems objectForKey:s] intValue];
+        NSRange range = [[self.tableSectionHandler.sections objectAtIndex:i] range];
+        row += range.length;
     }
     return row + indexPath.row;
 }
