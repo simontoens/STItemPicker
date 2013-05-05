@@ -3,12 +3,19 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "MPMediaDataSource.h"
 
+@interface MPMediaDataSource() 
+@property(nonatomic, strong) NSArray *sections;
+@end
+
 @implementation MPMediaDataSource
+
+@synthesize sections = _sections;
 
 - (NSArray *)items
 {
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
     NSArray *mediaItems = songsQuery.items;
+    self.sections = songsQuery.itemSections;
     NSMutableArray *songTitles = [NSMutableArray arrayWithCapacity:[mediaItems count]];
     for (MPMediaItem *item in mediaItems)
     {
@@ -24,7 +31,12 @@
 
 - (BOOL)sectionsEnabled
 {
-    return NO;
+    return YES;
+}
+
+- (NSArray *)sections
+{
+    return _sections;
 }
 
 - (BOOL)itemsAlreadySorted
