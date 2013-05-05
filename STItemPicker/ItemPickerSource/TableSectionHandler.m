@@ -18,7 +18,7 @@
 @property(nonatomic, assign) BOOL processed;
 
 @property(nonatomic, strong, readwrite) NSArray *items;
-@property(nonatomic, strong, readwrite) NSMutableArray *internalSections;
+@property(nonatomic, strong, readwrite) NSArray *sections;
 @property(nonatomic, strong, readwrite) NSArray *sectionTitles;
 
 @end
@@ -39,11 +39,11 @@ static NSCharacterSet *kACharacterSet;
 static NSCharacterSet *kOCharacterSet;
 static NSCharacterSet *kUCharacterSet;
 
-@synthesize internalSections = _internalSections;
 @synthesize items = _items;
 @synthesize itemsAlreadySorted = _itemsAlreadySorted;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
+@synthesize sections = _sections;
 @synthesize sectionsEnabled = _sectionsEnabled;
 @synthesize sectionTitles = _sectionTitles;
 
@@ -72,7 +72,13 @@ static NSCharacterSet *kUCharacterSet;
     kUCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"üÜ"];
 }
 
-- (id)initWithItems:(NSArray *)items
+- (id)initWithItems:(NSArray *)items 
+{
+    return [self initWithItems:items sections:nil];
+}
+
+
+- (id)initWithItems:(NSArray *)items sections:(NSArray *)sections
 {
     if (self = [super init]) 
     {
@@ -81,6 +87,7 @@ static NSCharacterSet *kUCharacterSet;
         _itemsAlreadySorted = NO;
         _sectionsEnabled = NO;
         _processed = NO;
+        _sections = sections;
     }
     return self;
 }
@@ -110,7 +117,7 @@ static NSCharacterSet *kUCharacterSet;
 - (NSArray *)sections 
 {
     [self process];
-    return self.internalSections;
+    return _sections;
 }
 
 - (NSArray *)sectionTitles
@@ -215,19 +222,25 @@ static NSCharacterSet *kUCharacterSet;
     }
 }
 
-- (void)addSection:(NSString *)title location:(int)location length:(int)length
+- (void)addSection:(NSString *)title location:(int)location length:(int)length sections:(NSMutableArray *)sections
 {
     ItemPickerSection *section = [[ItemPickerSection alloc] initWithTitle:title range:NSMakeRange(location, length)];
-    [self.internalSections addObject:section];
+    [sections addObject:section];
 }
 
 - (void)buildSections
 {    
-    self.internalSections = [[NSMutableArray alloc] init];
+    if (self.sections)
+    {
+        return;
+    }
+    
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+    self.sections = sections;
     
     if (!self.sectionsEnabled)
     {
-        [self addSection:@"" location:0 length:[self.items count]];
+        [self addSection:@"" location:0 length:[self.items count] sections:sections];
         return;
     }
 
@@ -246,7 +259,7 @@ static NSCharacterSet *kUCharacterSet;
         
         if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
         {
-            [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount];
+            [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount sections:sections];
             itemsInSectionCount = 0;
             previousSectionName = sectionNameForCurrentItem;
         }
@@ -254,7 +267,7 @@ static NSCharacterSet *kUCharacterSet;
         itemsInSectionCount += 1;        
     }
     
-    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount];            
+    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount sections:sections ];
 }
 
 - (void)buildSectionTitles

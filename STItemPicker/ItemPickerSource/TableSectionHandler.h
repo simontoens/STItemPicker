@@ -5,6 +5,7 @@
 @interface TableSectionHandler : NSObject
 
 - (id)initWithItems:(NSArray *)items;
+- (id)initWithItems:(NSArray *)items sections:(NSArray *)sections;
 
 /**
  * Defaults to NO.

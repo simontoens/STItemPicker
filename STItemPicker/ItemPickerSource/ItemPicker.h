@@ -26,8 +26,17 @@
 
 @protocol ItemPickerDelegate <NSObject>
 
-- (void)onPickItem:(NSString *)item atIndex:(NSUInteger)index;
+/**
+ * Called when a leaf item is selected from the ItemPicker's viewController.  
+ * @param pickedItemContexts  An array of ItemPickerContext instances.  The instance at 
+ * beginning of the array represents the first selection, the instance at the end of the array 
+ * represents the final "leaf item" selection.i
+ */
+- (void)onPickItem:(NSArray *)pickedItemContexts;
 
+/**
+ * Callback for the cancel button, if enabled (see showCancelButton above).
+ */
 - (void)onCancel;
 
 @end

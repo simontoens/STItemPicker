@@ -1,5 +1,6 @@
 // @author Simon Toens 03/03/13
 
+#import "ItemPickerContext.h"
 #import "ItemPickerViewController.h"
 #import "MPMediaDataSource.h"
 #import "SampleMediaDataSource.h"
@@ -44,13 +45,15 @@
     [self.navigationController presentModalViewController:mediaPicker.viewController animated:YES];    
 }
 
-- (void)onPickItem:(NSString *)item atIndex:(NSUInteger)index; 
+- (void)onPickItem:(NSArray *)pickedItemContexts
 {
     [self.navigationController dismissModalViewControllerAnimated:YES];
-    if ([self.pickLabel.text length] == 0) {
-        [self.pickLabel setText:@"Picked:"];
+    NSString *selectionChain = @"";
+    for (ItemPickerContext *ctx in pickedItemContexts)
+    {
+        selectionChain = [NSString stringWithFormat:@"%@->%@ (index %i)\n", selectionChain, ctx.selectedItem, ctx.selectedIndex];
     }
-    [self.pickLabel setText:[NSString stringWithFormat:@"%@\n%@ at %i", self.pickLabel.text, item, index]];
+    [self.pickLabel setText:selectionChain];
 }
 
 - (void)onCancel

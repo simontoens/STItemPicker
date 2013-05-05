@@ -55,6 +55,11 @@
     return [self.dataSource respondsToSelector:@selector(sectionsEnabled)] ? self.dataSource.sectionsEnabled : NO;
 }
 
+- (NSArray *)sections
+{
+    return [self.dataSource respondsToSelector:@selector(sections)] ? self.dataSource.sections : nil;
+}
+
 - (UIImage *)tabImage
 {
     return [self.dataSource respondsToSelector:@selector(tabImage)] ? self.dataSource.tabImage : nil;

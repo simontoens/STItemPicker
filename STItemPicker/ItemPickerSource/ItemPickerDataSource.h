@@ -11,6 +11,7 @@
  */
 @protocol ItemPickerDataSource <NSObject>
 
+
 @required
 
 /**
@@ -28,7 +29,6 @@
  * The view's title and the tab's title.  Must return a valid value.
  */
 @property(nonatomic, strong, readonly) NSString *title;
-
 
 
 @optional
@@ -55,6 +55,13 @@
  * Return YES to show section headers and a section index.
  */
 @property(nonatomic, assign, readonly) BOOL sectionsEnabled;
+
+/**
+ * Return an array of instances that have title and range properties (the same properties as MPMediaQuerySection has),
+ * _if_ this DataSource wants to use its own logic to determine section names.  Return nil to delegate to the default
+ * section computation.
+ */
+@property(nonatomic, strong, readonly) NSArray *sections;
 
 /**
  * The image to display in the tab, nil for no image.
