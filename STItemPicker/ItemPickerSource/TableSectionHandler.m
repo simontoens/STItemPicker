@@ -182,43 +182,46 @@ static NSCharacterSet *kUCharacterSet;
 
 - (void)sortItems
 {
-    if (!self.itemsAlreadySorted)
+    if (self.itemsAlreadySorted || _sections != nil)
     {
-        if (self.itemImages)
+        // don't sort items if sections were passed in - they must match the items "as is".
+        return;
+    }
+
+    if (self.itemImages)
+    {
+        for (int i = 0; i < [self.items count]; i++)
         {
-            for (int i = 0; i < [self.items count]; i++)
-            {
-                objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, [self.itemImages objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);
-            }
+            objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, [self.itemImages objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);
+        }
+    }
+
+    self.items = [self.items sortedArrayUsingComparator:^NSComparisonResult(NSString *first, NSString *second) {
+
+        unichar c = [first characterAtIndex:0];
+        if ([kPunctuationCharacterSet characterIsMember:c])
+        {
+            first = [first substringFromIndex:1];
+        }
+        c = [second characterAtIndex:0];
+        if ([kPunctuationCharacterSet characterIsMember:c])
+        {
+            second = [second substringFromIndex:1];
         }
 
-        self.items = [self.items sortedArrayUsingComparator:^NSComparisonResult(NSString *first, NSString *second) {
-
-            unichar c = [first characterAtIndex:0];
-            if ([kPunctuationCharacterSet characterIsMember:c])
-            {
-                first = [first substringFromIndex:1];
-            }
-            c = [second characterAtIndex:0];
-            if ([kPunctuationCharacterSet characterIsMember:c])
-            {
-                second = [second substringFromIndex:1];
-            }
-
-            return [first localizedCaseInsensitiveCompare:second];
-        }];
-        
-        if (self.itemImages) 
+        return [first localizedCaseInsensitiveCompare:second];
+    }];
+    
+    if (self.itemImages) 
+    {
+        NSMutableArray *sortedItemImages = [[NSMutableArray alloc] initWithCapacity:[self.itemImages count]];
+        for (int i = 0; i < [self.items count]; i++)
         {
-            NSMutableArray *sortedItemImages = [[NSMutableArray alloc] initWithCapacity:[self.itemImages count]];
-            for (int i = 0; i < [self.items count]; i++)
-            {
-                [sortedItemImages addObject:objc_getAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey)];
-                objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
-                
-            }
-            self.itemImages = sortedItemImages;
+            [sortedItemImages addObject:objc_getAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey)];
+            objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
+            
         }
+        self.itemImages = sortedItemImages;
     }
 }
 

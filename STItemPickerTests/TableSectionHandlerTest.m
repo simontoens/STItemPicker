@@ -4,11 +4,26 @@
 #import "TableSectionHandler.h"
 #import "Tuple.h"
 
+@interface SectionItem : NSObject
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, assign) NSRange range;
+@end
+
+@implementation SectionItem
+@synthesize title, range;
+@end
+
 @interface TableSectionHandlerTest : SenTestCase
-- (void)runTestItems:(NSArray *)items 
+
+- (void)runTestItems:(NSArray *)items
     expectedSections:(NSArray *)expectedSections 
-  expectedItemCounts:(int[])expectedItemCounts
+  expectedItemCounts:(int[])expectedItemCounts 
   itemsAlreadySorted:(BOOL)itemsAlreadySorted;
+
+- (void)runTestItems:(NSArray *)expectedSections 
+  expectedItemCounts:(int[])expectedItemCounts
+ tableSectionHandler:(TableSectionHandler *)tableSectionHandler;
+
 @end
 
 @implementation TableSectionHandlerTest
@@ -117,7 +132,55 @@
     STAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
 }
 
-- (void)runTestItems:(NSArray *)items 
+- (void)testPrecalculatedSections
+{
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+    SectionItem *sectionItem = [[SectionItem alloc] init];
+    sectionItem.title = @"A";
+    sectionItem.range = NSMakeRange(0, 1);
+    [sections addObject:sectionItem];
+    
+    sectionItem = [[SectionItem alloc] init];
+    sectionItem.title = @"Z";
+    sectionItem.range = NSMakeRange(1, 2);
+    [sections addObject:sectionItem];
+    
+    NSArray *items = [NSArray arrayWithObjects:@"abc", @"z1", @"z2", nil];
+    
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sections:sections];
+    handler.itemsAlreadySorted = YES;
+    handler.sectionsEnabled = YES;
+    
+    [self runTestItems:[NSArray arrayWithObjects:@"A", @"Z", nil]
+    expectedItemCounts:(int[]){1, 2}
+   tableSectionHandler:handler];
+}
+
+- (void)testPrecalculatedSectionsItemsAreNotSorted
+{
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+    SectionItem *sectionItem = [[SectionItem alloc] init];
+    sectionItem.title = @"Z";
+    sectionItem.range = NSMakeRange(0, 1);
+    [sections addObject:sectionItem];
+    
+    sectionItem = [[SectionItem alloc] init];
+    sectionItem.title = @"A";
+    sectionItem.range = NSMakeRange(1, 2);
+    [sections addObject:sectionItem];
+    
+    NSArray *items = [NSArray arrayWithObjects:@"z1", @"z2", @"a", nil];
+    
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sections:sections];
+    handler.sectionsEnabled = YES;
+    handler.itemsAlreadySorted = NO; // but sort should not happen!
+    
+    [self runTestItems:[NSArray arrayWithObjects:@"Z", @"A", nil]
+    expectedItemCounts:(int[]){1, 2}
+   tableSectionHandler:handler];
+}
+
+- (void)runTestItems:(NSArray *)items
     expectedSections:(NSArray *)expectedSections 
   expectedItemCounts:(int[])expectedItemCounts 
   itemsAlreadySorted:(BOOL)itemsAlreadySorted
@@ -125,7 +188,13 @@
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemsAlreadySorted = itemsAlreadySorted;
     handler.sectionsEnabled = YES;
+    [self runTestItems:expectedSections expectedItemCounts:expectedItemCounts tableSectionHandler:handler];
+}
 
+- (void)runTestItems:(NSArray *)expectedSections 
+  expectedItemCounts:(int[])expectedItemCounts 
+ tableSectionHandler:(TableSectionHandler *)handler
+{
     STAssertEquals([handler.sections count], [expectedSections count], @"Unexpected number of sections");
 
     int expectedLocation = 0;
