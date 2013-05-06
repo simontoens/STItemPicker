@@ -3,10 +3,8 @@
 #import <Foundation/Foundation.h>
 
 /**
- * The ItemPickerDataSource Protocol encapsulates data access to the data that drives the ItemPicker UI.
+ * The ItemPickerDataSource Protocol encapsulates data access and behavior that drives the ItemPicker UI.
  * 
- * Many of the properties are optional.
- *
  * The ItemPicker code ensures that properties are not referenced multiple times unecessarily.
  */
 @protocol ItemPickerDataSource <NSObject>
