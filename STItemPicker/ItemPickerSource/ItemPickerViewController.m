@@ -3,26 +3,30 @@
 #import "ItemPickerContext.h"
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
+#import "Stack.h"
 #import "TableHeaderViewContainer.h"
 #import "TableSectionHandler.h"
 #import "TableViewCell.h"
 #import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
+- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
+
 - (void)configureHeaderView;
 - (void)configureNavigationItem;
 - (void)configureTitle;
-- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource;
+
 - (UIImage *)getCellImageForRow:(NSUInteger)row;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 
 /**
  * Returns an array of ItemPickerContext instances.
  */
-- (NSArray *)getAllContexts;
 - (ItemPickerContext *)getPreviousContext;
 
-@property(nonatomic, strong) ItemPickerContext *context;
+@property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
+@property(nonatomic, strong) Stack *contextStack;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 
 @end
@@ -31,7 +35,8 @@
 
 UIColor *kGreyBackgroundColor;
 
-@synthesize context = _context;
+@synthesize contextStack = _contextStack;
+@synthesize dataSource = _dataSource;
 @synthesize itemPickerDelegate;
 @synthesize showCancelButton;
 @synthesize tableSectionHandler = _tableSectionHandler;
@@ -39,14 +44,20 @@ UIColor *kGreyBackgroundColor;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
-    return [self initWithNibName:@"PlainItemPickerTableView" dataSource:dataSource];
+    return [self initWithDataSource:dataSource contextStack:[[Stack alloc] init]];    
 }
 
-- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack
+{
+    return [self initWithNibName:@"PlainItemPickerTableView" dataSource:dataSource contextStack:contextStack];
+}
+
+- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack
 {
     if (self = [super initWithNibName:nibName bundle:nil]) 
     {
-        _context = [[ItemPickerContext alloc] initWithDataSource:dataSource];
+        _contextStack = contextStack;
+        _dataSource = dataSource;
         _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items sections:dataSource.sections];
         _tableSectionHandler.itemsAlreadySorted = dataSource.itemsAlreadySorted;
         _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
@@ -75,6 +86,16 @@ UIColor *kGreyBackgroundColor;
     [self configureTitle];
 }
 
+-(void) viewWillDisappear:(BOOL)animated {
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) 
+    {
+        // back button was pressed.  We know this is true because self is no longer
+        // in the navigation stack.
+        [self.contextStack pop];
+    }
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - UITableViewDelegate methods
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -90,21 +111,25 @@ UIColor *kGreyBackgroundColor;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    self.context.selectedIndex = [self getItemRow:indexPath];
-    self.context.selectedItem = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
+    ItemPickerContext *ctx = [[ItemPickerContext alloc] initWithDataSource:self.dataSource];
+    ctx.selectedIndex = [self getItemRow:indexPath];
+    ctx.selectedItem = [self.tableSectionHandler.items objectAtIndex:[self getItemRow:indexPath]];
     
-    id<ItemPickerDataSource> nextDataSource = [self.context.dataSource getNextDataSourceForSelectedRow:self.context.selectedIndex
-                                                                                          selectedItem:self.context.selectedItem];    
-    if (nextDataSource) 
+    [self.contextStack push:ctx];
+    
+    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSourceForSelectedRow:ctx.selectedIndex
+                                                                                  selectedItem:ctx.selectedItem];
+    if (nextDataSource)
     {
-        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource];
+        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource 
+                                                                                       contextStack:self.contextStack];
         controller.itemPickerDelegate = self.itemPickerDelegate;
         controller.showCancelButton = self.showCancelButton;
         [self.navigationController pushViewController:controller animated:YES];
     } 
-    else 
+    else
     {
-        [self.itemPickerDelegate onPickItem:[self getAllContexts]];
+        [self.itemPickerDelegate onPickItem:[self.contextStack allObjects]];
     }
 }
 
@@ -175,20 +200,10 @@ UIColor *kGreyBackgroundColor;
     return cellImage;
 }
 
-- (NSArray *)getAllContexts
-{
-    NSMutableArray *selections = [[NSMutableArray alloc] initWithCapacity:[self.navigationController.viewControllers count]];
-    for (ItemPickerViewController *vc in self.navigationController.viewControllers) 
-    {
-        [selections addObject:vc.context];
-    }
-    return selections;
-}
-
 - (ItemPickerContext *)getPreviousContext
 {
-    NSArray *selections = [self getAllContexts];
-    return [selections count] >= 2 ? [selections objectAtIndex:[selections count] - 2] : nil;
+    NSArray *contexts = [self.contextStack allObjects];
+    return [contexts count] >= 2 ? [contexts objectAtIndex:[contexts count] - 2] : nil;
 }
 
 - (ItemPickerContext *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
@@ -198,13 +213,13 @@ UIColor *kGreyBackgroundColor;
 
 - (void)configureHeaderView 
 {        
-    UIImage *headerImage = self.context.dataSource.headerImage;
+    UIImage *headerImage = self.dataSource.headerImage;
     if (headerImage)
     {
-        NSArray *selections = [self getAllContexts];
-        NSString *grandfatherSelection = [self getContextFrom:selections atOffsetFromEnd:1].selectedItem;
-        NSString *parentSelection = [self getContextFrom:selections atOffsetFromEnd:2].selectedItem;
-        NSString *numItems = [NSString stringWithFormat:@"%i %@", [self.tableSectionHandler.items count], self.context.dataSource.title];
+        NSArray *contexts = [self.contextStack allObjects];
+        NSString *grandfatherSelection = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;
+        NSString *parentSelection = [self getContextFrom:contexts atOffsetFromEnd:2].selectedItem;
+        NSString *numItems = [NSString stringWithFormat:@"%i %@", [self.tableSectionHandler.items count], self.dataSource.title];
         
         self.tableView.tableHeaderView = [TableHeaderViewContainer newTableHeaderView:headerImage label1:grandfatherSelection label2:parentSelection label3:numItems];
     }
@@ -213,7 +228,7 @@ UIColor *kGreyBackgroundColor;
 - (void)configureTitle 
 {
     ItemPickerContext *prevSelection = [self getPreviousContext];
-    self.title = prevSelection ? prevSelection.selectedItem : self.context.dataSource.title;
+    self.title = prevSelection ? prevSelection.selectedItem : self.dataSource.title;
 }
 
 - (void)configureNavigationItem
