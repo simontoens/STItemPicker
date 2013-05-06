@@ -6,7 +6,7 @@
 @implementation ItemPickerContext
 
 @synthesize dataSource = _dataSource;
-@synthesize selectedIndex, selectedItem;
+@synthesize autoSelected, selectedIndex, selectedItem;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
 {

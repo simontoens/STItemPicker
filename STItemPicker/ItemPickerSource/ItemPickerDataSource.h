@@ -68,4 +68,9 @@
  */
 @property(nonatomic, assign, readonly) UIImage *tabImage;
 
+/**
+ * If items for this data source have a single element, automatically select it.  Defaults to NO.
+ */
+@property(nonatomic, assign, readonly) BOOL autoSelectSingleItem;
+
 @end

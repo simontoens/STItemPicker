@@ -7,8 +7,9 @@
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
 
-@property (nonatomic, strong, readonly) id<ItemPickerDataSource>dataSource;
-@property (nonatomic, assign) NSUInteger selectedIndex;
-@property (nonatomic, strong) NSString *selectedItem;
+@property(nonatomic, strong, readonly) id<ItemPickerDataSource>dataSource;
+@property(nonatomic, assign) NSUInteger selectedIndex;
+@property(nonatomic, strong) NSString *selectedItem;
+@property(nonatomic, assign) BOOL autoSelected;
 
 @end

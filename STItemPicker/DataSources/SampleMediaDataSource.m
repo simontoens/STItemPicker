@@ -170,6 +170,11 @@ static UIImage *kDefaultArtwork;
     }
 }
 
+- (BOOL)autoSelectSingleItem
+{
+    return [self albumsList];
+}
+
 # pragma mark - Private methods
 
 - (BOOL)artistsList 

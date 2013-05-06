@@ -65,4 +65,9 @@
     return [self.dataSource respondsToSelector:@selector(tabImage)] ? self.dataSource.tabImage : nil;
 }
 
+- (BOOL)autoSelectSingleItem
+{
+    return [self.dataSource respondsToSelector:@selector(autoSelectSingleItem)] ? self.dataSource.autoSelectSingleItem : NO;
+}
+
 @end
