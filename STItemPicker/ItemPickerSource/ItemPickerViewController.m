@@ -10,8 +10,8 @@
 #import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
-- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource items:(NSArray *)items contextStack:(Stack *)contextStack;
+- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource items:(NSArray *)items contextStack:(Stack *)contextStack;
 
 - (void)configureHeaderView;
 - (void)configureNavigationItem;
@@ -45,21 +45,24 @@ UIColor *kGreyBackgroundColor;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
-    return [self initWithDataSource:dataSource contextStack:[[Stack alloc] init]];    
+    return [self initWithDataSource:dataSource items:dataSource.items contextStack:[[Stack alloc] init]];    
 }
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource items:(NSArray *)items contextStack:(Stack *)contextStack
 {
-    return [self initWithNibName:@"PlainItemPickerTableView" dataSource:dataSource contextStack:contextStack];
+    return [self initWithNibName:@"PlainItemPickerTableView" dataSource:dataSource items:items contextStack:contextStack];
 }
 
-- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack
+- (id)initWithNibName:(NSString *)nibName 
+           dataSource:(id<ItemPickerDataSource>)dataSource 
+                items:(NSArray *)items 
+         contextStack:(Stack *)contextStack
 {
     if (self = [super initWithNibName:nibName bundle:nil]) 
     {
         _contextStack = contextStack;
         _dataSource = dataSource;
-        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:dataSource.items sections:dataSource.sections];
+        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:items sections:dataSource.sections];
         _tableSectionHandler.itemsAlreadySorted = dataSource.itemsAlreadySorted;
         _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
         _tableSectionHandler.itemImages = dataSource.itemImages;
@@ -183,17 +186,19 @@ UIColor *kGreyBackgroundColor;
                                                                              selectedItem:ctx.selectedItem];        
     if (nextDataSource)
     {
+        NSArray *items = nextDataSource.items;
+        
         if (nextDataSource.autoSelectSingleItem)
         {
-            // FIXME - items on datasource should only be dereferenced once - not here and in ctor
-            if ([nextDataSource.items count] == 1)
+            if ([items count] == 1)
             {
-                [self selectedItemAtIndex:0 fromItems:nextDataSource.items dataSource:nextDataSource autoSelected:YES];
+                [self selectedItemAtIndex:0 fromItems:items dataSource:nextDataSource autoSelected:YES];
                 return;
             }
         }
         
         ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource 
+                                                                                              items:items
                                                                                        contextStack:self.contextStack];
         controller.itemPickerDelegate = self.itemPickerDelegate;
         controller.showCancelButton = self.showCancelButton;
