@@ -44,8 +44,7 @@
 /**
  * Optional images to display next to each item.  The length of the returned NSArray
  * must have the same length as the items NSArray.  Elements in the returned NSArray
- * may be NSNull for those items that don't have an image.  Return nil if 
- * there aren't any images to display for any items.
+ * may be NSNull for those items that don't have an image.
  */
 @property(nonatomic, strong, readonly) NSArray *itemImages;
 
