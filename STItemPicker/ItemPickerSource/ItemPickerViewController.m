@@ -21,9 +21,6 @@
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 - (void)selectedItemAtIndex:(NSUInteger)index fromItems:(NSArray *)items dataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
 
-/**
- * Returns an array of ItemPickerContext instances.
- */
 - (ItemPickerContext *)getPreviousContext;
 
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
