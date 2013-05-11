@@ -5,4 +5,8 @@
 
 @interface MPMediaDataSource : NSObject <ItemPickerDataSource>
 
++ (id)artistsDataSource;
++ (id)albumsDataSource;
++ (id)songsDataSource;
+
 @end

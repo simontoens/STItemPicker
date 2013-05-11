@@ -32,7 +32,7 @@
 @optional
 
 /**
- * Return YES if items are sorted alphanumerically, NO otherwise.
+ * Return YES if items are sorted alphanumerically, NO otherwise.  Defaults to NO.
  */
 @property(nonatomic, assign, readonly) BOOL itemsAlreadySorted;
 
@@ -49,7 +49,7 @@
 @property(nonatomic, strong, readonly) NSArray *itemImages;
 
 /**
- * Return YES to show section headers and a section index.
+ * Return YES to show section headers and a section index.  Defaults to NO.
  */
 @property(nonatomic, assign, readonly) BOOL sectionsEnabled;
 
@@ -63,7 +63,7 @@
 @property(nonatomic, strong, readonly) NSArray *sections;
 
 /**
- * The image to display in the tab, nil for no image.
+ * Optional image to display in the tab.
  */
 @property(nonatomic, assign, readonly) UIImage *tabImage;
 

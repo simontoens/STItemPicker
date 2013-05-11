@@ -34,7 +34,12 @@
 
 - (IBAction)onMPMediaDataSource:(id)sender
 {
-    [self showItemPickerWithDataSources:[NSArray arrayWithObject:[[MPMediaDataSource alloc] init]] showCancelButton:NO];    
+    [self showItemPickerWithDataSources:
+        [NSArray arrayWithObjects:
+            [MPMediaDataSource artistsDataSource],
+            [MPMediaDataSource albumsDataSource],
+            [MPMediaDataSource songsDataSource],
+            nil] showCancelButton:NO];
 }
 
 - (void)showItemPickerWithDataSources:(NSArray *)dataSources showCancelButton:(BOOL)showCancelButton
