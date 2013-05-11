@@ -163,7 +163,7 @@ static UIImage *kDefaultArtwork;
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:[mediaItems count]];
     NSMutableArray *images = nil;
     BOOL loadItemImages = [self isAlbumList];
-    BOOL loadHeaderImage = [self isSongList];
+    BOOL loadHeaderImage = [self isSongList] && [_query.filterPredicates count] > 1;
     if (loadItemImages)
     {
         images = [NSMutableArray arrayWithCapacity:[mediaItems count]];
