@@ -49,8 +49,7 @@
 
 - (BOOL)sectionsEnabled
 {
-    BOOL sectionsEnabled = self.query.groupingType == MPMediaGroupingArtist;
-    return sectionsEnabled;
+    return self.query.groupingType == MPMediaGroupingArtist;
 }
 
 - (NSArray *)sections
@@ -63,14 +62,24 @@
     return YES;
 }
 
+- (BOOL)autoSelectSingleItem
+{
+    return self.query.groupingType == MPMediaGroupingAlbum;
+}
+
 - (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
 {
-    MPMediaGrouping grouping = self.query.groupingType;
-    if (grouping == MPMediaGroupingArtist)
+    if (self.query.groupingType == MPMediaGroupingArtist)
     {
         MPMediaQuery *nextQuery = [MPMediaQuery albumsQuery];
         [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:item forProperty:MPMediaItemPropertyArtist]];
         return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyAlbumTitle];
+    }
+    else if (self.query.groupingType == MPMediaGroupingAlbum)
+    {
+        MPMediaQuery *nextQuery = [MPMediaQuery songsQuery];        
+        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:item forProperty:MPMediaItemPropertyAlbumTitle]];
+        return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyTitle];
     }
     return nil;
 }
