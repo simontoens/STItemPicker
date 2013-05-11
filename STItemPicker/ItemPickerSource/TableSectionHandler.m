@@ -232,21 +232,22 @@ static NSCharacterSet *kUCharacterSet;
 }
 
 - (void)buildSections
-{    
-    if (self.sections)
+{        
+    if (self.sections && self.sectionsEnabled)
     {
+        // sections are pre-calculated, just pass them through
         return;
     }
     
     NSMutableArray *sections = [[NSMutableArray alloc] init];
     self.sections = sections;
-    
+
     if (!self.sectionsEnabled)
     {
+
         [self addSection:@"" location:0 length:[self.items count] sections:sections];
         return;
     }
-
     
     int itemsInSectionCount = 0;
     NSString *previousSectionName = nil;
