@@ -4,6 +4,7 @@
 #import "MPMediaDataSource.h"
 
 @interface MPMediaDataSource() 
+@property(nonatomic, strong) NSArray *images;
 @property(nonatomic, strong) NSArray *items;
 @property(nonatomic, strong) NSArray *sections;
 
@@ -15,7 +16,8 @@
 
 @implementation MPMediaDataSource
 
-@synthesize  itemProperty = _itemProperty;
+@synthesize images = _images;
+@synthesize itemProperty = _itemProperty;
 @synthesize query = _query;
 
 @synthesize items = _items;
@@ -40,6 +42,12 @@
 {
     [self runQuery];
     return _items;
+}
+
+- (NSArray *)itemImages
+{
+    [self runQuery];
+    return _images;
 }
 
 - (NSString *)title
@@ -86,27 +94,35 @@
 
 - (void)runQuery
 {
-    BOOL collections = [_query.filterPredicates count] > 0;
-    NSArray *mediaItems = collections ? _query.collections : _query.items;
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:[mediaItems count]];    
-    if (collections) 
+    if (_items)
     {
-        _sections = _query.collectionSections;
-        for (MPMediaItemCollection *collection in mediaItems)
+        // already ran the query
+        return;    
+    }
+    
+    NSArray *mediaItems = _query.collections;
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:[mediaItems count]];
+    NSMutableArray *images = nil;
+    BOOL loadImages = _query.groupingType == MPMediaGroupingAlbum;
+    if (loadImages)
+    {
+        images = [NSMutableArray arrayWithCapacity:[mediaItems count]];
+    }
+    
+    _sections = _query.collectionSections;
+    for (MPMediaItemCollection *collection in mediaItems)
+    {
+        MPMediaItem *item = [collection representativeItem];
+        [items addObject:[item valueForProperty:_itemProperty]];
+        if (loadImages)
         {
-            MPMediaItem *item = [collection representativeItem];
-            [items addObject:[item valueForProperty:_itemProperty]];
-            continue;
+            MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
+            CGSize size = artwork.bounds.size;
+            [images addObject:[artwork imageWithSize:CGSizeMake(size.height, size.width)]];
         }
     }
-    else
-    {
-        _sections = _query.itemSections;
-        for (MPMediaItem *item in mediaItems)
-        {
-            [items addObject:[item valueForProperty:_itemProperty]];
-        }
-    }
+    
+    _images = images;
     _items = items;
 }
 

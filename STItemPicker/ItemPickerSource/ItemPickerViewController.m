@@ -19,9 +19,8 @@
 
 - (UIImage *)getCellImageForRow:(NSUInteger)row;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
-- (void)selectedItemAtIndex:(NSUInteger)index fromItems:(NSArray *)items dataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
-
 - (ItemPickerContext *)getPreviousContext;
+- (void)selectedItemAtIndex:(NSUInteger)index fromItems:(NSArray *)items dataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
 
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, strong) Stack *contextStack;
