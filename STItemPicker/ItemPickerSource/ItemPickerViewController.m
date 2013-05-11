@@ -228,7 +228,7 @@ UIColor *kGreyBackgroundColor;
 - (ItemPickerContext *)getPreviousContext
 {
     NSArray *contexts = [self.contextStack allObjects];
-    return [contexts count] >= 2 ? [contexts objectAtIndex:[contexts count] - 2] : nil;
+    return [contexts count] > 0 ? [contexts objectAtIndex:[contexts count] - 1] : nil;
 }
 
 - (ItemPickerContext *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
