@@ -76,7 +76,7 @@ UIColor *kGreyBackgroundColor;
         _dataSource = dataSource;
         _items = items;
         
-        _multiSelect = YES;
+        _multiSelect = NO;
         _selectedItems = [[NSMutableArray alloc] init];
         _showCancelButton = NO;
 
