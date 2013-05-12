@@ -142,12 +142,6 @@ static UIImage *kDefaultArtwork;
     return nil;
 }
 
-
-- (BOOL)itemsAlreadySorted 
-{
-    return NO;
-}
-
 - (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
 {
     NSString *title = nil;

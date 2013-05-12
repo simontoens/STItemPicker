@@ -308,7 +308,6 @@ UIColor *kGreyBackgroundColor;
         self.items = self.dataSource.items;
     }
     self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:self.items sections:self.dataSource.sections];
-    self.tableSectionHandler.itemsAlreadySorted = self.dataSource.itemsAlreadySorted;
     self.tableSectionHandler.sectionsEnabled = self.dataSource.sectionsEnabled;
     self.tableSectionHandler.itemImages = self.dataSource.itemImages;
 }

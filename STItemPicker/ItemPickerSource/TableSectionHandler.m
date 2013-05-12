@@ -40,7 +40,6 @@ static NSCharacterSet *kOCharacterSet;
 static NSCharacterSet *kUCharacterSet;
 
 @synthesize items = _items;
-@synthesize itemsAlreadySorted = _itemsAlreadySorted;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
@@ -84,7 +83,6 @@ static NSCharacterSet *kUCharacterSet;
     {
         [Preconditions assertNotEmpty:items message:@"items cannot be nil or empty"];
         _items = items;
-        _itemsAlreadySorted = NO;
         _sectionsEnabled = NO;
         _processed = NO;
         _sections = sections;
@@ -180,11 +178,15 @@ static NSCharacterSet *kUCharacterSet;
     }
 }
 
+- (BOOL)shouldBuildSections
+{
+    return self.sectionsEnabled && !self.sections;
+}
+
 - (void)sortItems
 {
-    if (self.itemsAlreadySorted || _sections != nil)
+    if (![self shouldBuildSections])
     {
-        // don't sort items if sections were passed in - they must match the items "as is".
         return;
     }
 
@@ -233,45 +235,44 @@ static NSCharacterSet *kUCharacterSet;
 
 - (void)buildSections
 {        
-    if (self.sections && self.sectionsEnabled)
+    if ([self shouldBuildSections])
     {
-        // sections are pre-calculated, just pass them through
-        return;
-    }
-    
-    NSMutableArray *sections = [[NSMutableArray alloc] init];
-    self.sections = sections;
-
-    if (!self.sectionsEnabled)
-    {
-
-        [self addSection:@"" location:0 length:[self.items count] sections:sections];
-        return;
-    }
-    
-    int itemsInSectionCount = 0;
-    NSString *previousSectionName = nil;
-    
-    for (int i = 0; i < [_items count]; i++)
-    {        
-        NSString *item = [_items objectAtIndex:i];
-        NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
-        if (!previousSectionName)
-        {
-            previousSectionName = sectionNameForCurrentItem;
+        NSMutableArray *sections = [[NSMutableArray alloc] init];
+        int itemsInSectionCount = 0;
+        NSString *previousSectionName = nil;
+        
+        for (int i = 0; i < [_items count]; i++)
+        {        
+            NSString *item = [_items objectAtIndex:i];
+            NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
+            if (!previousSectionName)
+            {
+                previousSectionName = sectionNameForCurrentItem;
+            }
+            
+            if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
+            {
+                [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount sections:sections];
+                itemsInSectionCount = 0;
+                previousSectionName = sectionNameForCurrentItem;
+            }
+            
+            itemsInSectionCount += 1;        
         }
         
-        if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
-        {
-            [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount sections:sections];
-            itemsInSectionCount = 0;
-            previousSectionName = sectionNameForCurrentItem;
-        }
-        
-        itemsInSectionCount += 1;        
+        [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount sections:sections ];
+        self.sections = sections;
     }
-    
-    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount sections:sections ];
+    else
+    {
+        if (!self.sections)
+        {
+            // we don't have precalculated sections, default to single section
+            NSMutableArray *sections = [[NSMutableArray alloc] init];
+            [self addSection:@"" location:0 length:[self.items count] sections:sections];
+            self.sections = sections;
+        }
+    }
 }
 
 - (void)buildSectionTitles

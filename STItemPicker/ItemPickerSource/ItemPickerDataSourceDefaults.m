@@ -35,11 +35,6 @@
     return self.dataSource.title;
 }
 
-- (BOOL)itemsAlreadySorted
-{
-    return [self.dataSource respondsToSelector:@selector(itemsAlreadySorted)] ? self.dataSource.itemsAlreadySorted : NO;
-}
-
 - (UIImage *)headerImage
 {
     return [self.dataSource respondsToSelector:@selector(headerImage)] ? self.dataSource.headerImage : nil;

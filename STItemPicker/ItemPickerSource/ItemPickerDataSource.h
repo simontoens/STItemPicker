@@ -32,14 +32,18 @@
 @optional
 
 /**
- * Return YES if items are sorted alphanumerically, NO otherwise.  Defaults to NO.
+ * Return YES to show section headers and a section index.  Defaults to NO.
+ * The items will be sorted and sections will be calculated, unless sections are explicitly specified.
  */
-@property(nonatomic, assign, readonly) BOOL itemsAlreadySorted;
+@property(nonatomic, assign, readonly) BOOL sectionsEnabled;
 
 /**
- * Optional table view header image, return nil if no header image.
+ * Return an array of instances that have title and range properties (the same properties as MPMediaQuerySection has),
+ * _if_ this DataSource wants to use its own logic to determine section names.
+ * If this method returns sections to use, they must match the items; if this method returns a non nil value, the items
+ * will not be sorted or otherwise modified.
  */
-@property(nonatomic, strong, readonly) UIImage *headerImage;
+@property(nonatomic, strong, readonly) NSArray *sections;
 
 /**
  * Optional images to display next to each item.  The length of the returned NSArray
@@ -49,18 +53,9 @@
 @property(nonatomic, strong, readonly) NSArray *itemImages;
 
 /**
- * Return YES to show section headers and a section index.  Defaults to NO.
+ * Optional table view header image, return nil if no header image.
  */
-@property(nonatomic, assign, readonly) BOOL sectionsEnabled;
-
-/**
- * Return an array of instances that have title and range properties (the same properties as MPMediaQuerySection has),
- * _if_ this DataSource wants to use its own logic to determine section names.  Return nil to delegate to the default
- * section computation.
- * If this method returns sections to use, they must match the items - if this method returns a non nil value, the items
- * will not be sorted or otherwise modified.
- */
-@property(nonatomic, strong, readonly) NSArray *sections;
+@property(nonatomic, strong, readonly) UIImage *headerImage;
 
 /**
  * Optional image to display in the tab.

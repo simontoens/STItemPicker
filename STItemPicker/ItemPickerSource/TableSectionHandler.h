@@ -8,11 +8,6 @@
 - (id)initWithItems:(NSArray *)items sections:(NSArray *)sections;
 
 /**
- * Defaults to NO.
- */
-@property(nonatomic, assign) BOOL itemsAlreadySorted;
-
-/**
  * If YES, creates alphabetical sections based on the first letter of each item.
  *
  * Defaults to NO.
