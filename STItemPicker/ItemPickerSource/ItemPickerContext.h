@@ -3,7 +3,7 @@
 #import <Foundation/Foundation.h>
 #import "ItemPickerDataSource.h"
 
-@interface ItemPickerContext : NSObject
+@interface ItemPickerContext : NSObject <NSCopying>
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
 

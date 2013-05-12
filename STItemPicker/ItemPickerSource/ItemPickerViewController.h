@@ -10,6 +10,7 @@
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
 
 @property(nonatomic, assign) BOOL showCancelButton;
+@property(nonatomic, assign) BOOL multiSelect;
 
 @property(nonatomic, weak) id<ItemPickerDelegate>itemPickerDelegate;
 

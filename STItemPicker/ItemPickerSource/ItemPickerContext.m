@@ -18,6 +18,37 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object
+{
+    if (self == object)
+    {
+        return YES;
+    }
+    if (![object isKindOfClass:[ItemPickerContext class]])
+    {
+        return NO;
+    }
+    ItemPickerContext *other = (ItemPickerContext *)object;
+    return self.selectedIndex == other.selectedIndex && [self.selectedItem isEqualToString:other.selectedItem];
+}
+
+- (NSUInteger)hash 
+{
+    int prime = 31;
+    int result = prime + selectedIndex;
+    result = prime * result + [self.selectedItem hash];
+    return result;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    ItemPickerContext *copy = [[ItemPickerContext alloc] initWithDataSource:self.dataSource];
+    copy.autoSelected = self.autoSelected;
+    copy.selectedIndex = self.selectedIndex;
+    copy.selectedItem = [self.selectedItem copyWithZone:zone];
+    return copy;
+}
+
 - (NSString *)description 
 {
     return [NSString stringWithFormat:@"%@ %i %@", self.dataSource, self.selectedIndex, self.selectedItem];

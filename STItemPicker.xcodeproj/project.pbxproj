@@ -18,6 +18,8 @@
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
 		BE386309172F867B0059378C /* PlainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE386308172F867B0059378C /* PlainTableViewCell.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */; };
+		BE40E317173F4F2F0040038C /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D351707DF4A002042CD /* ItemPickerContext.m */; };
+		BE40E319173F4F3A0040038C /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
 		BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
 		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
@@ -51,6 +53,7 @@
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
 		BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */; };
+		BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */; };
 		BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */; };
 		BEF2916D1730C96D002D3BB3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
@@ -131,6 +134,7 @@
 		BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preconditions.h; path = Submodules/STObjCToolbelt/Source/Preconditions.h; sourceTree = "<group>"; };
 		BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preconditions.m; path = Submodules/STObjCToolbelt/Source/Preconditions.m; sourceTree = "<group>"; };
 		BEEB9D1316FFEA760021E035 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPickerContextTest.m; sourceTree = "<group>"; };
 		BEF291661730C7FA002D3BB3 /* MPMediaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPMediaDataSource.h; path = DataSources/MPMediaDataSource.h; sourceTree = "<group>"; };
 		BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPMediaDataSource.m; path = DataSources/MPMediaDataSource.m; sourceTree = "<group>"; };
 		BEF2916A1730C900002D3BB3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -263,6 +267,7 @@
 		BEEB9CCC16FFE3B60021E035 /* STItemPickerTests */ = {
 			isa = PBXGroup;
 			children = (
+				BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */,
 				BEEB9CE116FFE4DC0021E035 /* TableSectionHandlerTest.m */,
 				BEEB9CCD16FFE3B60021E035 /* Supporting Files */,
 			);
@@ -480,8 +485,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE40E319173F4F3A0040038C /* SampleCityDataSource.m in Sources */,
+				BE40E317173F4F2F0040038C /* ItemPickerContext.m in Sources */,
 				BEEB9CE316FFE50A0021E035 /* TableSectionHandlerTest.m in Sources */,
 				BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */,
+				BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

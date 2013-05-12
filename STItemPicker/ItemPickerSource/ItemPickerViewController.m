@@ -19,13 +19,24 @@
 - (void)configureTitle;
 
 - (UIImage *)getCellImageForRow:(NSUInteger)row;
+- (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath 
+                                      items:(NSArray *)items 
+                                 dataSource:(id<ItemPickerDataSource>)dataSource
+                               autoSelected:(BOOL)autoSelected;
 - (NSInteger)getItemRow:(NSIndexPath *)indexPath;
 - (ItemPickerContext *)getPreviousContext;
-- (void)selectedItemAtIndex:(NSUInteger)index fromItems:(NSArray *)items dataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
+- (void)handleSelection:(NSIndexPath *)indexPath;
+- (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
+- (void)pushDataSource:(id<ItemPickerDataSource>)dataSource;
+- (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath 
+                  fromItems:(NSArray *)items 
+                 dataSource:(id<ItemPickerDataSource>)dataSource 
+               autoSelected:(BOOL)autoSelected;
 
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, strong) NSArray *items;
 @property(nonatomic, strong) Stack *contextStack;
+@property(nonatomic, strong) NSMutableArray *selectedItems;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 
 @end
@@ -38,7 +49,9 @@ UIColor *kGreyBackgroundColor;
 @synthesize dataSource = _dataSource;
 @synthesize items = _items;
 @synthesize itemPickerDelegate;
-@synthesize showCancelButton;
+@synthesize multiSelect = _multiSelect;
+@synthesize selectedItems = _selectedItems;
+@synthesize showCancelButton = _showCancelButton;
 @synthesize tableSectionHandler = _tableSectionHandler;
 
 
@@ -62,6 +75,10 @@ UIColor *kGreyBackgroundColor;
         _contextStack = contextStack;
         _dataSource = dataSource;
         _items = items;
+        
+        _multiSelect = YES;
+        _selectedItems = [[NSMutableArray alloc] init];
+        _showCancelButton = NO;
 
         if (self.tabBarItem) 
         {
@@ -110,8 +127,7 @@ UIColor *kGreyBackgroundColor;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    int selectedRow = [self getItemRow:indexPath];
-    [self selectedItemAtIndex:selectedRow fromItems:self.tableSectionHandler.items dataSource:self.dataSource autoSelected:NO];
+    [self selectedItemAtIndexPath:indexPath fromItems:self.tableSectionHandler.items dataSource:self.dataSource autoSelected:NO];
 }
 
 #pragma mark - UITableViewDataSource protocol
@@ -154,9 +170,9 @@ UIColor *kGreyBackgroundColor;
         {
             cell = [TableViewCellContainer newPlainTableViewCell];
         }        
-    }
-    
+    }    
     cell.label.text = [self.tableSectionHandler.items objectAtIndex:row];
+    cell.accessoryType = [self isCellSelectedAtIndexPath:indexPath] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     return cell; 
 }
 
@@ -167,45 +183,97 @@ UIColor *kGreyBackgroundColor;
 
 #pragma mark - Private methods
 
-- (void)selectedItemAtIndex:(NSUInteger)index 
+- (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
+{
+    // review how we determine that a cell has been previously selected - 
+    // this is creating a lot of ItemPickerContext instances
+    ItemPickerContext *ctx = [self getItemPickerContext:indexPath items:self.tableSectionHandler.items dataSource:self.dataSource autoSelected:NO];
+    [self.contextStack push:ctx];
+    NSArray *selectionPath = [self.contextStack allObjects];
+    BOOL selected = [self.selectedItems containsObject:selectionPath];
+    [self.contextStack pop];
+    return selected;
+}
+
+- (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath 
+                                      items:(NSArray *)items 
+                                 dataSource:(id<ItemPickerDataSource>)dataSource
+                               autoSelected:(BOOL)autoSelected
+{
+    int selectedIndex = [self getItemRow:indexPath];
+    ItemPickerContext *ctx = [[ItemPickerContext alloc] initWithDataSource:dataSource];
+    ctx.selectedIndex = selectedIndex;
+    ctx.selectedItem = [items objectAtIndex:selectedIndex];
+    ctx.autoSelected = autoSelected;
+    return ctx;
+}
+
+- (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
                   fromItems:(NSArray *)items 
                  dataSource:(id<ItemPickerDataSource>)dataSource 
                autoSelected:(BOOL)autoSelected
 {
-    ItemPickerContext *ctx = [[ItemPickerContext alloc] initWithDataSource:dataSource];
-    ctx.selectedIndex = index;
-    ctx.selectedItem = [items objectAtIndex:index];
-    ctx.autoSelected = autoSelected;
-    
+    ItemPickerContext *ctx = [self getItemPickerContext:indexPath items:items dataSource:dataSource autoSelected:autoSelected];
     [self.contextStack push:ctx];
     
     id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelectedRow:ctx.selectedIndex
                                                                              selectedItem:ctx.selectedItem];        
     if (nextDataSource)
     {
-        NSArray *items = nextDataSource.items;
-        
-        if (nextDataSource.autoSelectSingleItem)
-        {
-            if ([items count] == 1)
-            {
-                [self selectedItemAtIndex:0 fromItems:items dataSource:nextDataSource autoSelected:YES];
-                return;
-            }
-        }
-        
-        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:nextDataSource 
-                                                                                              items:items
-                                                                                       contextStack:self.contextStack];
-        controller.itemPickerDelegate = self.itemPickerDelegate;
-        controller.showCancelButton = self.showCancelButton;
-        [self.navigationController pushViewController:controller animated:YES];
+        [self pushDataSource:nextDataSource];    
     } 
+    else
+    {
+        [self handleSelection:indexPath];
+    }
+}
+
+- (void)handleSelection:(NSIndexPath *)indexPath
+{
+    if (self.multiSelect)
+    {
+        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];            
+        NSArray *selectionPath = [self.contextStack allObjects];            
+        if ([self.selectedItems containsObject:selectionPath])
+        {
+            [self.selectedItems removeObject:selectionPath];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else 
+        {
+            [self.selectedItems addObject:[selectionPath copy]];
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;    
+        }
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.contextStack pop];
+    }
     else
     {
         [self.itemPickerDelegate onPickItem:[self.contextStack allObjects]];
     }
+}
 
+- (void)pushDataSource:(id<ItemPickerDataSource>)dataSource
+{
+    NSArray *items = dataSource.items;
+    
+    if (dataSource.autoSelectSingleItem)
+    {
+        if ([items count] == 1)
+        {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self selectedItemAtIndexPath:indexPath fromItems:items dataSource:dataSource autoSelected:YES];
+            return;
+        }
+    }
+    
+    ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:dataSource 
+                                                                                          items:items
+                                                                                   contextStack:self.contextStack];
+    controller.itemPickerDelegate = self.itemPickerDelegate;
+    controller.selectedItems = self.selectedItems;
+    controller.showCancelButton = self.showCancelButton;
+    [self.navigationController pushViewController:controller animated:YES];    
 }
 
 - (UIImage *)getCellImageForRow:(NSUInteger)row
