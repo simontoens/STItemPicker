@@ -15,6 +15,7 @@
 
 - (void)configureHeaderView;
 - (void)configureNavigationItem;
+- (void)configureTableSectionHandler;
 - (void)configureTitle;
 
 - (UIImage *)getCellImageForRow:(NSUInteger)row;
@@ -23,6 +24,7 @@
 - (void)selectedItemAtIndex:(NSUInteger)index fromItems:(NSArray *)items dataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
 
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
+@property(nonatomic, strong) NSArray *items;
 @property(nonatomic, strong) Stack *contextStack;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 
@@ -34,6 +36,7 @@ UIColor *kGreyBackgroundColor;
 
 @synthesize contextStack = _contextStack;
 @synthesize dataSource = _dataSource;
+@synthesize items = _items;
 @synthesize itemPickerDelegate;
 @synthesize showCancelButton;
 @synthesize tableSectionHandler = _tableSectionHandler;
@@ -41,7 +44,7 @@ UIColor *kGreyBackgroundColor;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
-    return [self initWithDataSource:dataSource items:dataSource.items contextStack:[[Stack alloc] init]];    
+    return [self initWithDataSource:dataSource items:nil contextStack:[[Stack alloc] init]];    
 }
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource items:(NSArray *)items contextStack:(Stack *)contextStack
@@ -58,10 +61,7 @@ UIColor *kGreyBackgroundColor;
     {
         _contextStack = contextStack;
         _dataSource = dataSource;
-        _tableSectionHandler = [[TableSectionHandler alloc] initWithItems:items sections:dataSource.sections];
-        _tableSectionHandler.itemsAlreadySorted = dataSource.itemsAlreadySorted;
-        _tableSectionHandler.sectionsEnabled = dataSource.sectionsEnabled;
-        _tableSectionHandler.itemImages = dataSource.itemImages;
+        _items = items;
 
         if (self.tabBarItem) 
         {
@@ -80,7 +80,8 @@ UIColor *kGreyBackgroundColor;
 
 -(void)viewDidLoad
 {
-    [super viewDidLoad];
+    [super viewDidLoad];    
+    [self configureTableSectionHandler];
     [self configureHeaderView];
     [self configureNavigationItem];
     [self configureTitle];
@@ -230,6 +231,18 @@ UIColor *kGreyBackgroundColor;
 - (ItemPickerContext *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
 {
     return [contexts count] > offset ? [contexts objectAtIndex:[contexts count] - 1 - offset] : nil;
+}
+
+- (void)configureTableSectionHandler
+{
+    if (!self.items)
+    {
+        self.items = self.dataSource.items;
+    }
+    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:self.items sections:self.dataSource.sections];
+    self.tableSectionHandler.itemsAlreadySorted = self.dataSource.itemsAlreadySorted;
+    self.tableSectionHandler.sectionsEnabled = self.dataSource.sectionsEnabled;
+    self.tableSectionHandler.itemImages = self.dataSource.itemImages;
 }
 
 - (void)configureHeaderView 
