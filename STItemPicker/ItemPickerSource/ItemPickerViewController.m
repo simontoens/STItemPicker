@@ -32,10 +32,12 @@
                   fromItems:(NSArray *)items 
                  dataSource:(id<ItemPickerDataSource>)dataSource 
                autoSelected:(BOOL)autoSelected;
+- (void)updateViewState;
 
-@property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
-@property(nonatomic, strong) NSArray *items;
 @property(nonatomic, strong) Stack *contextStack;
+@property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
+@property(nonatomic, weak) UIBarButtonItem *doneButton;
+@property(nonatomic, strong) NSArray *items;
 @property(nonatomic, strong) NSMutableArray *selectedItems;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 
@@ -47,6 +49,7 @@ UIColor *kGreyBackgroundColor;
 
 @synthesize contextStack = _contextStack;
 @synthesize dataSource = _dataSource;
+@synthesize doneButton;
 @synthesize items = _items;
 @synthesize itemPickerDelegate;
 @synthesize multiSelect = _multiSelect;
@@ -90,12 +93,14 @@ UIColor *kGreyBackgroundColor;
 }
 
 
+#pragma mark - UIViewController
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
--(void)viewDidLoad
+- (void)viewDidLoad
 {
     [super viewDidLoad];    
     [self configureTableSectionHandler];
@@ -104,7 +109,13 @@ UIColor *kGreyBackgroundColor;
     [self configureTitle];
 }
 
--(void) viewWillDisappear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self updateViewState];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) 
     {
         while ([[self.contextStack pop] autoSelected]);
@@ -183,6 +194,11 @@ UIColor *kGreyBackgroundColor;
 
 #pragma mark - Private methods
 
+- (void)updateViewState
+{
+    self.doneButton.enabled = [self.selectedItems count] > 0;
+}
+
 - (void)onMultiSelectDone
 {
     [self.itemPickerDelegate onPickItems:self.selectedItems];
@@ -251,6 +267,7 @@ UIColor *kGreyBackgroundColor;
         }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.contextStack pop];
+        [self updateViewState];
     }
     else
     {
@@ -340,13 +357,14 @@ UIColor *kGreyBackgroundColor;
 
 - (void)configureNavigationItem
 {
-    UIBarButtonItem *button = nil, *doneButton = nil, *cancelButton = nil;
+    UIBarButtonItem *button = nil, *cancelButton = nil;
     
     if (self.multiSelect)
     {
-        button = doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
-                                                              target:self
-                                                              action:@selector(onMultiSelectDone)];
+        button = self.doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
+                                                                   target:self
+                                                                   action:@selector(onMultiSelectDone)];
+        [self updateViewState];
     }
     
     if (self.showCancelButton)
