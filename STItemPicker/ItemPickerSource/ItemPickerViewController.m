@@ -52,7 +52,7 @@ UIColor *kGreyBackgroundColor;
 @synthesize doneButton;
 @synthesize items = _items;
 @synthesize itemPickerDelegate;
-@synthesize multiSelect = _multiSelect;
+@synthesize maxSelectableItems = _maxSelectableItems;
 @synthesize selectedItems = _selectedItems;
 @synthesize showCancelButton = _showCancelButton;
 @synthesize tableSectionHandler = _tableSectionHandler;
@@ -79,7 +79,7 @@ UIColor *kGreyBackgroundColor;
         _dataSource = dataSource;
         _items = items;
         
-        _multiSelect = NO;
+        _maxSelectableItems = 1;
         _selectedItems = [[NSMutableArray alloc] init];
         _showCancelButton = NO;
 
@@ -251,7 +251,7 @@ UIColor *kGreyBackgroundColor;
 
 - (void)handleSelection:(NSIndexPath *)indexPath
 {
-    if (self.multiSelect)
+    if (self.maxSelectableItems > 1)
     {
         UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];            
         NSArray *selectionPath = [self.contextStack allObjects];            
@@ -260,10 +260,13 @@ UIColor *kGreyBackgroundColor;
             [self.selectedItems removeObject:selectionPath];
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
-        else 
+        else
         {
-            [self.selectedItems addObject:[selectionPath copy]];
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;    
+            if ([self.selectedItems count] < self.maxSelectableItems)
+            {
+                [self.selectedItems addObject:[selectionPath copy]];
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;    
+            }
         }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.contextStack pop];
@@ -293,7 +296,7 @@ UIColor *kGreyBackgroundColor;
                                                                                           items:items
                                                                                    contextStack:self.contextStack];
     controller.itemPickerDelegate = self.itemPickerDelegate;
-    controller.multiSelect = self.multiSelect;
+    controller.maxSelectableItems = self.maxSelectableItems;
     controller.selectedItems = self.selectedItems;
     controller.showCancelButton = self.showCancelButton;
     [self.navigationController pushViewController:controller animated:YES];    
@@ -359,7 +362,7 @@ UIColor *kGreyBackgroundColor;
 {
     UIBarButtonItem *button = nil, *cancelButton = nil;
     
-    if (self.multiSelect)
+    if (self.maxSelectableItems > 1)
     {
         button = self.doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
                                                                    target:self

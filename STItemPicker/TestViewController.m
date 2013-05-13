@@ -32,7 +32,7 @@
                                [SampleMediaDataSource albumsDataSource],
                                [SampleMediaDataSource songsDataSource], 
                                nil]];
-    itemPicker.multiSelect = YES;
+    itemPicker.maxSelectableItems = 3;
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];    
 }
 

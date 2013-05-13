@@ -80,8 +80,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok" lineBreakMode="tailTruncation" minimumFontSize="10" id="bbI-6l-Hgx">
-                                <rect key="frame" x="56" y="147" width="109" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok - maxSelectableItems = 3" lineBreakMode="tailTruncation" minimumFontSize="10" id="bbI-6l-Hgx">
+                                <rect key="frame" x="56" y="147" width="244" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>

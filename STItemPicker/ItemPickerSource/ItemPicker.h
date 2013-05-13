@@ -18,15 +18,15 @@
 @property(nonatomic, weak) id<ItemPickerDelegate> delegate;
 
 /**
- * If YES, show a "Cancel" button on the right of the navigation bar.  Defaults to NO.
+ * If YES, show a "Cancel" button on the right in the navigation bar.  Defaults to NO.
  */
 @property(nonatomic, assign) BOOL showCancelButton;
 
 /**
- * If YES, allows multiple leaf items to be selected.  Also adds a "Done" to the right of the navigation bar.
- * Defaults to NO.
+ * The maximum number of items that can be selected in a single ItemPicker "session".  If more than
+ * 1, a "Done" button is added to the right in the navigation bar.  Defaults to 1.
  */
-@property(nonatomic, assign) BOOL multiSelect;
+@property(nonatomic, assign) NSUInteger maxSelectableItems;
 
 @end
 
