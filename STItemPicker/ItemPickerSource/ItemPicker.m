@@ -15,6 +15,7 @@
 @implementation ItemPicker
 
 @synthesize delegate;
+@synthesize multiSelect = _multiSelect;
 @synthesize showCancelButton = _showCancelButton;
 
 - (id)initWithDataSources:(NSArray *)someDataSources
@@ -22,6 +23,7 @@
     if (self = [super init]) 
     {
         dataSources = someDataSources;
+        _multiSelect = NO;
         _showCancelButton = NO;
     }
     return self;
@@ -54,6 +56,7 @@
     id<ItemPickerDataSource> wrappedDataSource = [[ItemPickerDataSourceDefaults alloc] initWithDataSource:dataSource];
     ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:wrappedDataSource];
     controller.itemPickerDelegate = self.delegate;
+    controller.multiSelect = self.multiSelect;
     controller.showCancelButton = self.showCancelButton;
     return [[UINavigationController alloc] initWithRootViewController:controller];    
 }

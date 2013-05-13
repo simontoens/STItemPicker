@@ -10,55 +10,64 @@
 
 @interface TestViewController()
 @property(nonatomic, weak) IBOutlet UILabel *pickLabel;
-- (void)showItemPickerWithDataSources:(NSArray *)dataSources showCancelButton:(BOOL)showCancelButton;
+- (ItemPicker *)getItemPickerWithDataSources:(NSArray *)dataSources;
 @end
 
 @implementation TestViewController
 
 @synthesize pickLabel;
 
-- (IBAction)onSampleMediaDataSource:(id)sender 
-{
-    [self showItemPickerWithDataSources:
-        [NSArray arrayWithObjects:
-            [SampleMediaDataSource artistsDataSource], 
-            [SampleMediaDataSource albumsDataSource],
-            [SampleMediaDataSource songsDataSource], 
-            nil] showCancelButton:NO];
-}
-
 - (IBAction)onSampleCityDataSource:(id)sender
 {
-    [self showItemPickerWithDataSources:[NSArray arrayWithObject:[[SampleCityDataSource alloc] init]] showCancelButton:YES];
+    ItemPicker *itemPicker = [self getItemPickerWithDataSources:[NSArray arrayWithObject:[[SampleCityDataSource alloc] init]]];
+    itemPicker.showCancelButton = YES;
+    [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
+}
+
+- (IBAction)onSampleMediaDataSource:(id)sender 
+{
+    ItemPicker *itemPicker = [self getItemPickerWithDataSources:
+                              [NSArray arrayWithObjects:
+                               [SampleMediaDataSource artistsDataSource], 
+                               [SampleMediaDataSource albumsDataSource],
+                               [SampleMediaDataSource songsDataSource], 
+                               nil]];
+    itemPicker.multiSelect = YES;
+    [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];    
 }
 
 - (IBAction)onMPMediaDataSource:(id)sender
 {
-    [self showItemPickerWithDataSources:
-        [NSArray arrayWithObjects:
-            [MPMediaDataSource artistsDataSource],
-            [MPMediaDataSource albumsDataSource],
-            [MPMediaDataSource songsDataSource],
-            nil] showCancelButton:NO];
+    ItemPicker *itemPicker = [self getItemPickerWithDataSources:
+                              [NSArray arrayWithObjects:
+                               [MPMediaDataSource artistsDataSource],
+                               [MPMediaDataSource albumsDataSource],
+                               [MPMediaDataSource songsDataSource],
+                               nil]];
+    [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }
 
-- (void)showItemPickerWithDataSources:(NSArray *)dataSources showCancelButton:(BOOL)showCancelButton
+- (ItemPicker *)getItemPickerWithDataSources:(NSArray *)dataSources
 {
-    ItemPicker *mediaPicker = [[ItemPicker alloc] initWithDataSources:dataSources];
-    mediaPicker.delegate = self;
-    mediaPicker.showCancelButton = showCancelButton;
-    [self.navigationController presentModalViewController:mediaPicker.viewController animated:YES];    
+    ItemPicker *itemPicker = [[ItemPicker alloc] initWithDataSources:dataSources];
+    itemPicker.delegate = self;
+    return itemPicker;
 }
 
-- (void)onPickItem:(NSArray *)pickedItemContexts
+- (void)onPickItems:(NSArray *)pickedItemContexts
 {
+    self.pickLabel.text = @"";
     [self.navigationController dismissModalViewControllerAnimated:YES];
-    NSString *selectionChain = @"";
-    for (ItemPickerContext *ctx in pickedItemContexts)
+    int selectionCounter = 1;
+    for (NSArray *selections in pickedItemContexts)
     {
-        selectionChain = [NSString stringWithFormat:@"%@->%@ (index %i)\n", selectionChain, ctx.selectedItem, ctx.selectedIndex];
+        NSString *s = [NSString stringWithFormat:@"%@Selection %i: ", self.pickLabel.text, selectionCounter++];
+        for (ItemPickerContext *ctx in selections)
+        {
+            s = [NSString stringWithFormat:@"%@->%@ (index %i)\n", s, ctx.selectedItem, ctx.selectedIndex];
+        }
+        self.pickLabel.text = s;
     }
-    [self.pickLabel setText:selectionChain];
 }
 
 - (void)onCancel

@@ -183,6 +183,11 @@ UIColor *kGreyBackgroundColor;
 
 #pragma mark - Private methods
 
+- (void)onMultiSelectDone
+{
+    [self.itemPickerDelegate onPickItems:self.selectedItems];
+}
+
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
 {
     // review how we determine that a cell has been previously selected - 
@@ -249,7 +254,7 @@ UIColor *kGreyBackgroundColor;
     }
     else
     {
-        [self.itemPickerDelegate onPickItem:[self.contextStack allObjects]];
+        [self.itemPickerDelegate onPickItems:[NSArray arrayWithObject:[self.contextStack allObjects]]];
     }
 }
 
@@ -271,6 +276,7 @@ UIColor *kGreyBackgroundColor;
                                                                                           items:items
                                                                                    contextStack:self.contextStack];
     controller.itemPickerDelegate = self.itemPickerDelegate;
+    controller.multiSelect = self.multiSelect;
     controller.selectedItems = self.selectedItems;
     controller.showCancelButton = self.showCancelButton;
     [self.navigationController pushViewController:controller animated:YES];    
@@ -334,13 +340,29 @@ UIColor *kGreyBackgroundColor;
 
 - (void)configureNavigationItem
 {
+    UIBarButtonItem *button = nil, *doneButton = nil, *cancelButton = nil;
+    
+    if (self.multiSelect)
+    {
+        button = doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
+                                                              target:self
+                                                              action:@selector(onMultiSelectDone)];
+    }
+    
     if (self.showCancelButton)
     {
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" 
-                                                                         style:UIBarButtonItemStyleBordered 
-                                                                        target:self.itemPickerDelegate
-                                                                        action:@selector(onCancel)];
-        self.navigationItem.rightBarButtonItem = cancelButton;
+        button = cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered 
+                                                                target:self.itemPickerDelegate
+                                                                action:@selector(onCancel)];
+    }
+    
+    if (doneButton && cancelButton)
+    {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:cancelButton, doneButton, nil];    
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = button;
     }
 }
 
