@@ -13,6 +13,7 @@
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource items:(NSArray *)items contextStack:(Stack *)contextStack;
 - (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource items:(NSArray *)items contextStack:(Stack *)contextStack;
 
+- (BOOL)areMoreCellsSelectable;
 - (void)configureHeaderView;
 - (void)configureNavigationItem;
 - (void)configureTableSectionHandler;
@@ -183,7 +184,12 @@ UIColor *kGreyBackgroundColor;
         }        
     }    
     cell.label.text = [self.tableSectionHandler.items objectAtIndex:row];
-    cell.accessoryType = [self isCellSelectedAtIndexPath:indexPath] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
+    cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    
+    BOOL isCellSelectable = isCellSelected || [self areMoreCellsSelectable];
+    cell.userInteractionEnabled = isCellSelectable;
+    
     return cell; 
 }
 
@@ -193,6 +199,11 @@ UIColor *kGreyBackgroundColor;
 }
 
 #pragma mark - Private methods
+
+- (BOOL)areMoreCellsSelectable
+{
+    return [self.selectedItems count] < self.maxSelectableItems;    
+}
 
 - (void)updateViewState
 {
@@ -259,13 +270,18 @@ UIColor *kGreyBackgroundColor;
         {
             [self.selectedItems removeObject:selectionPath];
             cell.accessoryType = UITableViewCellAccessoryNone;
+            [self.tableView reloadData];
         }
         else
         {
-            if ([self.selectedItems count] < self.maxSelectableItems)
+            if ([self areMoreCellsSelectable])
             {
                 [self.selectedItems addObject:[selectionPath copy]];
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;    
+            }
+            else 
+            {
+                [self.tableView reloadData];
             }
         }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
