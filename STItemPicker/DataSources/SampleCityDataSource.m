@@ -5,6 +5,7 @@
 
 @interface SampleCityDataSource()
 @property (nonatomic, assign) NSUInteger depth;
+@property (nonatomic, strong) NSArray *items;
 - (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items;
 @end
 
@@ -36,17 +37,27 @@ static NSArray *kAllHeaders;
     return self;
 }
 
+- (NSUInteger)count
+{
+    return [self.items count];
+}
+
+- (NSArray *)getItemsInRange:(NSRange)range
+{
+    return [self.items subarrayWithRange:range];
+}
+
 - (NSString *)title
 {
     return [kAllHeaders objectAtIndex:self.depth];
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
 {
     if (self.depth <= [kAllDictionaries count] - 1)
     {
         MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
-        return [[SampleCityDataSource alloc] initWithDepth:self.depth+1 items:[[currentDict objectsForKey:item] allObjects]];
+        return [[SampleCityDataSource alloc] initWithDepth:self.depth+1 items:[[currentDict objectsForKey:context.selectedItem] allObjects]];
     }
     return nil;
 }

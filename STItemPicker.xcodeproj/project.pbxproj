@@ -34,6 +34,7 @@
 		BEB54D361707DF4A002042CD /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D351707DF4A002042CD /* ItemPickerContext.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEC6FCE11724CBBC00A00165 /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
+		BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = BED14D9217456C1100A145BA /* DataSourceAccess.m */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
 		BEEB9CB116FFE3B60021E035 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB016FFE3B60021E035 /* Foundation.framework */; };
 		BEEB9CB316FFE3B60021E035 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB216FFE3B60021E035 /* CoreGraphics.framework */; };
@@ -104,6 +105,8 @@
 		BEB54D4A17080731002042CD /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = Submodules/STObjCToolbelt/Source/Stack.m; sourceTree = "<group>"; };
 		BEC6FCDF1724CBBC00A00165 /* SampleCityDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCityDataSource.h; path = DataSources/SampleCityDataSource.h; sourceTree = "<group>"; };
 		BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleCityDataSource.m; path = DataSources/SampleCityDataSource.m; sourceTree = "<group>"; };
+		BED14D9117456C1100A145BA /* DataSourceAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataSourceAccess.h; path = ItemPickerSource/DataSourceAccess.h; sourceTree = "<group>"; };
+		BED14D9217456C1100A145BA /* DataSourceAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataSourceAccess.m; path = ItemPickerSource/DataSourceAccess.m; sourceTree = "<group>"; };
 		BEEB9CAA16FFE3B60021E035 /* STItemPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = STItemPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEEB9CAE16FFE3B60021E035 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEEB9CB016FFE3B60021E035 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -286,6 +289,8 @@
 		BEEB9CDD16FFE4710021E035 /* ItemPickerSource */ = {
 			isa = PBXGroup;
 			children = (
+				BED14D9117456C1100A145BA /* DataSourceAccess.h */,
+				BED14D9217456C1100A145BA /* DataSourceAccess.m */,
 				BE26E7CB17090287000850F2 /* ImageTableViewCell.xib */,
 				BEEB9CE416FFE5870021E035 /* ItemPicker.h */,
 				BEEB9CE516FFE5870021E035 /* ItemPicker.m */,
@@ -478,6 +483,7 @@
 				BE669C4317257E58007F153A /* ItemPickerDataSourceDefaults.m in Sources */,
 				BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */,
 				BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */,
+				BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

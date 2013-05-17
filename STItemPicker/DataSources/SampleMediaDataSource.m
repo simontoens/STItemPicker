@@ -97,52 +97,66 @@ static UIImage *kDefaultArtwork;
     return !selection;
 }
 
-- (NSArray *)items 
+- (NSUInteger)count
+{
+    if ([self artistsList])
+    {
+        return [kArtistsToAlbums count];
+    }
+    else if ([self albumsList])
+    {
+        return selection ? [[kArtistsToAlbums objectsForKey:selection] count] : [kAlbumsToSongs count];
+    } else
+    {
+        return selection ? [[kAlbumsToSongs objectsForKey:selection] count] : [kAlbumsToSongs count];
+    }
+}
+
+- (NSArray *)getItemsInRange:(NSRange)range
 {
     if ([self artistsList]) 
     {
-        return [kArtistsToAlbums allKeys];
+        return [[kArtistsToAlbums allKeys] subarrayWithRange:range];
     } 
     else if ([self albumsList]) 
     {
-        return selection ? [[kArtistsToAlbums objectsForKey:selection] allObjects] : [kAlbumsToSongs allKeys];
+        return selection ? 
+            [[[kArtistsToAlbums objectsForKey:selection] allObjects] subarrayWithRange:range] : 
+            [[kAlbumsToSongs allKeys] subarrayWithRange:range];
     } 
-    else if ([self songsList]) 
+    else
     {
-        return selection ? [[kAlbumsToSongs objectsForKey:selection] allObjects] : [kAlbumsToSongs allValues];
+        return selection ? 
+            [[[kAlbumsToSongs objectsForKey:selection] allObjects] subarrayWithRange:range] : 
+            [[kAlbumsToSongs allValues] subarrayWithRange:range];
     } 
-    else 
-    {
-        NSAssert(NO, @"bad value for header");
-        return nil;
-    }
 }
 
-- (NSArray *)itemImages
+- (BOOL)itemImagesEnabled
 {
-    if ([self albumsList]) 
-    {
-        NSArray *albums = self.items;
-        NSMutableArray *albumImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
-        for (NSString *album in albums) 
-        {
-            UIImage *image = [kAlbumToArtwork objectForKey:album];
-            if (image == nil)
-            {
-                [albumImages addObject:kDefaultArtwork];
-            } 
-            else 
-            {
-                [albumImages addObject:image];
-            }
-            
-        }
-        return albumImages;
-    }
-    return nil;
+    return [self albumsList];
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
+- (NSArray *)getItemImagesInRange:(NSRange)range
+{
+    NSArray *albums = [self getItemsInRange:range];
+    NSMutableArray *albumImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
+    for (NSString *album in albums) 
+    {
+        UIImage *image = [kAlbumToArtwork objectForKey:album];
+        if (image == nil)
+        {
+            [albumImages addObject:kDefaultArtwork];
+        } 
+        else 
+        {
+            [albumImages addObject:image];
+        }
+    }
+    return albumImages;
+}
+
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
 {
     NSString *title = nil;
     if ([self artistsList]) 
@@ -154,7 +168,7 @@ static UIImage *kDefaultArtwork;
     } 
     if (title) 
     {
-        SampleMediaDataSource *s = [[SampleMediaDataSource alloc] initWithParentSelection:item];
+        SampleMediaDataSource *s = [[SampleMediaDataSource alloc] initWithParentSelection:context.selectedItem];
         s.title = title;
         return s;
     } 

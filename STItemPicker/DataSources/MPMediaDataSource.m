@@ -62,7 +62,12 @@ static UIImage *kDefaultArtwork;
     return self;
 }
 
-- (NSArray *)items
+- (NSUInteger)count
+{
+    return 0;
+}
+
+- (NSArray *)getItemsInRange:(NSRange)range
 {
     [self runQuery];
     return _items;
@@ -134,18 +139,20 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
 {
     if ([self isArtistList])
     {
         MPMediaQuery *nextQuery = [MPMediaQuery albumsQuery];
-        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:item forProperty:MPMediaItemPropertyArtist]];
+        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:context.selectedItem 
+                                                                       forProperty:MPMediaItemPropertyArtist]];
         return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyAlbumTitle];
     }
     else if ([self isAlbumList])
     {
         MPMediaQuery *nextQuery = [MPMediaQuery songsQuery];        
-        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:item forProperty:MPMediaItemPropertyAlbumTitle]];
+        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:context.selectedItem 
+                                                                       forProperty:MPMediaItemPropertyAlbumTitle]];
         return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyTitle];
     }
     return nil;

@@ -115,7 +115,6 @@
     NSArray *images = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", nil];
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemImages = images;
-    handler.sectionsEnabled = YES;
 
     NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
     STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
@@ -124,67 +123,11 @@
     STAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
 }
 
-- (void)testPrecalculatedSections
-{
-    NSMutableArray *sections = [[NSMutableArray alloc] init];
-    SectionItem *sectionItem = [[SectionItem alloc] init];
-    sectionItem.title = @"A";
-    sectionItem.range = NSMakeRange(0, 1);
-    [sections addObject:sectionItem];
-    
-    sectionItem = [[SectionItem alloc] init];
-    sectionItem.title = @"Z";
-    sectionItem.range = NSMakeRange(1, 2);
-    [sections addObject:sectionItem];
-    
-    NSArray *items = [NSArray arrayWithObjects:@"abc", @"z1", @"z2", nil];
-    
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sections:sections];
-    handler.sectionsEnabled = YES;
-    
-    [self runTestItems:[NSArray arrayWithObjects:@"A", @"Z", nil]
-    expectedItemCounts:(int[]){1, 2}
-   tableSectionHandler:handler];
-}
-
-- (void)testItemsWhenSectionsAreDisabled
-{
-    NSArray *items = [NSArray arrayWithObjects:@"za", @"yb", @"xc", nil];
-    
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
-    handler.sectionsEnabled = NO;
-    STAssertEquals([handler.sections count], (NSUInteger)1, @"Didn't expect sections");
-}
-
-- (void)testPrecalculatedSectionsItemsAreNotSorted
-{
-    NSMutableArray *sections = [[NSMutableArray alloc] init];
-    SectionItem *sectionItem = [[SectionItem alloc] init];
-    sectionItem.title = @"Z";
-    sectionItem.range = NSMakeRange(0, 1);
-    [sections addObject:sectionItem];
-    
-    sectionItem = [[SectionItem alloc] init];
-    sectionItem.title = @"A";
-    sectionItem.range = NSMakeRange(1, 2);
-    [sections addObject:sectionItem];
-    
-    NSArray *items = [NSArray arrayWithObjects:@"z1", @"z2", @"a", nil];
-    
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sections:sections];
-    handler.sectionsEnabled = YES;
-    
-    [self runTestItems:[NSArray arrayWithObjects:@"Z", @"A", nil]
-    expectedItemCounts:(int[]){1, 2}
-   tableSectionHandler:handler];
-}
-
 - (void)runTestItems:(NSArray *)items
     expectedSections:(NSArray *)expectedSections 
   expectedItemCounts:(int[])expectedItemCounts 
 {
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
-    handler.sectionsEnabled = YES;
     [self runTestItems:expectedSections expectedItemCounts:expectedItemCounts tableSectionHandler:handler];
 }
 
@@ -204,8 +147,6 @@
         STAssertEquals(range.length, (NSUInteger)expectedItemCounts[numSection], @"Unexpected item count for section: %@", section);
         expectedLocation += range.length;
     }
-    
-    STAssertEqualObjects(handler.sectionTitles, expectedSections, @"Unexpected section titles");
 }
 
 @end

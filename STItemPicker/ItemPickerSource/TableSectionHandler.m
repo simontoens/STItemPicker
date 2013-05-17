@@ -10,7 +10,6 @@
 
 @interface TableSectionHandler() 
 - (void)buildSections;
-- (void)buildSectionTitles;
 - (NSString *)getSectionNameForItem:(NSString *)item;
 - (void)process;
 - (void)sortItems;
@@ -19,7 +18,6 @@
 
 @property(nonatomic, strong, readwrite) NSArray *items;
 @property(nonatomic, strong, readwrite) NSArray *sections;
-@property(nonatomic, strong, readwrite) NSArray *sectionTitles;
 
 @end
 
@@ -43,9 +41,6 @@ static NSCharacterSet *kUCharacterSet;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
-@synthesize sectionsEnabled = _sectionsEnabled;
-@synthesize sectionTitles = _sectionTitles;
-
 
 + (NSCharacterSet *)getEnglishCharacterSet
 {
@@ -73,19 +68,11 @@ static NSCharacterSet *kUCharacterSet;
 
 - (id)initWithItems:(NSArray *)items 
 {
-    return [self initWithItems:items sections:nil];
-}
-
-
-- (id)initWithItems:(NSArray *)items sections:(NSArray *)sections
-{
     if (self = [super init]) 
     {
         [Preconditions assertNotEmpty:items message:@"items cannot be nil or empty"];
         _items = items;
-        _sectionsEnabled = NO;
         _processed = NO;
-        _sections = sections;
     }
     return self;
 }
@@ -118,12 +105,6 @@ static NSCharacterSet *kUCharacterSet;
     return _sections;
 }
 
-- (NSArray *)sectionTitles
-{
-    [self process];
-    return _sectionTitles;
-}
-
 - (void)process 
 {    
     if (self.processed)
@@ -135,7 +116,6 @@ static NSCharacterSet *kUCharacterSet;
     
     [self sortItems];
     [self buildSections];
-    [self buildSectionTitles];
 }
 
 - (NSString const*)getSectionNameForItem:(NSString *)item 
@@ -178,18 +158,8 @@ static NSCharacterSet *kUCharacterSet;
     }
 }
 
-- (BOOL)shouldBuildSections
-{
-    return self.sectionsEnabled && !self.sections;
-}
-
 - (void)sortItems
 {
-    if (![self shouldBuildSections])
-    {
-        return;
-    }
-
     if (self.itemImages)
     {
         for (int i = 0; i < [self.items count]; i++)
@@ -235,54 +205,31 @@ static NSCharacterSet *kUCharacterSet;
 
 - (void)buildSections
 {        
-    if ([self shouldBuildSections])
-    {
-        NSMutableArray *sections = [[NSMutableArray alloc] init];
-        int itemsInSectionCount = 0;
-        NSString *previousSectionName = nil;
-        
-        for (int i = 0; i < [_items count]; i++)
-        {        
-            NSString *item = [_items objectAtIndex:i];
-            NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
-            if (!previousSectionName)
-            {
-                previousSectionName = sectionNameForCurrentItem;
-            }
-            
-            if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
-            {
-                [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount sections:sections];
-                itemsInSectionCount = 0;
-                previousSectionName = sectionNameForCurrentItem;
-            }
-            
-            itemsInSectionCount += 1;        
-        }
-        
-        [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount sections:sections ];
-        self.sections = sections;
-    }
-    else
-    {
-        if (!self.sections)
+    NSMutableArray *sections = [[NSMutableArray alloc] init];
+    int itemsInSectionCount = 0;
+    NSString *previousSectionName = nil;
+    
+    for (int i = 0; i < [_items count]; i++)
+    {        
+        NSString *item = [_items objectAtIndex:i];
+        NSString *sectionNameForCurrentItem = [self getSectionNameForItem:item];
+        if (!previousSectionName)
         {
-            // we don't have precalculated sections, default to single section
-            NSMutableArray *sections = [[NSMutableArray alloc] init];
-            [self addSection:@"" location:0 length:[self.items count] sections:sections];
-            self.sections = sections;
+            previousSectionName = sectionNameForCurrentItem;
         }
+        
+        if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
+        {
+            [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount sections:sections];
+            itemsInSectionCount = 0;
+            previousSectionName = sectionNameForCurrentItem;
+        }
+        
+        itemsInSectionCount += 1;        
     }
-}
-
-- (void)buildSectionTitles
-{
-    NSMutableArray *titles = [[NSMutableArray alloc] initWithCapacity:[self.sections count]];
-    for (id section in self.sections)
-    {
-        [titles addObject:[section title]];
-    }
-    self.sectionTitles = titles;
+    
+    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount sections:sections ];
+    self.sections = sections;
 }
 
 @end

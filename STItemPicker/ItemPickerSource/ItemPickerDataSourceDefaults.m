@@ -19,14 +19,19 @@
     return self;
 }
 
-- (NSArray *)items
+- (NSUInteger)count
 {
-    return self.dataSource.items;
+    return self.dataSource.count;
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item
+- (NSArray *)getItemsInRange:(NSRange)range
 {
-    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSourceForSelectedRow:row selectedItem:item];
+    return [self.dataSource getItemsInRange:range];
+}
+
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
+{
+    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSourceForSelection:context];
     return nextDataSource ? [[ItemPickerDataSourceDefaults alloc] initWithDataSource:nextDataSource] : nil;
 }
 
@@ -40,9 +45,14 @@
     return [self.dataSource respondsToSelector:@selector(headerImage)] ? self.dataSource.headerImage : nil;
 }
 
-- (NSArray *)itemImages
+- (BOOL)itemImagesEnabled
 {
-    return [self.dataSource respondsToSelector:@selector(itemImages)] ? self.dataSource.itemImages : nil;
+    return [self.dataSource respondsToSelector:@selector(itemImagesEnabled)] ? self.dataSource.itemImagesEnabled : NO;
+}
+
+- (NSArray *)getItemImagesInRange:(NSRange)range
+{
+    return [self.dataSource respondsToSelector:@selector(getItemImagesInRange:)] ? [self.dataSource getItemImagesInRange:range]  : nil;
 }
 
 - (BOOL)sectionsEnabled

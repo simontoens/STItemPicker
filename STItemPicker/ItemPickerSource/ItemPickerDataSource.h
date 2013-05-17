@@ -1,11 +1,10 @@
 // @author Simon Toens 03/16/13
 
 #import <Foundation/Foundation.h>
+#import "ItemPickerContext.h"
 
 /**
  * The ItemPickerDataSource Protocol encapsulates data access and behavior that drives the ItemPicker UI.
- * 
- * The ItemPicker code ensures that properties are not referenced multiple times unecessarily.
  */
 @protocol ItemPickerDataSource <NSObject>
 
@@ -13,18 +12,23 @@
 @required
 
 /**
- * The items displayed in the table view.  Must return a non-empty array.
+ * The total number of items for this ItemPicker TableView.
  */
-@property(nonatomic, strong, readonly) NSArray *items;
+@property(nonatomic, assign, readonly) NSUInteger count;
+
+/**
+ * The items in the specified range.  Must return a non-nil, non-empty array.
+ */
+- (NSArray *)getItemsInRange:(NSRange)range;
 
 /**
  * Called when an item is selected.  Return the data source for the next table view, or nil if this 
  * item does not have any detail.
  */
-- (id<ItemPickerDataSource>)getNextDataSourceForSelectedRow:(NSUInteger)row selectedItem:(NSString *)item;
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context;
 
 /**
- * The view's title and the tab's title.  Must return a valid value.
+ * The view's title and tab's title.  Must return a valid value.
  */
 @property(nonatomic, strong, readonly) NSString *title;
 
@@ -46,11 +50,15 @@
 @property(nonatomic, strong, readonly) NSArray *sections;
 
 /**
- * Optional images to display next to each item.  The length of the returned NSArray
- * must have the same length as the items NSArray.  Elements in the returned NSArray
+ * Return YES to enable showing images next to each item.  Defaults to NO.
+ */
+@property(nonatomic, assign) BOOL itemImagesEnabled;
+
+/**
+ * Return the image to display next to the items in the specified range.  Elements in the returned NSArray
  * may be NSNull for those items that don't have an image.
  */
-@property(nonatomic, strong, readonly) NSArray *itemImages;
+- (NSArray *)getItemImagesInRange:(NSRange)range;
 
 /**
  * Optional table view header image, return nil if no header image.

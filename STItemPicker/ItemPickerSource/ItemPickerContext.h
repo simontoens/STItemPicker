@@ -1,8 +1,14 @@
 // @author Simon Toens 03/30/13
 
 #import <Foundation/Foundation.h>
-#import "ItemPickerDataSource.h"
 
+@protocol ItemPickerDataSource;
+
+/**
+ * Interesting pieces of information about a single selection.
+ * 
+ * TODO: Make properties readonly.
+ */
 @interface ItemPickerContext : NSObject <NSCopying>
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
