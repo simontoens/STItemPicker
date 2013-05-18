@@ -37,7 +37,7 @@
 
 @property(nonatomic, strong) Stack *contextStack;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
-@property(nonatomic, weak) UIBarButtonItem *doneButton;
+@property(nonatomic, strong) UIBarButtonItem *doneButton;
 @property(nonatomic, strong) NSArray *items;
 @property(nonatomic, strong) NSMutableArray *selectedItems;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
