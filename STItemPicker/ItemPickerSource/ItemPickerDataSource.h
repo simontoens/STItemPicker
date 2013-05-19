@@ -52,7 +52,7 @@
 /**
  * Return YES to enable showing images next to each item.  Defaults to NO.
  */
-@property(nonatomic, assign) BOOL itemImagesEnabled;
+@property(nonatomic, assign, readonly) BOOL itemImagesEnabled;
 
 /**
  * Return the image to display next to the items in the specified range.  Elements in the returned NSArray
