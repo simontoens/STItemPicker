@@ -104,7 +104,8 @@ UIColor *kGreyBackgroundColor;
     [self updateViewState];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated 
+{
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) 
     {
         while ([[self.contextStack pop] autoSelected]);

@@ -28,7 +28,9 @@
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context;
 
 /**
- * The view's title and tab's title.  Must return a valid value.
+ * The view's title; used as the view tab's title, if there is more than a single top-level
+ * ItemPickerDataSource.  Also used as label in the table view header, if headerImage is 
+ * implemented (see below).
  */
 @property(nonatomic, strong, readonly) NSString *title;
 

@@ -121,7 +121,7 @@
     NSRange range = NSMakeRange(0, self.dataSource.count);
     NSArray *allItems = [self.dataSource getItemsInRange:range];
     TableSectionHandler *sectionHandler = [[TableSectionHandler alloc] initWithItems:allItems];
-    NSArray *allImages = [self.dataSource getItemImagesInRange:range];
+    NSArray *allImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
     sectionHandler.itemImages = allImages;
     self.items = sectionHandler.items;
     self.itemImages = sectionHandler.itemImages;
