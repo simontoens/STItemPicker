@@ -4,17 +4,23 @@
 #import "SampleMediaDataSource.h"
 
 @interface SampleMediaDataSource() 
-{
-    @private
-    NSString * selection;
-}
-- (id)initWithTitle:(NSString *)header;
+- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items;
+
 - (BOOL)artistsList;
 - (BOOL)albumsList;
 - (BOOL)songsList;
 + (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs;
 
+
+@property (nonatomic, strong, readwrite) UIImage *headerImage;
+@property (nonatomic, strong, readwrite) NSArray *itemImages;
+@property (nonatomic, assign, readwrite) BOOL sectionsEnabled;
+@property (nonatomic, strong, readwrite) UIImage *tabImage;
 @property (nonatomic, strong, readwrite) NSString *title;
+
+@property (nonatomic, assign) NSUInteger depth;
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) SampleMediaDataSource *parentDataSource;
 
 @end
 
@@ -29,107 +35,84 @@ static MultiDictionary* kAlbumsToSongs;
 static NSMutableDictionary *kAlbumToArtwork;
 static UIImage *kDefaultArtwork;
 
-@synthesize title = _title;
+static NSArray *kAllDictionaries;
+
+@synthesize depth = _depth;
+@synthesize headerImage;
+@synthesize itemImages;
+@synthesize items = _items;
+@synthesize parentDataSource;
+@synthesize sectionsEnabled = _sectionsEnabled;
+@synthesize tabImage;
+@synthesize title;
 
 + (id)artistsDataSource
 {
-    return [[SampleMediaDataSource alloc] initWithTitle:kArtists];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistsToAlbums allKeys]];
+    ds.sectionsEnabled = YES;
+    ds.tabImage = [UIImage imageNamed:@"Artists.png"];
+    ds.title = kArtists;
+    return ds;
 }
 
 + (id)albumsDataSource
 {
-    return [[SampleMediaDataSource alloc] initWithTitle:kAlbums];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumsToSongs allKeys]];
+    ds.sectionsEnabled = YES;
+    ds.tabImage = [UIImage imageNamed:@"Albums.png"];
+    ds.title = kAlbums;
+    return ds;
 }
 
 + (id)songsDataSource
 {
-    return [[SampleMediaDataSource alloc] initWithTitle:kSongs];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumsToSongs allValues]];
+    ds.sectionsEnabled = YES;
+    ds.tabImage = [UIImage imageNamed:@"Songs.png"];
+    ds.title = kSongs;
+    return ds;
 }
 
-- (id)initWithTitle:(NSString *)title
+- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items
 {
-    if (self = [super init]) 
+    if (self = [super init])
     {
-        _title = title;
-    }
-    return self;
-}
-
-- (id)initWithParentSelection:(NSString *)aSelection 
-{
-    if (self = [super init]) 
-    {
-        selection = aSelection;
+        _depth = depth;
+        _items = items;
+        _sectionsEnabled = NO;
     }
     return self;
 }
 
 # pragma mark - ItemPickerDataSource methods
 
-- (UIImage *)headerImage
-{
-    if ([self songsList] && selection) 
-    {
-        UIImage *image = [kAlbumToArtwork objectForKey:selection];
-        return image ? image : kDefaultArtwork;
-    }
-    return nil;
-}
-
-- (UIImage *)tabImage
-{
-    if ([self artistsList]) 
-    {
-        return [UIImage imageNamed:@"Artists.png"];
-    }
-    else if ([self albumsList]) 
-    {
-        return [UIImage imageNamed:@"Albums.png"];        
-    } 
-    else
-    {
-        return [UIImage imageNamed:@"Songs.png"];                
-    }
-}
-
-- (BOOL)sectionsEnabled 
-{
-    return !selection;
-}
-
 - (NSUInteger)count
 {
-    if ([self artistsList])
-    {
-        return [kArtistsToAlbums count];
-    }
-    else if ([self albumsList])
-    {
-        return selection ? [[kArtistsToAlbums objectsForKey:selection] count] : [kAlbumsToSongs count];
-    } else
-    {
-        return selection ? [[kAlbumsToSongs objectsForKey:selection] count] : [kAlbumsToSongs count];
-    }
+    return [self.items count];
 }
 
 - (NSArray *)getItemsInRange:(NSRange)range
 {
-    if ([self artistsList]) 
+    return [self.items subarrayWithRange:range];
+}
+
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
+{
+    if (self.depth <= [kAllDictionaries count] - 1)
     {
-        return [[kArtistsToAlbums allKeys] subarrayWithRange:range];
-    } 
-    else if ([self albumsList]) 
-    {
-        return selection ? 
-            [[[kArtistsToAlbums objectsForKey:selection] allObjects] subarrayWithRange:range] : 
-            [[kAlbumsToSongs allKeys] subarrayWithRange:range];
-    } 
-    else
-    {
-        return selection ? 
-            [[[kAlbumsToSongs objectsForKey:selection] allObjects] subarrayWithRange:range] : 
-            [[kAlbumsToSongs allValues] subarrayWithRange:range];
-    } 
+        MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
+        NSArray *nextItems = [[currentDict objectsForKey:context.selectedItem] allObjects];
+        SampleMediaDataSource *nextDataSource = [[SampleMediaDataSource alloc] initWithDepth:self.depth+1 items:nextItems];
+        if ([self albumsList])
+        {
+            UIImage *albumArtwork = [kAlbumToArtwork objectForKey:context.selectedItem];
+            nextDataSource.headerImage = albumArtwork ? albumArtwork : kDefaultArtwork;
+            nextDataSource.title = kSongs;
+        }
+        nextDataSource.parentDataSource = context.dataSource;
+        return nextDataSource;
+    }
+    return nil;
 }
 
 - (BOOL)itemImagesEnabled
@@ -156,28 +139,6 @@ static UIImage *kDefaultArtwork;
     return albumImages;
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
-{
-    NSString *title = nil;
-    if ([self artistsList]) 
-    {
-        title = kAlbums;
-    } else if ([self albumsList]) 
-    {
-        title = kSongs;
-    } 
-    if (title) 
-    {
-        SampleMediaDataSource *s = [[SampleMediaDataSource alloc] initWithParentSelection:context.selectedItem];
-        s.title = title;
-        return s;
-    } 
-    else 
-    {
-        return nil;
-    }
-}
-
 - (BOOL)autoSelectSingleItem
 {
     return [self albumsList];
@@ -192,7 +153,7 @@ static UIImage *kDefaultArtwork;
 
 - (BOOL)albumsList 
 {
-    return [self.title isEqualToString:kAlbums];
+    return [self.title isEqualToString:kAlbums] || [self.parentDataSource.title isEqualToString:kArtists];
 }
 
 - (BOOL)songsList 
@@ -225,20 +186,22 @@ static UIImage *kDefaultArtwork;
     kAlbumToArtwork = [[NSMutableDictionary alloc] init];
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
     
+    kAllDictionaries = [NSArray arrayWithObjects:kArtistsToAlbums, kAlbumsToSongs, nil];
+    
     [SampleMediaDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
-                               songs:[NSArray arrayWithObjects:@"Midnight City", nil]];
+                               songs:[NSArray arrayWithObject:@"Midnight City"]];
     
     [SampleMediaDataSource addArtist:@"Gene" album:@"Drawn To The Deep End" 
-                               songs:[NSArray arrayWithObjects:@"Fighting Fit", nil]];
+                               songs:[NSArray arrayWithObject:@"Fighting Fit"]];
     
     [SampleMediaDataSource addArtist:@"Doves" album:@"The Last Broadcast" imageName:@"TheLastBroadcast.jpg"
-                               songs:[NSArray arrayWithObjects:@"Words", nil]];
+                               songs:[NSArray arrayWithObject:@"Words"]];
     
     [SampleMediaDataSource addArtist:@"Kent" album:@"Isola" 
                                songs:[NSArray arrayWithObjects:@"747", @"Things She Said", nil]];
     
     [SampleMediaDataSource addArtist:@"Happy Mondays" album:@"Pills 'N' Thrills And Belly Aches" 
-                               songs:[NSArray arrayWithObjects:@"Kinky Afro", nil]];
+                               songs:[NSArray arrayWithObject:@"Kinky Afro"]];
     
     [SampleMediaDataSource addArtist:@"Air" album:@"Moon Safari" imageName:@"MoonSafari.jpg"
                                songs:[NSArray arrayWithObjects:@"La Femme d'Argent", @"Sexy Boy", @"All I Need", @"Kelly Watch The Stars", @"Talisman", @"Remember", @"You Make It Easy", @"Ce Matin-La", @"New Star In The Sky", @"Le Voyage De Penelope", nil]];
@@ -247,7 +210,7 @@ static UIImage *kDefaultArtwork;
                                songs:[NSArray arrayWithObjects:@"Venus", @"Cherry Blossom Girl", @"Run", @"Universal Traveler", @"Mike Millis", @"Surfing On A Rocket", @"Another Day", @"Alpha Beta Gaga", @"Biological", @"Alone In Kyoto", nil]];
     
     [SampleMediaDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
-                               songs:[NSArray arrayWithObjects:@"Come Inside", nil]];
+                               songs:[NSArray arrayWithObject:@"Come Inside"]];
     
     [SampleMediaDataSource addArtist:@"Chemical Borthers" album:@"Push The Button" 
                                songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
@@ -268,7 +231,7 @@ static UIImage *kDefaultArtwork;
                                songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
     
     [SampleMediaDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
-                               songs:[NSArray arrayWithObjects:@"### stupid!", nil]];
+                               songs:[NSArray arrayWithObject:@"### stupid!"]];
     
     [SampleMediaDataSource addArtist:@"Daft Punk" album:@"Homework" 
                                songs:[NSArray arrayWithObjects:@"Revolution 909", @"Around The World", nil]];

@@ -17,7 +17,6 @@ static MultiDictionary* kRegionsToStates;
 static MultiDictionary* kStatesToCities;
 
 static NSArray *kAllDictionaries;
-static NSArray *kAllHeaders;
 
 @synthesize depth = _depth;
 @synthesize items = _items;
@@ -49,7 +48,7 @@ static NSArray *kAllHeaders;
 
 - (NSString *)title
 {
-    return [kAllHeaders objectAtIndex:self.depth];
+    return @"Continents";
 }
 
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
@@ -81,7 +80,6 @@ static NSArray *kAllHeaders;
     kStatesToCities = [[MultiDictionary alloc] init];
     
     kAllDictionaries = [NSArray arrayWithObjects:kContinentsToCountries, kCountriesToRegions, kRegionsToStates, kStatesToCities, nil];
-    kAllHeaders = [NSArray arrayWithObjects:@"Continents", @"Countries", @"Regions", @"States", @"Cities", nil];
     
     [self addContinent:@"America" 
                country:@"USA" 
