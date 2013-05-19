@@ -68,7 +68,7 @@
 /**
  * Optional image to display in the tab.
  */
-@property(nonatomic, assign, readonly) UIImage *tabImage;
+@property(nonatomic, strong, readonly) UIImage *tabImage;
 
 /**
  * If items for this data source have a single element, automatically select it.  Defaults to NO.
