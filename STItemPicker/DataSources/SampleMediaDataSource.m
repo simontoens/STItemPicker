@@ -3,7 +3,7 @@
 #import "MultiDictionary.h"
 #import "SampleMediaDataSource.h"
 
-@interface SampleMediaDataSource() 
+@interface SampleMediaDataSource()
 - (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items;
 
 - (BOOL)artistsList;
@@ -22,9 +22,8 @@
 @property (nonatomic, strong, readwrite) UIImage *tabImage;
 @property (nonatomic, strong, readwrite) NSString *title;
 
-@property (nonatomic, assign) NSUInteger depth;
-@property (nonatomic, strong) NSArray *items;
-@property (nonatomic, strong) SampleMediaDataSource *parentDataSource;
+@property (nonatomic, assign, readonly) NSUInteger depth;
+@property (nonatomic, strong, readonly) NSArray *items;
 
 @end
 
@@ -41,23 +40,22 @@ static NSMutableDictionary *kAlbumToArtwork;
 static UIImage *kDefaultArtwork;
 
 static NSArray *kAllDictionaries;
+static NSArray *kAllTitles;
 
 @synthesize depth = _depth;
 @synthesize headerImage;
 @synthesize itemDescriptions;
 @synthesize itemImages;
 @synthesize items = _items;
-@synthesize parentDataSource;
 @synthesize sectionsEnabled = _sectionsEnabled;
 @synthesize tabImage;
-@synthesize title;
+@synthesize title = _title;
 
 + (id)artistsDataSource
 {
     SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistToAlbums allKeys]];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Artists.png"];
-    ds.title = kArtists;
     return ds;
 }
 
@@ -66,8 +64,6 @@ static NSArray *kAllDictionaries;
     SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumToSongs allKeys]];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Albums.png"];
-    ds.title = kAlbums;
-    [ds initSecondayLists];
     return ds;
 }
 
@@ -76,7 +72,6 @@ static NSArray *kAllDictionaries;
     SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumToSongs allValues]];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Songs.png"];
-    ds.title = kSongs;
     return ds;
 }
 
@@ -87,6 +82,8 @@ static NSArray *kAllDictionaries;
         _depth = depth;
         _items = items;
         _sectionsEnabled = NO;
+        _title = [kAllTitles objectAtIndex:depth];
+        [self initSecondayLists];
     }
     return self;
 }
@@ -116,8 +113,6 @@ static NSArray *kAllDictionaries;
             nextDataSource.headerImage = albumArtwork ? albumArtwork : kDefaultArtwork;
             nextDataSource.title = kSongs;
         }
-        nextDataSource.parentDataSource = context.dataSource;
-        [nextDataSource initSecondayLists];
         return nextDataSource;
     }
     return nil;
@@ -157,7 +152,7 @@ static NSArray *kAllDictionaries;
 
 - (BOOL)albumsList 
 {
-    return [self.title isEqualToString:kAlbums] || [self.parentDataSource.title isEqualToString:kArtists];
+    return [self.title isEqualToString:kAlbums];
 }
 
 - (BOOL)songsList 
@@ -223,6 +218,7 @@ static NSArray *kAllDictionaries;
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
     
     kAllDictionaries = [NSArray arrayWithObjects:kArtistToAlbums, kAlbumToSongs, nil];
+    kAllTitles = [NSArray arrayWithObjects:kArtists, kAlbums, kSongs, nil];
     
     [SampleMediaDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
                                songs:[NSArray arrayWithObject:@"Midnight City"]];
