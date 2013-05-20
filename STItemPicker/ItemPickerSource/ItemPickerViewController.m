@@ -13,7 +13,7 @@
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
 - (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
 
-- (BOOL)areMoreCellsSelectable;
+- (BOOL)moreCellsAreSelectable;
 - (void)configureHeaderView;
 - (void)configureNavigationItem;
 - (void)configureTitle;
@@ -171,8 +171,7 @@ UIColor *kGreyBackgroundColor;
     BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
     cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
-    BOOL isCellSelectable = isCellSelected || [self areMoreCellsSelectable];
-    cell.userInteractionEnabled = isCellSelectable;
+    cell.userInteractionEnabled = isCellSelected || [self moreCellsAreSelectable];
     
     return cell; 
 }
@@ -184,7 +183,7 @@ UIColor *kGreyBackgroundColor;
 
 #pragma mark - Private methods
 
-- (BOOL)areMoreCellsSelectable
+- (BOOL)moreCellsAreSelectable
 {
     return [self.selectedItems count] < self.maxSelectableItems;    
 }
@@ -243,7 +242,7 @@ UIColor *kGreyBackgroundColor;
         }
         else
         {
-            if ([self areMoreCellsSelectable])
+            if ([self moreCellsAreSelectable])
             {
                 [self.selectedItems addObject:[selectionPath copy]];
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;    
