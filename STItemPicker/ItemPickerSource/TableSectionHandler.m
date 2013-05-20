@@ -27,6 +27,7 @@ NSString const *kTableSectionHandlerNumberHeader = @"0";
 NSString const *kTableSectionHandlerSymbolHeader = @"#";
 NSString const *kTableSectionHandlerNonLatinLetterSymbolHeader = @"あ";
 
+const void *kDescriptionAssociationKey = @"desc";
 const void *kImageAssociationKey = @"image";
 
 static NSCharacterSet *kEnglishLetterCharacterSet;
@@ -38,6 +39,7 @@ static NSCharacterSet *kOCharacterSet;
 static NSCharacterSet *kUCharacterSet;
 
 @synthesize items = _items;
+@synthesize itemDescriptions = _itemDescriptions;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
@@ -91,6 +93,12 @@ static NSCharacterSet *kUCharacterSet;
 {
     [self process];
     return _items;
+}
+
+- (NSArray *)itemDescriptions
+{
+    [self process];
+    return _itemDescriptions;
 }
 
 - (NSArray *)itemImages
@@ -160,11 +168,20 @@ static NSCharacterSet *kUCharacterSet;
 
 - (void)sortItems
 {
-    if (self.itemImages)
+    if (self.itemImages || self.itemDescriptions)
     {
         for (int i = 0; i < [self.items count]; i++)
         {
-            objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, [self.itemImages objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);
+            if (self.itemImages)
+            {
+                objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, 
+                                         [self.itemImages objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);
+            }
+            if (self.itemDescriptions)
+            {
+                objc_setAssociatedObject([self.items objectAtIndex:i], kDescriptionAssociationKey, 
+                                         [self.itemDescriptions objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);                
+            }
         }
     }
 
@@ -194,6 +211,18 @@ static NSCharacterSet *kUCharacterSet;
             
         }
         self.itemImages = sortedItemImages;
+    }
+    
+    if (self.itemDescriptions)
+    {
+        NSMutableArray *sortedDescription = [[NSMutableArray alloc] initWithCapacity:[self.itemDescriptions count]];
+        for (int i = 0; i < [self.items count]; i++)
+        {
+            [sortedDescription addObject:objc_getAssociatedObject([self.items objectAtIndex:i], kDescriptionAssociationKey)];
+            objc_setAssociatedObject([self.items objectAtIndex:i], kDescriptionAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
+            
+        }
+        self.itemDescriptions = sortedDescription;
     }
 }
 

@@ -1,12 +1,12 @@
 // @author Simon Toens 12/14/12
 
 #import "DataSourceAccess.h"
+#import "ItemPickerCell.h"
 #import "ItemPickerContext.h"
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
 #import "Stack.h"
 #import "TableHeaderViewContainer.h"
-#import "TableViewCell.h"
 #import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
@@ -33,6 +33,7 @@
 @property(nonatomic, weak) UIBarButtonItem *doneButton;
 @property(nonatomic, strong) NSMutableArray *selectedItems;
 
+
 @end
 
 @implementation ItemPickerViewController
@@ -56,7 +57,7 @@ UIColor *kGreyBackgroundColor;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack
 {
-    return [self initWithNibName:@"PlainItemPickerTableView" dataSource:dataSource contextStack:contextStack];
+    return [self initWithNibName:@"ItemPickerView" dataSource:dataSource contextStack:contextStack];
 }
 
 - (id)initWithNibName:(NSString *)nibName 
@@ -151,26 +152,22 @@ UIColor *kGreyBackgroundColor;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {  
-    TableViewCell *cell = nil;
-    
+    UIImage *image = nil;
     if (self.dataSource.itemImagesEnabled)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:[TableViewCellContainer imageTableViewCellIdentifier]];
-        if (cell == nil) 
-        {
-            cell = [TableViewCellContainer newImageTableViewCell];
-        }
-        cell.iview.image = [self.dataSourceAccess getItemImage:indexPath];
+        image = [self.dataSourceAccess getItemImage:indexPath];        
     }
-    else 
+    
+    NSString *description = nil;
+    if (self.dataSource.itemDescriptionsEnabled)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:[TableViewCellContainer plainTableViewCellIdentifier]];
-        if (cell == nil) 
-        {
-            cell = [TableViewCellContainer newPlainTableViewCell];
-        }        
+        description = [self.dataSourceAccess getItemDescription:indexPath];
     }
+    
+    ItemPickerCell *cell = [TableViewCellContainer newCellForTableView:tableView image:image description:description];
+    
     cell.label.text = [self.dataSourceAccess getItem:indexPath];
+    
     BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
     cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     

@@ -6,11 +6,10 @@
 
 @interface DataSourceAccess()
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
-@property(nonatomic, strong) NSArray *items;
-@property(nonatomic, strong) NSArray *itemImages;
 @property(nonatomic, assign) BOOL processed;
 @property(nonatomic, strong) NSArray *sections;
 @property(nonatomic, strong) NSArray *sectionTitles;
+@property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 
 - (void)buildDefaultSection;
 - (void)buildSections;
@@ -23,11 +22,10 @@
 @implementation DataSourceAccess
 
 @synthesize dataSource = _dataSource;
-@synthesize items = _items;
-@synthesize itemImages;
+@synthesize processed = _processed;
 @synthesize sections = _sections;
 @synthesize sectionTitles;
-@synthesize processed = _processed;
+@synthesize tableSectionHandler;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {
@@ -49,9 +47,9 @@
 {
     [self process];
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
-    if (self.items)
+    if (self.tableSectionHandler)
     {
-        return [self.items objectAtIndex:index];
+        return [self.tableSectionHandler.items objectAtIndex:index];
     }
     else
     {
@@ -66,14 +64,29 @@
     return self.sectionTitles;
 }
 
+- (NSString *)getItemDescription:(NSIndexPath *)indexPath
+{
+    [self process];
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    if (self.tableSectionHandler)
+    {
+        return [self.tableSectionHandler.itemDescriptions objectAtIndex:index];
+    }
+    else
+    {
+        NSRange range = NSMakeRange(index, 1);
+        return [[self.dataSource getItemDescriptionsInRange:range] lastObject];
+    }
+}
+
 - (UIImage *)getItemImage:(NSIndexPath *)indexPath
 {
     [self process];
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     id image = nil;
-    if (self.itemImages)
+    if (self.tableSectionHandler)
     {
-        image = [self.itemImages objectAtIndex:index];
+        image = [self.tableSectionHandler.itemImages objectAtIndex:index];
     }
     else
     {
@@ -119,19 +132,17 @@
 - (void)buildSections
 {
     NSRange range = NSMakeRange(0, self.dataSource.count);
-    NSArray *allItems = [self.dataSource getItemsInRange:range];
-    TableSectionHandler *sectionHandler = [[TableSectionHandler alloc] initWithItems:allItems];
-    NSArray *allImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
-    sectionHandler.itemImages = allImages;
-    self.items = sectionHandler.items;
-    self.itemImages = sectionHandler.itemImages;
+    TableSectionHandler *sectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:range]];
+    sectionHandler.itemDescriptions = self.dataSource.itemDescriptionsEnabled ? 
+        [self.dataSource getItemDescriptionsInRange:range] : nil;
+    sectionHandler.itemImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
     self.sections = sectionHandler.sections;
 }
 
 - (void)buildDefaultSection
 {
     self.sections = [NSArray arrayWithObject:[[ItemPickerSection alloc] 
-                                              initWithTitle:@"" range:NSMakeRange(0, self.dataSource.count)]];
+        initWithTitle:@"" range:NSMakeRange(0, self.dataSource.count)]];
 }
 
 - (void)buildSectionTitles

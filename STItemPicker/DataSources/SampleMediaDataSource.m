@@ -10,10 +10,14 @@
 - (BOOL)albumsList;
 - (BOOL)songsList;
 + (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs;
+- (void)initSecondayLists;
+- (void)initDescriptions;
+- (void)initImages;
 
 
 @property (nonatomic, strong, readwrite) UIImage *headerImage;
-@property (nonatomic, strong, readwrite) NSArray *itemImages;
+@property (nonatomic, strong, readwrite) NSMutableArray *itemDescriptions;
+@property (nonatomic, strong, readwrite) NSMutableArray *itemImages;
 @property (nonatomic, assign, readwrite) BOOL sectionsEnabled;
 @property (nonatomic, strong, readwrite) UIImage *tabImage;
 @property (nonatomic, strong, readwrite) NSString *title;
@@ -30,8 +34,9 @@ static NSString *const kArtists = @"Artists";
 static NSString *const kAlbums = @"Albums";
 static NSString *const kSongs = @"Songs";
 
-static MultiDictionary* kArtistsToAlbums;
-static MultiDictionary* kAlbumsToSongs;
+static MultiDictionary *kArtistToAlbums;
+static NSMutableDictionary *kAlbumToArtist;
+static MultiDictionary *kAlbumToSongs;
 static NSMutableDictionary *kAlbumToArtwork;
 static UIImage *kDefaultArtwork;
 
@@ -39,6 +44,7 @@ static NSArray *kAllDictionaries;
 
 @synthesize depth = _depth;
 @synthesize headerImage;
+@synthesize itemDescriptions;
 @synthesize itemImages;
 @synthesize items = _items;
 @synthesize parentDataSource;
@@ -48,7 +54,7 @@ static NSArray *kAllDictionaries;
 
 + (id)artistsDataSource
 {
-    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistsToAlbums allKeys]];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistToAlbums allKeys]];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Artists.png"];
     ds.title = kArtists;
@@ -57,16 +63,17 @@ static NSArray *kAllDictionaries;
 
 + (id)albumsDataSource
 {
-    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumsToSongs allKeys]];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumToSongs allKeys]];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Albums.png"];
     ds.title = kAlbums;
+    [ds initSecondayLists];
     return ds;
 }
 
 + (id)songsDataSource
 {
-    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumsToSongs allValues]];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumToSongs allValues]];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Songs.png"];
     ds.title = kSongs;
@@ -110,6 +117,7 @@ static NSArray *kAllDictionaries;
             nextDataSource.title = kSongs;
         }
         nextDataSource.parentDataSource = context.dataSource;
+        [nextDataSource initSecondayLists];
         return nextDataSource;
     }
     return nil;
@@ -122,21 +130,17 @@ static NSArray *kAllDictionaries;
 
 - (NSArray *)getItemImagesInRange:(NSRange)range
 {
-    NSArray *albums = [self getItemsInRange:range];
-    NSMutableArray *albumImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
-    for (NSString *album in albums) 
-    {
-        UIImage *image = [kAlbumToArtwork objectForKey:album];
-        if (image == nil)
-        {
-            [albumImages addObject:kDefaultArtwork];
-        } 
-        else 
-        {
-            [albumImages addObject:image];
-        }
-    }
-    return albumImages;
+    return [self.itemImages subarrayWithRange:range];
+}
+
+- (BOOL)itemDescriptionsEnabled
+{
+    return [self albumsList];
+}
+
+- (NSArray *)getItemDescriptionsInRange:(NSRange)range
+{
+    return [self.itemDescriptions subarrayWithRange:range];
 }
 
 - (BOOL)autoSelectSingleItem
@@ -161,6 +165,36 @@ static NSArray *kAllDictionaries;
     return [self.title isEqualToString:kSongs];
 }
 
+- (void)initSecondayLists
+{
+    if ([self albumsList]) 
+    {
+        [self initImages];
+        [self initDescriptions];
+    }
+}
+
+- (void)initImages
+{
+    NSArray *albums = [self getItemsInRange:NSMakeRange(0, self.count)];
+    self.itemImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
+    for (NSString *album in albums) 
+    {
+        UIImage *image = [kAlbumToArtwork objectForKey:album];
+        [self.itemImages addObject:image == nil ? kDefaultArtwork : image];
+    }
+}
+
+- (void)initDescriptions
+{
+    NSArray *albums = [self getItemsInRange:NSMakeRange(0, self.count)];
+    self.itemDescriptions = [[NSMutableArray alloc] initWithCapacity:[albums count]];
+    for (NSString *album in albums) 
+    {
+        [self.itemDescriptions addObject:[kAlbumToArtist objectForKey:album]];
+    }
+}
+
 + (void)addArtist:(NSString *)artist album:(NSString *)album songs:(NSArray *)songs 
 {
     [self addArtist:artist album:album imageName:nil songs:songs];
@@ -168,9 +202,10 @@ static NSArray *kAllDictionaries;
 
 + (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs
 {
-    [kArtistsToAlbums setObject:album forKey:artist];
+    [kArtistToAlbums setObject:album forKey:artist];
+    [kAlbumToArtist setObject:artist forKey:album];
     for (NSString *song in songs) {
-        [kAlbumsToSongs setObject:song forKey:album];
+        [kAlbumToSongs setObject:song forKey:album];
     }
     if (imageName) 
     {
@@ -181,12 +216,13 @@ static NSArray *kAllDictionaries;
 
 + (void)initialize 
 {
-    kArtistsToAlbums = [[MultiDictionary alloc] init];
-    kAlbumsToSongs = [[MultiDictionary alloc] init];
+    kArtistToAlbums = [[MultiDictionary alloc] init];
+    kAlbumToArtist = [[NSMutableDictionary alloc] init];
+    kAlbumToSongs = [[MultiDictionary alloc] init];
     kAlbumToArtwork = [[NSMutableDictionary alloc] init];
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
     
-    kAllDictionaries = [NSArray arrayWithObjects:kArtistsToAlbums, kAlbumsToSongs, nil];
+    kAllDictionaries = [NSArray arrayWithObjects:kArtistToAlbums, kAlbumToSongs, nil];
     
     [SampleMediaDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
                                songs:[NSArray arrayWithObject:@"Midnight City"]];

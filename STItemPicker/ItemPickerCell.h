@@ -2,9 +2,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TableViewCell : UITableViewCell
+@interface ItemPickerCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @property (nonatomic, weak) IBOutlet UIImageView *iview;
+
+@property (nonatomic, weak) IBOutlet UILabel *description;
 
 @end

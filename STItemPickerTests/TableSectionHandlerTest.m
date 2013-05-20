@@ -123,6 +123,20 @@
     STAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
 }
 
+- (void)testItemDescriptionsSort 
+{
+    NSArray *items = [NSArray arrayWithObjects:@"3", @"2", @"1", nil];
+    NSArray *descriptions = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", nil];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
+    handler.itemDescriptions = descriptions;
+    
+    NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
+    STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
+    
+    NSArray *expectedDescriptions = [NSArray arrayWithObjects:@"cc", @"bb", @"aa", nil];
+    STAssertEqualObjects(handler.itemDescriptions, expectedDescriptions, @"Bad sort order");
+}
+
 - (void)runTestItems:(NSArray *)items
     expectedSections:(NSArray *)expectedSections 
   expectedItemCounts:(int[])expectedItemCounts 

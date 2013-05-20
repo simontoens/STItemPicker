@@ -15,6 +15,8 @@
 
 - (NSString *)getItem:(NSIndexPath *)indexPath;
 
+- (NSString *)getItemDescription:(NSIndexPath *)indexPath;
+
 - (UIImage *)getItemImage:(NSIndexPath *)indexPath;
 
 - (NSArray *)getSectionTitles;

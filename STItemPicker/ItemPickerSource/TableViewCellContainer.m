@@ -4,9 +4,9 @@
 
 @interface TableViewCellContainer()
 
-+ (TableViewCell *)newTableViewCellWithNibName:(NSString *)nibName;
++ (ItemPickerCell *)newTableViewCellWithNibName:(NSString *)nibName;
 
-@property (nonatomic, weak) IBOutlet TableViewCell *cell;
+@property (nonatomic, weak) IBOutlet ItemPickerCell *cell;
 
 @end
 
@@ -14,27 +14,38 @@
 
 @synthesize cell;
 
-+ (TableViewCell *)newPlainTableViewCell
++ (ItemPickerCell *)newCellForTableView:(UITableView *)tableView image:(UIImage *)image description:(NSString *)description;
 {
-    return [TableViewCellContainer newTableViewCellWithNibName:@"PlainTableViewCell"];
+    NSString *cellIdentifier = @"ItemPickerCell";
+    if (image)
+    {
+        cellIdentifier = [NSString stringWithFormat:@"%@Image", cellIdentifier];
+    }
+    if (description)
+    {
+        cellIdentifier = [NSString stringWithFormat:@"%@Description", cellIdentifier];
+    }
+    
+    ItemPickerCell *itemPickerCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+
+    if (!itemPickerCell)
+    {
+        itemPickerCell = [TableViewCellContainer newTableViewCellWithNibName:cellIdentifier];
+    }
+    
+    if (image)
+    {
+        itemPickerCell.iview.image = image;
+    }
+    if (description)
+    {
+        itemPickerCell.description.text = description;
+    }
+    
+    return itemPickerCell;
 }
 
-+ (NSString *)plainTableViewCellIdentifier
-{
-    return @"STItemPickerPlainCell";
-}
-
-+ (TableViewCell *)newImageTableViewCell
-{
-    return [TableViewCellContainer newTableViewCellWithNibName:@"ImageTableViewCell"];
-}
-
-+ (NSString *)imageTableViewCellIdentifier
-{
-    return @"STItemPickerImageCell";
-}
-
-+ (TableViewCell *)newTableViewCellWithNibName:(NSString *)nibName
++ (ItemPickerCell *)newTableViewCellWithNibName:(NSString *)nibName
 {
     TableViewCellContainer *container = [[TableViewCellContainer alloc] init];
     [[NSBundle mainBundle] loadNibNamed:nibName owner:container options:nil];
