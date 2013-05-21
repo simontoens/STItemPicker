@@ -35,7 +35,10 @@ static NSString *const kSongs = @"Songs";
 
 static MultiDictionary *kArtistToAlbums;
 static NSMutableDictionary *kAlbumToArtist;
+
 static MultiDictionary *kAlbumToSongs;
+static NSMutableDictionary *kSongToAlbum;
+
 static NSMutableDictionary *kAlbumToArtwork;
 static UIImage *kDefaultArtwork;
 
@@ -130,7 +133,7 @@ static NSArray *kAllTitles;
 
 - (BOOL)itemDescriptionsEnabled
 {
-    return [self albumsList];
+    return [self albumsList] || [self songsList];
 }
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
@@ -162,31 +165,43 @@ static NSArray *kAllTitles;
 
 - (void)initSecondayLists
 {
-    if ([self albumsList]) 
-    {
-        [self initImages];
-        [self initDescriptions];
-    }
+    [self initImages];
+    [self initDescriptions];
 }
 
 - (void)initImages
 {
-    NSArray *albums = [self getItemsInRange:NSMakeRange(0, self.count)];
-    self.itemImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
-    for (NSString *album in albums) 
-    {
-        UIImage *image = [kAlbumToArtwork objectForKey:album];
-        [self.itemImages addObject:image == nil ? kDefaultArtwork : image];
+    if ([self albumsList])
+    {    
+        NSArray *albums = [self getItemsInRange:NSMakeRange(0, self.count)];
+        self.itemImages = [[NSMutableArray alloc] initWithCapacity:[albums count]];
+        for (NSString *album in albums) 
+        {
+            UIImage *image = [kAlbumToArtwork objectForKey:album];
+            [self.itemImages addObject:image == nil ? kDefaultArtwork : image];
+        }
     }
 }
 
 - (void)initDescriptions
 {
-    NSArray *albums = [self getItemsInRange:NSMakeRange(0, self.count)];
-    self.itemDescriptions = [[NSMutableArray alloc] initWithCapacity:[albums count]];
-    for (NSString *album in albums) 
+    if ([self albumsList] || [self songsList])
     {
-        [self.itemDescriptions addObject:[kAlbumToArtist objectForKey:album]];
+        NSArray *items = [self getItemsInRange:NSMakeRange(0, self.count)];
+        self.itemDescriptions = [[NSMutableArray alloc] initWithCapacity:[items count]];
+        for (NSString *item in items) 
+        {
+            if ([self albumsList])
+            {
+                [self.itemDescriptions addObject:[kAlbumToArtist objectForKey:item]];
+            }
+            else
+            {
+                NSString *album = [kSongToAlbum objectForKey:item];
+                NSString *artist = [kAlbumToArtist objectForKey:album];
+                [self.itemDescriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
+            }
+        }
     }
 }
 
@@ -201,6 +216,7 @@ static NSArray *kAllTitles;
     [kAlbumToArtist setObject:artist forKey:album];
     for (NSString *song in songs) {
         [kAlbumToSongs setObject:song forKey:album];
+        [kSongToAlbum setObject:album forKey:song];
     }
     if (imageName) 
     {
@@ -214,6 +230,7 @@ static NSArray *kAllTitles;
     kArtistToAlbums = [[MultiDictionary alloc] init];
     kAlbumToArtist = [[NSMutableDictionary alloc] init];
     kAlbumToSongs = [[MultiDictionary alloc] init];
+    kSongToAlbum = [[NSMutableDictionary alloc] init];
     kAlbumToArtwork = [[NSMutableDictionary alloc] init];
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
     
@@ -242,7 +259,7 @@ static NSArray *kAllTitles;
                                songs:[NSArray arrayWithObjects:@"Venus", @"Cherry Blossom Girl", @"Run", @"Universal Traveler", @"Mike Millis", @"Surfing On A Rocket", @"Another Day", @"Alpha Beta Gaga", @"Biological", @"Alone In Kyoto", nil]];
     
     [SampleMediaDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
-                               songs:[NSArray arrayWithObject:@"Come Inside"]];
+                               songs:[NSArray arrayWithObjects:@"The Shining, Disillusion", nil]];
     
     [SampleMediaDataSource addArtist:@"Chemical Borthers" album:@"Push The Button" 
                                songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];

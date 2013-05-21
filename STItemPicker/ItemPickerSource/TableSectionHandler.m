@@ -8,6 +8,18 @@
 #import "TableSectionHandler.h"
 #import "Tuple.h"
 
+@interface ItemRecord : NSObject
+{
+    @public
+    NSString *item;
+    UIImage *image;
+    NSString *description;
+}
+@end
+
+@implementation ItemRecord
+@end
+
 @interface TableSectionHandler() 
 - (void)buildSections;
 - (NSString *)getSectionNameForItem:(NSString *)item;
@@ -168,62 +180,50 @@ static NSCharacterSet *kUCharacterSet;
 
 - (void)sortItems
 {
-    if (self.itemImages || self.itemDescriptions)
+    NSMutableArray *itemRecords = [[NSMutableArray alloc] initWithCapacity:[self.items count]];
+    for (int i = 0; i < [self.items count]; i++)
     {
-        for (int i = 0; i < [self.items count]; i++)
-        {
-            if (self.itemImages)
-            {
-                objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, 
-                                         [self.itemImages objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);
-            }
-            if (self.itemDescriptions)
-            {
-                objc_setAssociatedObject([self.items objectAtIndex:i], kDescriptionAssociationKey, 
-                                         [self.itemDescriptions objectAtIndex:i], OBJC_ASSOCIATION_ASSIGN);                
-            }
-        }
+        ItemRecord *r = [[ItemRecord alloc] init];
+        r->item = [self.items objectAtIndex:i];
+        r->image = self.itemImages ? [self.itemImages objectAtIndex:i] : nil;
+        r->description = self.itemDescriptions ? [self.itemDescriptions objectAtIndex:i] : nil;
+        [itemRecords addObject:r];
     }
+    
+    NSArray *sortedItemRecords = [itemRecords sortedArrayUsingComparator:^NSComparisonResult(ItemRecord *r1, ItemRecord *r2) {
+        
+        NSString *item1 = r1->item;
+        NSString *item2 = r2->item;
 
-    self.items = [self.items sortedArrayUsingComparator:^NSComparisonResult(NSString *first, NSString *second) {
-
-        unichar c = [first characterAtIndex:0];
+        unichar c = [item1 characterAtIndex:0];
         if ([kPunctuationCharacterSet characterIsMember:c])
         {
-            first = [first substringFromIndex:1];
+            item1 = [item1 substringFromIndex:1];
         }
-        c = [second characterAtIndex:0];
+        c = [item2 characterAtIndex:0];
         if ([kPunctuationCharacterSet characterIsMember:c])
         {
-            second = [second substringFromIndex:1];
+            item2 = [item2 substringFromIndex:1];
         }
 
-        return [first localizedCaseInsensitiveCompare:second];
+        return [item1 localizedCaseInsensitiveCompare:item2];
     }];
     
-    if (self.itemImages) 
+    NSMutableArray *sortedItems = [[NSMutableArray alloc] initWithCapacity:[self.items count]];
+    NSMutableArray *sortedImages = self.itemImages ? [[NSMutableArray alloc] initWithCapacity:[self.items count]] : nil;
+    NSMutableArray *sortedDesc = self.itemDescriptions ? [[NSMutableArray alloc] initWithCapacity:[self.items count]] : nil;
+    
+    for (ItemRecord *r in sortedItemRecords)
     {
-        NSMutableArray *sortedItemImages = [[NSMutableArray alloc] initWithCapacity:[self.itemImages count]];
-        for (int i = 0; i < [self.items count]; i++)
-        {
-            [sortedItemImages addObject:objc_getAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey)];
-            objc_setAssociatedObject([self.items objectAtIndex:i], kImageAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
-            
-        }
-        self.itemImages = sortedItemImages;
+        [sortedItems addObject:r->item];
+        [sortedImages addObject:r->image];
+        [sortedDesc addObject:r->description];
     }
     
-    if (self.itemDescriptions)
-    {
-        NSMutableArray *sortedDescription = [[NSMutableArray alloc] initWithCapacity:[self.itemDescriptions count]];
-        for (int i = 0; i < [self.items count]; i++)
-        {
-            [sortedDescription addObject:objc_getAssociatedObject([self.items objectAtIndex:i], kDescriptionAssociationKey)];
-            objc_setAssociatedObject([self.items objectAtIndex:i], kDescriptionAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
-            
-        }
-        self.itemDescriptions = sortedDescription;
-    }
+    self.items = sortedItems;
+    self.itemImages = sortedImages;
+    self.itemDescriptions = sortedDesc;
+    
 }
 
 - (void)addSection:(NSString *)title location:(int)location length:(int)length sections:(NSMutableArray *)sections

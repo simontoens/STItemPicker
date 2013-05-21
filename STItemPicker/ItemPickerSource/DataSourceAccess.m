@@ -132,11 +132,11 @@
 - (void)buildSections
 {
     NSRange range = NSMakeRange(0, self.dataSource.count);
-    TableSectionHandler *sectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:range]];
-    sectionHandler.itemDescriptions = self.dataSource.itemDescriptionsEnabled ? 
+    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:range]];
+    self.tableSectionHandler.itemDescriptions = self.dataSource.itemDescriptionsEnabled ? 
         [self.dataSource getItemDescriptionsInRange:range] : nil;
-    sectionHandler.itemImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
-    self.sections = sectionHandler.sections;
+    self.tableSectionHandler.itemImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
+    self.sections = self.tableSectionHandler.sections;
 }
 
 - (void)buildDefaultSection
