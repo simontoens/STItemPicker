@@ -5,17 +5,18 @@
 @protocol ItemPickerDataSource;
 
 /**
- * Interesting pieces of information about a single selection.
- * 
- * TODO: Make properties readonly.
+ * Interesting information about a single selection.
  */
 @interface ItemPickerContext : NSObject <NSCopying>
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
+           selectedIndex:(NSUInteger)index 
+            selectedItem:(NSString *)item 
+            autoSelected:(BOOL)autoSelected;
 
+@property(nonatomic, assign, readonly) BOOL autoSelected;
 @property(nonatomic, strong, readonly) id<ItemPickerDataSource>dataSource;
-@property(nonatomic, assign) NSUInteger selectedIndex;
-@property(nonatomic, strong) NSString *selectedItem;
-@property(nonatomic, assign) BOOL autoSelected;
+@property(nonatomic, assign, readonly) NSUInteger selectedIndex;
+@property(nonatomic, strong, readonly) NSString *selectedItem;
 
 @end

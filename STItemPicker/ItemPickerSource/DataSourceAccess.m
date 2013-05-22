@@ -99,11 +99,10 @@
 
 - (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
 {
-    ItemPickerContext *ctx = [[ItemPickerContext alloc] initWithDataSource:self.dataSource];
-    ctx.selectedIndex = [self convertIndexPathToArrayIndex:indexPath];
-    ctx.selectedItem = [self getItem:indexPath];
-    ctx.autoSelected = autoSelected;
-    return ctx;
+    return [[ItemPickerContext alloc] initWithDataSource:self.dataSource 
+                                           selectedIndex:[self convertIndexPathToArrayIndex:indexPath]
+                                            selectedItem:[self getItem:indexPath] 
+                                            autoSelected:autoSelected];
 }
 
 - (void)process

@@ -5,15 +5,23 @@
 
 @implementation ItemPickerContext
 
+@synthesize autoSelected = _autoSelected;
 @synthesize dataSource = _dataSource;
-@synthesize autoSelected, selectedIndex, selectedItem;
+@synthesize selectedIndex = _selectedIndex; 
+@synthesize selectedItem = _selectedItem;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
+           selectedIndex:(NSUInteger)selectedIndex
+            selectedItem:(NSString *)selectedItem
+            autoSelected:(BOOL)autoSelected
 {
     if (self = [super init]) 
     {
        [Preconditions assertNotNil:dataSource message:@"datasource cannot be nil"];
+        _autoSelected = autoSelected;
         _dataSource = dataSource;
+        _selectedIndex = selectedIndex;
+        _selectedItem = selectedItem;
     }
     return self;
 }
@@ -35,18 +43,17 @@
 - (NSUInteger)hash 
 {
     int prime = 31;
-    int result = prime + selectedIndex;
+    int result = prime + self.selectedIndex;
     result = prime * result + [self.selectedItem hash];
     return result;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    ItemPickerContext *copy = [[ItemPickerContext alloc] initWithDataSource:self.dataSource];
-    copy.autoSelected = self.autoSelected;
-    copy.selectedIndex = self.selectedIndex;
-    copy.selectedItem = [self.selectedItem copyWithZone:zone];
-    return copy;
+    return [[ItemPickerContext alloc] initWithDataSource:self.dataSource 
+                                           selectedIndex:self.selectedIndex 
+                                            selectedItem:[self.selectedItem copyWithZone:zone] 
+                                            autoSelected:self.autoSelected];
 }
 
 - (NSString *)description 
