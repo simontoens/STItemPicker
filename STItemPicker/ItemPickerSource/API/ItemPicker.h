@@ -8,6 +8,11 @@
 
 @interface ItemPicker : NSObject
 
+/**
+ * Create an item picker instance with the specified ItemPickerDataSource instances.
+ * If there is more than one ItemPickerDataSource, the table views for each data source
+ * will each have their own tab (using a UITabBarController).
+ */
 - (id)initWithDataSources:(NSArray *)dataSource;
 
 @property(nonatomic, strong, readonly) UIViewController *viewController;
@@ -23,7 +28,7 @@
 @property(nonatomic, assign) BOOL showCancelButton;
 
 /**
- * The maximum number of items that can be selected in a single ItemPicker "session".  If more than
+ * The maximum number of items that can be selected in a single ItemPicker session.  If more than
  * 1, a "Done" button is added to the right in the navigation bar.  Defaults to 1.
  */
 @property(nonatomic, assign) NSUInteger maxSelectableItems;
@@ -39,7 +44,7 @@
  * The outer array will only have multiple elements if multiSelect is enabled.
  * Within an ItemPickerContext array, the ItemPickerContext instance at the
  * beginning of the array represents the first selection, the instance at the end of the array 
- * represents the final "leaf item" selection.
+ * represents the final leaf item selection.
  */
 - (void)onPickItems:(NSArray *)pickedItemContexts;
 

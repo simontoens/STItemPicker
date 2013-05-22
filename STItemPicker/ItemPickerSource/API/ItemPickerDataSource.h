@@ -23,7 +23,7 @@
 
 /**
  * Called when an item is selected.  Return the data source for the next table view, or nil if this 
- * item does not have any detail.
+ * is a leaf item that does not have any detail view.
  */
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context;
 
@@ -74,12 +74,16 @@
 - (NSArray *)getItemImagesInRange:(NSRange)range;
 
 /**
- * Optional table view header image, return nil if no header image.
+ * Optional table view header image.  Returning a UIImage instance enables a header section with the image
+ * on the left and default labels using the value of the "title" property (see above) as well as
+ * previous selections.
+ *
+ * Defaults to nil (no header enabled).
  */
 @property(nonatomic, strong, readonly) UIImage *headerImage;
 
 /**
- * Optional image to display in the tab.
+ * Optional image to display in the tab, if there is more than a single top-level ItemPickerDataSource.
  */
 @property(nonatomic, strong, readonly) UIImage *tabImage;
 

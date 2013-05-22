@@ -35,7 +35,7 @@
     {
         if ([dataSources count] > 1) 
         {
-            NSMutableArray *viewControllers = [[NSMutableArray alloc]initWithCapacity:[dataSources count]];
+            NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:[dataSources count]];
             for (id<ItemPickerDataSource> dataSource in dataSources) 
             {
                 [viewControllers addObject:[self getControllerForDataSource:dataSource]];
