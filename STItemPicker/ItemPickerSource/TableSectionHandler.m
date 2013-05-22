@@ -46,9 +46,7 @@ static NSCharacterSet *kEnglishLetterCharacterSet;
 static NSCharacterSet *kAllLetterCharacterSet;
 static NSCharacterSet *kNumberCharacterSet;
 static NSCharacterSet *kPunctuationCharacterSet;
-static NSCharacterSet *kACharacterSet;
-static NSCharacterSet *kOCharacterSet;
-static NSCharacterSet *kUCharacterSet;
+static NSDictionary *kCharacterSetToCharacter;
 
 @synthesize items = _items;
 @synthesize itemDescriptions = _itemDescriptions;
@@ -75,9 +73,15 @@ static NSCharacterSet *kUCharacterSet;
     kAllLetterCharacterSet = [NSCharacterSet letterCharacterSet];
     kNumberCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     kPunctuationCharacterSet = [NSCharacterSet punctuationCharacterSet];
-    kACharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"äÄ"];
-    kOCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"öÖ"];
-    kUCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"üÜ"];
+    
+    kCharacterSetToCharacter = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"a", [NSCharacterSet characterSetWithCharactersInString:@"äÄåÅ"],
+                                   @"c", [NSCharacterSet characterSetWithCharactersInString:@"çÇ"],
+                                   @"e", [NSCharacterSet characterSetWithCharactersInString:@"éÉ"],
+                                   @"o", [NSCharacterSet characterSetWithCharactersInString:@"öÖøØœŒ"],
+                                   @"u", [NSCharacterSet characterSetWithCharactersInString:@"üÜ"],
+                                   @"s", [NSCharacterSet characterSetWithCharactersInString:@"ß"],
+                                   nil];
 }
 
 - (id)initWithItems:(NSArray *)items 
@@ -147,19 +151,15 @@ static NSCharacterSet *kUCharacterSet;
         c = [item characterAtIndex:1];
     }
     
-    if ([kACharacterSet characterIsMember:c])
+    for (NSCharacterSet *charSet in [kCharacterSetToCharacter allKeys])
     {
-        c = 'a';
+        if ([charSet characterIsMember:c])
+        {
+            c = [[kCharacterSetToCharacter objectForKey:charSet] characterAtIndex:0];
+            break;
+        }
     }
-    else if ([kOCharacterSet characterIsMember:c])
-    {
-        c = 'o';
-    }
-    else if ([kUCharacterSet characterIsMember:c])
-    {
-        c = 'u';
-    }
-        
+            
     if ([kEnglishLetterCharacterSet characterIsMember:c]) 
     {
         return [[NSString stringWithCharacters:&c length:1] uppercaseString];

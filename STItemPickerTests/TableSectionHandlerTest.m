@@ -48,9 +48,12 @@
 
 - (void)testNonEnglishAlphabetSections
 {
-    [self runTestItems:[NSArray arrayWithObjects:@"äa", @"ÄB", @"üC", @"Ücc", @"あんまり覚えてないや", @"öc", @"ÖB", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A", @"O", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader, nil]
-    expectedItemCounts:(int[]){2, 2, 2, 1}];
+    [self runTestItems:[NSArray arrayWithObjects:
+        @"äa", @"ÄB", @"éa", @"üC", @"ßa", @"øa", @"Øa", @"åa", @"Å", @"Œa", @"Ücc", @"あんまり", 
+        @"œa", @"öc", @"ça", @"Ça", @"ÖB", nil]
+      expectedSections:[NSArray arrayWithObjects:
+        @"A", @"C", @"E", @"O", @"S", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader, nil]
+    expectedItemCounts:(int[]){4, 2, 1, 6, 1, 2, 1}];
     
     [self runTestItems:[NSArray arrayWithObjects:@"(äÄÜ)", nil]
       expectedSections:[NSArray arrayWithObjects:@"A", nil]
