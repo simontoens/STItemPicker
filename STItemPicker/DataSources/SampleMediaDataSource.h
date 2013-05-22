@@ -5,7 +5,7 @@
 #import "ItemPickerDataSource.h"
 
 /**
- * This data sources simulates a small music library.  It implements all methods
+ * This data sources simulates a small music library.  It implements most methods
  * and properties of ItemPickerDataSource to demonstrate the extend of customizability
  * of the ItemPicker.
  */

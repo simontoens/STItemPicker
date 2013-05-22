@@ -1,5 +1,6 @@
 // @author Simon Toens 03/16/13
 
+#import "ItemPickerContext.h"
 #import "MultiDictionary.h"
 #import "SampleMediaDataSource.h"
 
@@ -15,15 +16,16 @@
 - (void)initImages;
 
 
-@property (nonatomic, strong, readwrite) UIImage *headerImage;
-@property (nonatomic, strong, readwrite) NSMutableArray *itemDescriptions;
-@property (nonatomic, strong, readwrite) NSMutableArray *itemImages;
-@property (nonatomic, assign, readwrite) BOOL sectionsEnabled;
-@property (nonatomic, strong, readwrite) UIImage *tabImage;
-@property (nonatomic, strong, readwrite) NSString *title;
+@property(nonatomic, strong, readwrite) UIImage *headerImage;
+@property(nonatomic, strong, readwrite) NSMutableArray *itemDescriptions;
+@property(nonatomic, strong, readwrite) NSMutableArray *itemImages;
+@property(nonatomic, assign, readwrite) BOOL sectionsEnabled;
+@property(nonatomic, strong, readwrite) UIImage *tabImage;
+@property(nonatomic, strong, readwrite) NSString *title;
 
-@property (nonatomic, assign, readonly) NSUInteger depth;
-@property (nonatomic, strong, readonly) NSArray *items;
+@property(nonatomic, assign, readonly) NSUInteger depth;
+@property(nonatomic, strong, readonly) NSArray *items;
+@property(nonatomic, strong) ItemPickerContext *selection;
 
 @end
 
@@ -51,6 +53,7 @@ static NSArray *kAllTitles;
 @synthesize itemImages;
 @synthesize items = _items;
 @synthesize sectionsEnabled = _sectionsEnabled;
+@synthesize selection;
 @synthesize tabImage;
 @synthesize title = _title;
 
@@ -110,6 +113,7 @@ static NSArray *kAllTitles;
         MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
         NSArray *nextItems = [[currentDict objectsForKey:context.selectedItem] allObjects];
         SampleMediaDataSource *nextDataSource = [[SampleMediaDataSource alloc] initWithDepth:self.depth+1 items:nextItems];
+        nextDataSource.selection = context;
         if ([self albumsList])
         {
             UIImage *albumArtwork = [kAlbumToArtwork objectForKey:context.selectedItem];
@@ -133,7 +137,7 @@ static NSArray *kAllTitles;
 
 - (BOOL)itemDescriptionsEnabled
 {
-    return [self albumsList] || [self songsList];
+    return ([self albumsList] || [self songsList]) && !self.selection;
 }
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
