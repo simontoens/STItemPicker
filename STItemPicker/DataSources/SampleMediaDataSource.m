@@ -288,6 +288,10 @@ static NSArray *kAllTitles;
     
     [SampleMediaDataSource addArtist:@"Daft Punk" album:@"Homework" 
                                songs:[NSArray arrayWithObjects:@"Revolution 909", @"Around The World", nil]];
+    
+    [SampleMediaDataSource addArtist:@"Lets Start A Band With A Really Long Name" 
+                               album:@"Lets Make An Abum With A Really Long Name" 
+                               songs:[NSArray arrayWithObject:@"Lets Write A Song With A Really Long Name"]];
 }
 
 @end
