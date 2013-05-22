@@ -29,7 +29,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="l72-95-PjN">
-                                <rect key="frame" x="53" y="113" width="247" height="37"/>
+                                <rect key="frame" x="53" y="106" width="247" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" title="SampleMediaDataSource">
@@ -44,7 +44,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sOC-3k-5fd">
-                                <rect key="frame" x="53" y="181" width="247" height="37"/>
+                                <rect key="frame" x="53" y="169" width="247" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" title="MPMediaDataSource">
@@ -74,21 +74,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok" lineBreakMode="tailTruncation" minimumFontSize="10" id="Zu3-5Y-wjm">
-                                <rect key="frame" x="56" y="77" width="109" height="21"/>
+                                <rect key="frame" x="56" y="75" width="109" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok - maxSelectableItems = 3" lineBreakMode="tailTruncation" minimumFontSize="10" id="bbI-6l-Hgx">
-                                <rect key="frame" x="56" y="147" width="244" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok" lineBreakMode="tailTruncation" minimumFontSize="10" id="bbI-6l-Hgx">
+                                <rect key="frame" x="56" y="139" width="244" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Requires device" lineBreakMode="tailTruncation" minimumFontSize="10" id="Gbv-gU-QoP">
-                                <rect key="frame" x="56" y="210" width="138" height="28"/>
+                                <rect key="frame" x="56" y="198" width="138" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
