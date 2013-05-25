@@ -2,6 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ItemPickerContext.h"
+#import "ItemPickerHeader.h"
 
 /**
  * The ItemPickerDataSource Protocol encapsulates data access and behavior that drives the ItemPicker UI.
@@ -49,6 +50,17 @@
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range;
 
 /**
+ * Return YES to enable showing images next to each item.  Defaults to NO.
+ */
+@property(nonatomic, assign, readonly) BOOL itemImagesEnabled;
+
+/**
+ * Return the image to display next to the items in the specified range.  
+ * Elements in the returned NSArray may be NSNull for those items that don't have an image.
+ */
+- (NSArray *)getItemImagesInRange:(NSRange)range;
+
+/**
  * Return YES to show section headers and a section index.  Defaults to NO.
  * The items will be sorted and sections will be calculated, unless sections are explicitly specified.
  */
@@ -63,26 +75,6 @@
 @property(nonatomic, strong, readonly) NSArray *sections;
 
 /**
- * Return YES to enable showing images next to each item.  Defaults to NO.
- */
-@property(nonatomic, assign, readonly) BOOL itemImagesEnabled;
-
-/**
- * Return the image to display next to the items in the specified range.  
- * Elements in the returned NSArray may be NSNull for those items that don't have an image.
- */
-- (NSArray *)getItemImagesInRange:(NSRange)range;
-
-/**
- * Optional table view header image.  Returning a UIImage instance enables a header section with the image
- * on the left and default labels using the value of the "title" property (see above) as well as
- * previous selections.
- *
- * Defaults to nil (no header enabled).
- */
-@property(nonatomic, strong, readonly) UIImage *headerImage;
-
-/**
  * Optional image to display in the tab, if there is more than a single top-level ItemPickerDataSource.
  */
 @property(nonatomic, strong, readonly) UIImage *tabImage;
@@ -91,5 +83,24 @@
  * If items for this data source have a single element, automatically select it.  Defaults to NO.
  */
 @property(nonatomic, assign, readonly) BOOL autoSelectSingleItem;
+
+/**
+ * Optional table view header image.  Returning a UIImage instance enables a header section with the image
+ * on the left and default labels using the value of the "title" property (see above) as well as
+ * previous selections.
+ *
+ * For more fine-grained control of the header, see the "header" property below.
+ *
+ * Defaults to nil (no header enabled).
+ */
+@property(nonatomic, strong, readonly) UIImage *headerImage;
+
+/**
+ * Optional table view header information.  Returning an ItemPickerHeader instance enabled a header section
+ * with the specified information.
+ *
+ * Defaults to nil (no header enabled).
+ */
+@property(nonatomic, strong, readonly) ItemPickerHeader *header;
 
 @end

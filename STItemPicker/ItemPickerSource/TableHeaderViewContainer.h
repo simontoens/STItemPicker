@@ -4,9 +4,13 @@
 
 @interface TableHeaderViewContainer : NSObject
 
-+ (UIView *)newTableHeaderView:(UIImage *)image 
-                        label1:(NSString *)l1 
-                        label2:(NSString *)l2
-                        label3:(NSString *)l3;
++ (TableHeaderViewContainer *)newTableHeaderViewWithImage:(UIImage *)image;
+
+@property (nonatomic, weak) IBOutlet UILabel *boldLabel;
+@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, weak) IBOutlet UILabel *smallerLabel;
+@property (nonatomic, weak) IBOutlet UILabel *smallestLabel;
+
+@property (nonatomic, weak) IBOutlet UIView *tableHeaderView;
 
 @end

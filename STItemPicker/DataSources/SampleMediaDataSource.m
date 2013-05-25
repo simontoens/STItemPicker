@@ -150,6 +150,19 @@ static NSArray *kAllTitles;
     return [self albumsList];
 }
 
+- (ItemPickerHeader *)header
+{
+    if (self.headerImage && self.headerImage != kDefaultArtwork)
+    {
+        ItemPickerHeader *header = [[ItemPickerHeader alloc] init];
+        header.image = self.headerImage;
+        header.smallestLabel = @"Copyright 1987 Sony Music Lausanne";
+        header.defaultNilLabels = YES;
+        return header;
+    }
+    return nil;
+}
+
 # pragma mark - Private methods
 
 - (BOOL)artistsList 
@@ -263,7 +276,7 @@ static NSArray *kAllTitles;
                                songs:[NSArray arrayWithObjects:@"Venus", @"Cherry Blossom Girl", @"Run", @"Universal Traveler", @"Mike Millis", @"Surfing On A Rocket", @"Another Day", @"Alpha Beta Gaga", @"Biological", @"Alone In Kyoto", nil]];
     
     [SampleMediaDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
-                               songs:[NSArray arrayWithObjects:@"The Shining, Disillusion", nil]];
+                               songs:[NSArray arrayWithObjects:@"The Shining", @"Disillusion", nil]];
     
     [SampleMediaDataSource addArtist:@"Chemical Borthers" album:@"Push The Button" 
                                songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];

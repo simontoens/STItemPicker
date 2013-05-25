@@ -5,34 +5,32 @@
 
 @interface TableHeaderViewContainer()
 
-@property (nonatomic, weak) IBOutlet UIView *tableHeaderView;
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UIImageView *reflectedImageView;
-@property (nonatomic, weak) IBOutlet UILabel *label1;
-@property (nonatomic, weak) IBOutlet UILabel *label2;
-@property (nonatomic, weak) IBOutlet UILabel *label3;
 
 @end
 
 @implementation TableHeaderViewContainer
 
-@synthesize label1, label2, label3;
+@synthesize boldLabel, label, smallerLabel, smallestLabel;
 @synthesize imageView, reflectedImageView;
 @synthesize tableHeaderView;
 
-+ (UIView *)newTableHeaderView:(UIImage *)image 
-                        label1:(NSString *)l1 
-                        label2:(NSString *)l2
-                        label3:(NSString *)l3
++ (TableHeaderViewContainer *)newTableHeaderViewWithImage:(UIImage *)image
 {
     TableHeaderViewContainer *container = [[TableHeaderViewContainer alloc] init];
     [[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:container options:nil];
-    [container.imageView setImage:image];
-    [container.label1 setText:l1];
-    [container.label2 setText:l2];
-    [container.label3 setText:l3];
-    [container.reflectedImageView setImage:[container.imageView reflectedImageWithHeight:container.reflectedImageView.bounds.size.height]];
-    return container.tableHeaderView;
+    if (image) 
+    {
+        [container.imageView setImage:image];
+        [container.reflectedImageView setImage:[container.imageView 
+                                                reflectedImageWithHeight:container.reflectedImageView.bounds.size.height]];
+    }
+    container.boldLabel.text = @"";
+    container.label.text = @"";
+    container.smallerLabel.text = @"";
+    container.smallestLabel.text = @"";
+    return container;
 }
 
 @end

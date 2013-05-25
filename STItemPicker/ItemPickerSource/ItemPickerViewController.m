@@ -294,18 +294,53 @@ UIColor *kGreyBackgroundColor;
     return [contexts count] > offset ? [contexts objectAtIndex:[contexts count] - 1 - offset] : nil;
 }
 
-- (void)configureHeaderView 
-{        
-    UIImage *headerImage = self.dataSource.headerImage;
-    if (headerImage)
+- (TableHeaderViewContainer *)getHeaderViewContainerWithImage:(UIImage *)image defaultLabels:(BOOL)defaultLabels
+{
+    TableHeaderViewContainer *container = [TableHeaderViewContainer newTableHeaderViewWithImage:image];
+    if (defaultLabels)
     {
         NSArray *contexts = [self.contextStack allObjects];
-        NSString *grandfatherSelection = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;
-        NSString *parentSelection = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
-        NSString *numItems = [NSString stringWithFormat:@"%i %@", self.dataSource.count, self.dataSource.title];
-        
-        self.tableView.tableHeaderView = [TableHeaderViewContainer newTableHeaderView:headerImage label1:grandfatherSelection label2:parentSelection label3:numItems];
+        container.boldLabel.text = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;        
+        container.label.text = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
+        container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", self.dataSource.count, self.dataSource.title];
     }
+    return container;
+}
+
+- (void)configureHeaderView 
+{
+    TableHeaderViewContainer *container = nil;
+    
+    ItemPickerHeader *header = self.dataSource.header;    
+    if (header)
+    {
+        container = [self getHeaderViewContainerWithImage:header.image defaultLabels:header.defaultNilLabels];
+        if (header.boldLabel) 
+        {
+            container.boldLabel.text = header.boldLabel;
+        }
+        if (header.label) 
+        {
+            container.label.text = header.label;
+        }
+        if (header.smallerLabel)
+        {
+            container.smallerLabel.text = header.smallerLabel;
+        }
+        if (header.smallestLabel)
+        {
+            container.smallestLabel.text = header.smallestLabel;
+        }
+    }
+    else 
+    {    
+        UIImage *headerImage = self.dataSource.headerImage;
+        if (headerImage)
+        {
+            container = [self getHeaderViewContainerWithImage:headerImage defaultLabels:YES];
+        }
+    }
+    self.tableView.tableHeaderView = container.tableHeaderView;
 }
 
 - (void)configureTitle 

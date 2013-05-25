@@ -85,4 +85,9 @@
     return [self.dataSource respondsToSelector:@selector(autoSelectSingleItem)] ? self.dataSource.autoSelectSingleItem : NO;
 }
 
+- (ItemPickerHeader *)header
+{
+    return [self.dataSource respondsToSelector:@selector(header)] ? self.dataSource.header : nil;
+}
+
 @end

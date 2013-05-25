@@ -20,6 +20,7 @@
 		BE2C7100174ACE9700C93E8F /* ItemPickerCellDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2C70FF174ACE9700C93E8F /* ItemPickerCellDescription.xib */; };
 		BE386309172F867B0059378C /* ItemPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE386308172F867B0059378C /* ItemPickerCell.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */; };
+		BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */; };
 		BE40E319173F4F3A0040038C /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
 		BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
@@ -89,6 +90,8 @@
 		BE386308172F867B0059378C /* ItemPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerCell.xib; path = ItemPickerSource/ItemPickerCell.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleMediaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediaDataSource.h; path = DataSources/SampleMediaDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediaDataSource.m; path = DataSources/SampleMediaDataSource.m; sourceTree = "<group>"; };
+		BE3FFC95174D92C2002806DD /* ItemPickerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerHeader.h; path = ItemPickerSource/API/ItemPickerHeader.h; sourceTree = "<group>"; };
+		BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerHeader.m; path = ItemPickerSource/API/ItemPickerHeader.m; sourceTree = "<group>"; };
 		BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TalkieWalkie.jpg; path = Images/Sample/TalkieWalkie.jpg; sourceTree = "<group>"; };
 		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
 		BE4751B61708EFC80082AF30 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/Sample/ModernLife.jpg; sourceTree = "<group>"; };
@@ -218,6 +221,8 @@
 				BEE04008174C557E00362C73 /* ItemPickerContext.h */,
 				BEE04009174C557E00362C73 /* ItemPickerContext.m */,
 				BEE0400B174C55C100362C73 /* ItemPickerDataSource.h */,
+				BE3FFC95174D92C2002806DD /* ItemPickerHeader.h */,
+				BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -499,6 +504,7 @@
 				BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */,
 				BEE0400A174C557E00362C73 /* ItemPickerContext.m in Sources */,
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
+				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
