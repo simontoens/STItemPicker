@@ -112,19 +112,20 @@
         return;
     }
     self.processed = YES;
-    self.sections = self.dataSource.sections;
-    if (!self.sections)
+    if (self.dataSource.sectionsEnabled)
     {
-        if (self.dataSource.sectionsEnabled)
+        self.sections = self.dataSource.sections;
+        if (!self.sections)
         {
             [self buildSections];
         }
-        else
-        {
-            [self buildDefaultSection];
-        }
     }
-
+    
+    if (!self.sections)
+    {
+        [self buildDefaultSection];
+    }
+    
     [self buildSectionTitles];
 }
 

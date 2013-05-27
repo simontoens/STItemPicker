@@ -4,19 +4,14 @@
 #import "MPMediaDataSource.h"
 
 @interface MPMediaDataSource() 
-@property(nonatomic, strong) UIImage *headerImage;
-@property(nonatomic, strong) NSArray *images;
-@property(nonatomic, strong) NSArray *items;
-@property(nonatomic, strong) NSArray *sections;
-
 @property(nonatomic, strong) NSString *itemProperty;
 @property(nonatomic, strong) MPMediaQuery *query;
 - (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
 - (BOOL)isArtistList;
 - (BOOL)isAlbumList;
 - (BOOL)isSongList;
+- (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range;
 
-- (void)runQuery;
 @end
 
 @implementation MPMediaDataSource
@@ -25,12 +20,6 @@ static UIImage *kDefaultArtwork;
 
 @synthesize itemProperty = _itemProperty;
 @synthesize query = _query;
-
-@synthesize headerImage = _headerImage;
-@synthesize images = _images;
-@synthesize items = _items;
-@synthesize sections = _sections;
-
 
 + (void)initialize
 {
@@ -64,13 +53,29 @@ static UIImage *kDefaultArtwork;
 
 - (NSUInteger)count
 {
-    return 0;
+    return [self.query.collections count];
 }
 
 - (NSArray *)getItemsInRange:(NSRange)range
 {
-    [self runQuery];
-    return _items;
+    return [self getItemProperties:[NSArray arrayWithObject:self.itemProperty] inRange:range];
+}
+
+- (UIImage *)headerImage
+{
+    if ([self isSongList] && [self.query.filterPredicates count] > 1)
+    {
+        for (UIImage *image in [self getItemImagesInRange:NSMakeRange(0, self.count)])
+        {
+            if (image != kDefaultArtwork)
+            {
+                return image;
+            }
+        }
+        return kDefaultArtwork;
+        
+    }
+    return nil;
 }
 
 - (BOOL)itemsAlreadySorted
@@ -78,10 +83,49 @@ static UIImage *kDefaultArtwork;
     return YES;
 }
 
-- (NSArray *)itemImages
+- (BOOL)itemImagesEnabled
 {
-    [self runQuery];
-    return _images;
+    return [self isAlbumList];
+}
+
+- (NSArray *)getItemImagesInRange:(NSRange)range
+{
+    NSArray *items = [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtwork] inRange:range];
+    NSMutableArray *images = [NSMutableArray arrayWithCapacity:[items count]];
+    for (MPMediaItemArtwork *artwork in items)
+    {
+        CGSize size = artwork.bounds.size;
+        UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
+        [images addObject:image ? image : kDefaultArtwork];
+    }
+    return images;
+}
+
+- (BOOL)itemDescriptionsEnabled
+{
+    return [self isAlbumList] || ([self isSongList] && [self.query.filterPredicates count] == 1);
+}
+
+- (NSArray *)getItemDescriptionsInRange:(NSRange)range
+{
+    if ([self isAlbumList])
+    {
+        return [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtist] inRange:range];
+        
+    } 
+    else
+    {
+        NSMutableArray *descriptions = [NSMutableArray arrayWithCapacity:range.length * 2];
+        NSArray *properties = [NSArray arrayWithObjects:MPMediaItemPropertyArtist, MPMediaItemPropertyAlbumTitle, nil];
+        NSArray *values = [self getItemProperties:properties inRange:range];
+        for (int i = 0; i < [values count]; i+=2)
+        {
+            [descriptions addObject:[NSString stringWithFormat:@"%@ - %@", [values objectAtIndex:i], [values objectAtIndex:i+1]]];
+        }
+        return descriptions;
+    }
+    
+    return nil;
 }
 
 - (NSString *)title
@@ -102,25 +146,17 @@ static UIImage *kDefaultArtwork;
 
 - (BOOL)sectionsEnabled
 {
-    [self runQuery];
-    return [self.items count] > 50;
+    return [self.query.collections count] > 50;
 }
 
 - (NSArray *)sections
 {
-    [self runQuery];
-    return _sections;
+    return self.query.collectionSections;
 }
 
 - (BOOL)autoSelectSingleItem
 {
     return [self isAlbumList];
-}
-
-- (UIImage *)headerImage
-{
-    [self runQuery];
-    return _headerImage;
 }
 
 - (UIImage *)tabImage
@@ -139,7 +175,8 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+                                       previousSelections:(NSArray *)previousSelections
 {
     if ([self isArtistList])
     {
@@ -153,68 +190,31 @@ static UIImage *kDefaultArtwork;
         MPMediaQuery *nextQuery = [MPMediaQuery songsQuery];        
         [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:context.selectedItem 
                                                                        forProperty:MPMediaItemPropertyAlbumTitle]];
+        
+        if ([previousSelections count] > 0)
+        {
+            [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[[previousSelections lastObject] selectedItem]
+                                                                           forProperty:MPMediaItemPropertyArtist]];
+        }
+        
         return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyTitle];
     }
     return nil;
 }
 
-- (void)runQuery
+- (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range
 {
-    if (_items)
+    NSMutableArray *itemProperties = [NSMutableArray arrayWithCapacity:range.length * [properties count]];
+    for (int i = range.location; i < range.location + range.length; i++)
     {
-        // already ran the query
-        return;    
-    }
-    
-    NSArray *mediaItems = _query.collections;
-    NSMutableArray *items = [NSMutableArray arrayWithCapacity:[mediaItems count]];
-    NSMutableArray *images = nil;
-    BOOL loadItemImages = [self isAlbumList];
-    BOOL loadHeaderImage = [self isSongList] && [_query.filterPredicates count] > 1;
-    if (loadItemImages)
-    {
-        images = [NSMutableArray arrayWithCapacity:[mediaItems count]];
-    }
-    
-    _sections = _query.collectionSections;
-    for (MPMediaItemCollection *collection in mediaItems)
-    {
+        MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:i];
         MPMediaItem *item = [collection representativeItem];
-        NSString *prop = [item valueForProperty:_itemProperty];
-        [items addObject:prop];
-        if (loadItemImages || (loadHeaderImage && !_headerImage))
+        for (NSString *property in properties)
         {
-            MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
-            CGSize size = artwork.bounds.size;
-            UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
-            if (image)
-            {
-                if (loadItemImages)
-                {
-                    [images addObject:image];
-                }
-                else 
-                {
-                    _headerImage = image;
-                }
-            } 
-            else 
-            {
-                if (loadItemImages)
-                {
-                    [images addObject:kDefaultArtwork];
-                }
-            }
-        }
-        
-        if (loadHeaderImage && !_headerImage)
-        {
-            _headerImage = kDefaultArtwork;
+            [itemProperties addObject:[item valueForProperty:property]];
         }
     }
-    
-    _images = images;
-    _items = items;
+    return itemProperties;
 }
 
 - (BOOL)isArtistList

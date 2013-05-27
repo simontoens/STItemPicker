@@ -29,9 +29,10 @@
     return [self.dataSource getItemsInRange:range];
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+                                       previousSelections:(NSArray *)selections
 {
-    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSourceForSelection:context];
+    id<ItemPickerDataSource> nextDataSource = [self.dataSource getNextDataSourceForSelection:context previousSelections:selections];
     return nextDataSource ? [[ItemPickerDataSourceDefaults alloc] initWithDataSource:nextDataSource] : nil;
 }
 

@@ -25,8 +25,12 @@
 /**
  * Called when an item is selected.  Return the data source for the next table view, or nil if this 
  * is a leaf item that does not have any detail view.
+ *
+ * @param context  The current selection
+ * @param previousSelections  ItemPickerContext instances for previous selections.  The oldest selection is at index 0.
  */
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context;
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+                                       previousSelections:(NSArray *)previousSelections;
 
 /**
  * The view's title; used as the view tab's title, if there is more than a single top-level

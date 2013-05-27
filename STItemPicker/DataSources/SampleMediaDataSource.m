@@ -106,7 +106,8 @@ static NSArray *kAllTitles;
     return [self.items subarrayWithRange:range];
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+                                       previousSelections:(NSArray *)previousSelections
 {
     if (self.depth <= [kAllDictionaries count] - 1)
     {

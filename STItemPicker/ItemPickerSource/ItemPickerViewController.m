@@ -214,9 +214,10 @@ UIColor *kGreyBackgroundColor;
             contextForSelection:(ItemPickerContext *)context
                      dataSource:(id<ItemPickerDataSource>)dataSource 
 {
-    [self.contextStack push:context];
+    NSArray *prevSelections = [[self.contextStack allObjects] copy];
+    id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:context previousSelections:prevSelections];
     
-    id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:context];
+    [self.contextStack push:context];
 
     if (nextDataSource)
     {
