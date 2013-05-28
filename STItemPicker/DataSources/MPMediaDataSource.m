@@ -120,7 +120,18 @@ static UIImage *kDefaultArtwork;
         NSArray *values = [self getItemProperties:properties inRange:range];
         for (int i = 0; i < [values count]; i+=2)
         {
-            [descriptions addObject:[NSString stringWithFormat:@"%@ - %@", [values objectAtIndex:i], [values objectAtIndex:i+1]]];
+            id artist = [values objectAtIndex:i];
+            id album = [values objectAtIndex:i+1];
+            artist = artist == [NSNull null] ? @"" : artist;
+            album = album == [NSNull null] ? @"" : album;
+            if ([artist length] == 0 || [album length] == 0)
+            {
+                [descriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
+            }
+            else 
+            {
+                [descriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
+            }
         }
         return descriptions;
     }
@@ -175,34 +186,64 @@ static UIImage *kDefaultArtwork;
     }
 }
 
+- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection
+{
+    MPMediaDataSource *dataSource = selection.dataSource;
+    NSArray *propValues = [dataSource getItemProperties:itemProperties inRange:NSMakeRange(selection.selectedIndex, 1)];
+    for (int i = 0; i < [itemProperties count]; i++)
+    {
+        id propValue = [propValues objectAtIndex:i];
+        if (propValue == [NSNull null]) 
+        {
+            continue;
+        }
+        [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[propValues objectAtIndex:i]
+                                                                   forProperty:[itemProperties objectAtIndex:i]]];
+    }
+}
+
+- (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery
+{
+    for (MPMediaPropertyPredicate *predicate in fromQuery.filterPredicates)
+    {
+        [toQuery addFilterPredicate:predicate];
+    }
+}
+
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
                                        previousSelections:(NSArray *)previousSelections
 {
+    MPMediaQuery *nextQuery = nil;
+    NSString *nextItemProperty = nil;
     if ([self isArtistList])
     {
-        MPMediaQuery *nextQuery = [MPMediaQuery albumsQuery];
-        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:context.selectedItem 
-                                                                       forProperty:MPMediaItemPropertyArtist]];
-        return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyAlbumTitle];
+        nextQuery = [MPMediaQuery albumsQuery];
+        [self addFilterPredicates:[NSArray arrayWithObjects:MPMediaItemPropertyAlbumArtist, MPMediaItemPropertyArtist, nil] 
+                          toQuery:nextQuery basedOnSelection:context];
+        nextItemProperty = MPMediaItemPropertyAlbumTitle;
     }
     else if ([self isAlbumList])
     {
-        MPMediaQuery *nextQuery = [MPMediaQuery songsQuery];        
-        [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:context.selectedItem 
-                                                                       forProperty:MPMediaItemPropertyAlbumTitle]];
-        
+        nextQuery = [MPMediaQuery songsQuery];
+        [self addFilterPredicates:[NSArray arrayWithObject:MPMediaItemPropertyAlbumTitle] toQuery:nextQuery basedOnSelection:context];
+        nextItemProperty = MPMediaItemPropertyTitle;
+    }
+    
+    if (nextQuery)
+    {        
         if ([previousSelections count] > 0)
         {
-            [nextQuery addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[[previousSelections lastObject] selectedItem]
-                                                                           forProperty:MPMediaItemPropertyArtist]];
+            // not a top level data source, carry over previous filters
+            [self addFilterPredicatesFromQuery:self.query toQuery:nextQuery];
         }
-        
-        return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:MPMediaItemPropertyTitle];
+
+        return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
     }
+
     return nil;
 }
 
-- (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range
+- (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range 
 {
     NSMutableArray *itemProperties = [NSMutableArray arrayWithCapacity:range.length * [properties count]];
     for (int i = range.location; i < range.location + range.length; i++)
@@ -211,9 +252,11 @@ static UIImage *kDefaultArtwork;
         MPMediaItem *item = [collection representativeItem];
         for (NSString *property in properties)
         {
-            [itemProperties addObject:[item valueForProperty:property]];
+            id propVal = [item valueForProperty:property];
+            [itemProperties addObject:propVal ? propVal : [NSNull null]];
         }
     }
+    
     return itemProperties;
 }
 

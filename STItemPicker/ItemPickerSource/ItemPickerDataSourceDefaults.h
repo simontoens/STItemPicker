@@ -7,4 +7,6 @@
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
 
+@property (nonatomic, strong) id<ItemPickerDataSource> dataSource;
+
 @end

@@ -1,6 +1,7 @@
 // @author Simon Toens 05/16/13 on the way to KIX
 
 #import "DataSourceAccess.h"
+#import "ItemPickerDataSourceDefaults.h"
 #import "ItemPickerSection.h"
 #import "TableSectionHandler.h"
 
@@ -97,9 +98,16 @@
     return image == [NSNull null] ? nil : image;
 }
 
+- (id<ItemPickerDataSource>)getUnwrappedDataSource
+{
+    // and so the abstraction begins to break down...
+    return [self.dataSource isKindOfClass:[ItemPickerDataSourceDefaults class]] ? 
+        ((ItemPickerDataSourceDefaults *)self.dataSource).dataSource : self.dataSource;
+}
+
 - (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
 {
-    return [[ItemPickerContext alloc] initWithDataSource:self.dataSource 
+    return [[ItemPickerContext alloc] initWithDataSource:[self getUnwrappedDataSource]
                                            selectedIndex:[self convertIndexPathToArrayIndex:indexPath]
                                             selectedItem:[self getItem:indexPath] 
                                             autoSelected:autoSelected];

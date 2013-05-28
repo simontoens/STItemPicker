@@ -2,10 +2,6 @@
 
 #import "ItemPickerDataSourceDefaults.h"
 
-@interface ItemPickerDataSourceDefaults()
-@property (nonatomic, strong) id<ItemPickerDataSource> dataSource;
-@end
-
 @implementation ItemPickerDataSourceDefaults
 
 @synthesize dataSource = _dataSource;
