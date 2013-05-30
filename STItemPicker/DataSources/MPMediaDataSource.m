@@ -1,6 +1,7 @@
 // @author Simon Toens 04/21/13
 
 #import <MediaPlayer/MediaPlayer.h>
+#import "ItemPickerHeader.h"
 #import "MPMediaDataSource.h"
 
 @interface MPMediaDataSource() 
@@ -61,19 +62,49 @@ static UIImage *kDefaultArtwork;
     return [self getItemProperties:[NSArray arrayWithObject:self.itemProperty] inRange:range];
 }
 
-- (UIImage *)headerImage
+- (ItemPickerHeader *)header
 {
     if ([self songList] && [self.query.filterPredicates count] > 1)
     {
-        for (UIImage *image in [self getItemImagesInRangeInternal:NSMakeRange(0, self.count)])
+        int numSongs = self.count;
+        NSRange range = NSMakeRange(0, numSongs);
+        ItemPickerHeader *header = [[ItemPickerHeader alloc] init];
+        header.defaultNilLabels = NO;
+        header.image = kDefaultArtwork;
+        for (UIImage *image in [self getItemImagesInRangeInternal:range])
         {
             if (image != kDefaultArtwork)
             {
-                return image;
+                header.image = image;
+                break;
             }
         }
-        return kDefaultArtwork;
         
+        NSArray *properties = [NSArray arrayWithObjects:
+            MPMediaItemPropertyArtist, MPMediaItemPropertyArtist, MPMediaItemPropertyAlbumTitle, nil];
+        NSArray *values = [self getItemProperties:properties inRange:range];
+        
+        for (int i = 0; i < [values count]; i+=3)
+        {
+            if ([values objectAtIndex:i] != [NSNull null])
+            {
+                header.boldLabel = [values objectAtIndex:i];
+            }
+            if ([values objectAtIndex:i+1] != [NSNull null] && !header.boldLabel)
+            {
+                header.boldLabel = [values objectAtIndex:i+1];
+            }
+            if ([values objectAtIndex:i+2] != [NSNull null])
+            {
+                header.label = [values objectAtIndex:i+2];
+            }
+            if (header.boldLabel && header.label && header.smallestLabel)
+            {
+                break;
+            }
+        }        
+        header.smallerLabel = [NSString stringWithFormat:@"%i %@%@", numSongs, @"Song", numSongs > 1 ? @"s" : @""];
+        return header;
     }
     return nil;
 }

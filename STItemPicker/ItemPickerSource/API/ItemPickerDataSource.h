@@ -90,7 +90,7 @@
 @property(nonatomic, strong, readonly) UIImage *headerImage;
 
 /**
- * Optional table view header information.  Returning an ItemPickerHeader instance enabled a header section
+ * Optional table view header information.  Returning an ItemPickerHeader instance enables a header section
  * with the specified information.
  *
  * Defaults to nil (no header enabled).
