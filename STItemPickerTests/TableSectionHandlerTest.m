@@ -1,6 +1,8 @@
 // @author Simon Toens 03/23/13
 
 #import <SenTestingKit/SenTestingKit.h>
+
+#import "ItemAttributes.h"
 #import "TableSectionHandler.h"
 #import "Tuple.h"
 
@@ -138,6 +140,23 @@
     
     NSArray *expectedDescriptions = [NSArray arrayWithObjects:@"cc", @"bb", @"aa", @"dd", nil];
     STAssertEqualObjects(handler.itemDescriptions, expectedDescriptions, @"Bad sort order");
+}
+
+- (void)testItemAttributesSort
+{
+    ItemAttributes *a1 = [[ItemAttributes alloc] init];
+    ItemAttributes *a2 = [[ItemAttributes alloc] init];
+    ItemAttributes *a3 = [[ItemAttributes alloc] init];
+    NSArray *items = [NSArray arrayWithObjects:@"3", @"1", @"2", nil];
+    NSArray *ItemAttributes = [NSArray arrayWithObjects:a1, a2, a3, nil];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
+    handler.ItemAttributes = ItemAttributes;
+    
+    NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
+    STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
+    
+    NSArray *expectedAttributes = [NSArray arrayWithObjects:a2, a3, a1, nil];
+    STAssertEqualObjects(handler.itemAttributes, expectedAttributes, @"Bad sort order");
 }
 
 - (void)runTestItems:(NSArray *)items

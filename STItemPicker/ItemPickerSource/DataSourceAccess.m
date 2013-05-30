@@ -54,8 +54,7 @@
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        return [[self.dataSource getItemsInRange:range] lastObject];
+        return [[self.dataSource getItemsInRange:NSMakeRange(index, 1)] lastObject];
     }
 }
 
@@ -75,8 +74,7 @@
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        return [[self.dataSource getItemDescriptionsInRange:range] lastObject];
+        return [[self.dataSource getItemDescriptionsInRange:NSMakeRange(index, 1)] lastObject];
     }
 }
 
@@ -91,11 +89,24 @@
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        image = [[self.dataSource getItemImagesInRange:range] lastObject];
+        image = [[self.dataSource getItemImagesInRange:NSMakeRange(index, 1)] lastObject];
     }
     
     return image == [NSNull null] ? nil : image;
+}
+
+- (ItemAttributes *)getItemAttributes:(NSIndexPath *)indexPath
+{
+    [self process];
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    if (self.tableSectionHandler)
+    {
+        return [self.tableSectionHandler.itemAttributes objectAtIndex:index];
+    }
+    else
+    {
+        return [[self.dataSource getItemAttributesInRange:NSMakeRange(index, 1)] lastObject];
+    }
 }
 
 - (id<ItemPickerDataSource>)getUnwrappedDataSource
@@ -144,6 +155,7 @@
     self.tableSectionHandler.itemDescriptions = self.dataSource.itemDescriptionsEnabled ? 
         [self.dataSource getItemDescriptionsInRange:range] : nil;
     self.tableSectionHandler.itemImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
+    self.tableSectionHandler.itemAttributes = [self.dataSource getItemAttributesInRange:range];
     self.sections = self.tableSectionHandler.sections;
 }
 

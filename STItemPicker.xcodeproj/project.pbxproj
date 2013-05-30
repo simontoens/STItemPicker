@@ -23,6 +23,7 @@
 		BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */; };
 		BE40E319173F4F3A0040038C /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
 		BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */; };
+		BE4463C617547769003B9134 /* ItemAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4463C517547769003B9134 /* ItemAttributes.m */; };
 		BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B41708EF990082AF30 /* Innuendo.jpg */; };
 		BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B61708EFC80082AF30 /* ModernLife.jpg */; };
 		BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4751B71708EFC80082AF30 /* MoonSafari.jpg */; };
@@ -93,6 +94,8 @@
 		BE3FFC95174D92C2002806DD /* ItemPickerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerHeader.h; path = ItemPickerSource/API/ItemPickerHeader.h; sourceTree = "<group>"; };
 		BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerHeader.m; path = ItemPickerSource/API/ItemPickerHeader.m; sourceTree = "<group>"; };
 		BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = TalkieWalkie.jpg; path = Images/Sample/TalkieWalkie.jpg; sourceTree = "<group>"; };
+		BE4463C417547769003B9134 /* ItemAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemAttributes.h; path = ItemPickerSource/API/ItemAttributes.h; sourceTree = "<group>"; };
+		BE4463C517547769003B9134 /* ItemAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemAttributes.m; path = ItemPickerSource/API/ItemAttributes.m; sourceTree = "<group>"; };
 		BE4751B41708EF990082AF30 /* Innuendo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Innuendo.jpg; path = Images/Sample/Innuendo.jpg; sourceTree = "<group>"; };
 		BE4751B61708EFC80082AF30 /* ModernLife.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = ModernLife.jpg; path = Images/Sample/ModernLife.jpg; sourceTree = "<group>"; };
 		BE4751B71708EFC80082AF30 /* MoonSafari.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = MoonSafari.jpg; path = Images/Sample/MoonSafari.jpg; sourceTree = "<group>"; };
@@ -216,6 +219,8 @@
 		BEE04006174C54F700362C73 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				BE4463C417547769003B9134 /* ItemAttributes.h */,
+				BE4463C517547769003B9134 /* ItemAttributes.m */,
 				BEE0400C174C55FF00362C73 /* ItemPicker.h */,
 				BEE0400D174C55FF00362C73 /* ItemPicker.m */,
 				BEE04008174C557E00362C73 /* ItemPickerContext.h */,
@@ -505,6 +510,7 @@
 				BEE0400A174C557E00362C73 /* ItemPickerContext.m in Sources */,
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
 				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
+				BE4463C617547769003B9134 /* ItemAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

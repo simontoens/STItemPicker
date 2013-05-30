@@ -3,6 +3,7 @@
 #import <objc/runtime.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+#import "ItemAttributes.h"
 #import "ItemPickerSection.h"
 #import "Preconditions.h"
 #import "TableSectionHandler.h"
@@ -14,6 +15,7 @@
     NSString *item;
     UIImage *image;
     NSString *description;
+    ItemAttributes *itemAttributes;
 }
 @end
 
@@ -48,11 +50,13 @@ static NSCharacterSet *kNumberCharacterSet;
 static NSCharacterSet *kPunctuationCharacterSet;
 static NSDictionary *kCharacterSetToCharacter;
 
+@synthesize itemAttributes = _itemAttributes;
 @synthesize items = _items;
 @synthesize itemDescriptions = _itemDescriptions;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
+
 
 + (NSCharacterSet *)getEnglishCharacterSet
 {
@@ -129,6 +133,12 @@ static NSDictionary *kCharacterSetToCharacter;
     return _sections;
 }
 
+- (NSArray *)itemAttributes
+{
+    [self process];
+    return _itemAttributes;
+}
+
 - (void)process 
 {    
     if (self.processed)
@@ -187,6 +197,7 @@ static NSDictionary *kCharacterSetToCharacter;
         r->item = [self.items objectAtIndex:i];
         r->image = self.itemImages ? [self.itemImages objectAtIndex:i] : nil;
         r->description = self.itemDescriptions ? [self.itemDescriptions objectAtIndex:i] : nil;
+        r->itemAttributes = self.itemAttributes ? [self.itemAttributes objectAtIndex:i] : nil;
         [itemRecords addObject:r];
     }
     
@@ -212,18 +223,20 @@ static NSDictionary *kCharacterSetToCharacter;
     NSMutableArray *sortedItems = [[NSMutableArray alloc] initWithCapacity:[self.items count]];
     NSMutableArray *sortedImages = self.itemImages ? [[NSMutableArray alloc] initWithCapacity:[self.items count]] : nil;
     NSMutableArray *sortedDesc = self.itemDescriptions ? [[NSMutableArray alloc] initWithCapacity:[self.items count]] : nil;
+    NSMutableArray *sortedItemAttributes = self.itemAttributes ? [[NSMutableArray alloc] initWithCapacity:[self.items count]] : nil;
     
     for (ItemRecord *r in sortedItemRecords)
     {
         [sortedItems addObject:r->item];
         [sortedImages addObject:r->image];
         [sortedDesc addObject:r->description];
+        [sortedItemAttributes addObject:r->itemAttributes];
     }
     
     self.items = sortedItems;
     self.itemImages = sortedImages;
     self.itemDescriptions = sortedDesc;
-    
+    self.itemAttributes = sortedItemAttributes;
 }
 
 - (void)addSection:(NSString *)title location:(int)location length:(int)length sections:(NSMutableArray *)sections

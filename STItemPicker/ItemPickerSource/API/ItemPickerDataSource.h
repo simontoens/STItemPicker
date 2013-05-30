@@ -13,7 +13,7 @@
 @required
 
 /**
- * The total number of items for this ItemPicker TableView.
+ * The total number of items for this ItemPicker table view.
  */
 @property(nonatomic, assign, readonly) NSUInteger count;
 
@@ -106,5 +106,10 @@
  * Defaults to nil (no header enabled).
  */
 @property(nonatomic, strong, readonly) ItemPickerHeader *header;
+
+/**
+ * Optional attributes to tweak the appearance of each table view cell.
+ */
+- (NSArray *)getItemAttributesInRange:(NSRange)range;
 
 @end

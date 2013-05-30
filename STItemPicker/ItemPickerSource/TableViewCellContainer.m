@@ -14,7 +14,11 @@
 
 @synthesize cell;
 
-+ (ItemPickerCell *)newCellForTableView:(UITableView *)tableView image:(UIImage *)image description:(NSString *)description;
++ (ItemPickerCell *)newCellForTableView:(UITableView *)tableView 
+                                   text:(NSString *)text
+                                  image:(UIImage *)image 
+                            description:(NSString *)description                         
+                         itemAttributes:(ItemAttributes *)itemAttributes
 {
     NSString *cellIdentifier = @"ItemPickerCell";
     if (image)
@@ -40,6 +44,18 @@
     if (description)
     {
         itemPickerCell.description.text = description;
+    }
+    
+    itemPickerCell.label.text = text;
+    
+    if (itemAttributes)
+    {
+        itemPickerCell.label.textColor = itemAttributes.textColor;
+        if (description)
+        {
+            itemPickerCell.description.textColor = itemAttributes.textColor;
+        }
+        itemPickerCell.userInteractionEnabled = itemAttributes.userInteractionEnabled;
     }
     
     return itemPickerCell;

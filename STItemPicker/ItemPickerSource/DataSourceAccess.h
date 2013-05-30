@@ -1,6 +1,7 @@
 // @author Simon Toens 05/16/13 on the way to KIX
 
 #import <Foundation/Foundation.h>
+#import "ItemAttributes.h"
 #import "ItemPickerContext.h"
 #import "ItemPickerDataSource.h"
 
@@ -18,6 +19,8 @@
 - (NSString *)getItemDescription:(NSIndexPath *)indexPath;
 
 - (UIImage *)getItemImage:(NSIndexPath *)indexPath;
+
+- (ItemAttributes *)getItemAttributes:(NSIndexPath *)indexPath;
 
 - (NSArray *)getSectionTitles;
 

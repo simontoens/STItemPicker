@@ -164,14 +164,16 @@ UIColor *kGreyBackgroundColor;
         description = [self.dataSourceAccess getItemDescription:indexPath];
     }
     
-    ItemPickerCell *cell = [TableViewCellContainer newCellForTableView:tableView image:image description:description];
-    
-    cell.label.text = [self.dataSourceAccess getItem:indexPath];
+    ItemPickerCell *cell = [TableViewCellContainer newCellForTableView:tableView 
+                                                                  text:[self.dataSourceAccess getItem:indexPath]
+                                                                 image:image 
+                                                           description:description
+                                                        itemAttributes:[self.dataSourceAccess getItemAttributes:indexPath]];
     
     BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
     cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
-    cell.userInteractionEnabled = isCellSelected || [self moreCellsAreSelectable];
+    cell.userInteractionEnabled = cell.userInteractionEnabled && (isCellSelected || [self moreCellsAreSelectable]);
     
     return cell; 
 }

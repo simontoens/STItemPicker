@@ -9,6 +9,7 @@
 @property(nonatomic, strong, readonly) NSArray *items;
 @property(nonatomic, strong, readonly) NSArray *sections;
 
+@property(nonatomic, strong, readwrite) NSArray *itemAttributes;
 @property(nonatomic, strong, readwrite) NSArray *itemDescriptions;
 @property(nonatomic, strong, readwrite) NSArray *itemImages;
 
