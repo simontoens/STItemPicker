@@ -126,24 +126,22 @@ static NSArray *kAllTitles;
     return nil;
 }
 
-- (BOOL)itemImagesEnabled
-{
-    return [self albumsList];
-}
-
 - (NSArray *)getItemImagesInRange:(NSRange)range
 {
-    return [self.itemImages subarrayWithRange:range];
-}
-
-- (BOOL)itemDescriptionsEnabled
-{
-    return ([self albumsList] || [self songsList]) && !self.selection;
+    if ([self albumsList])
+    {
+        return [self.itemImages subarrayWithRange:range];
+    }
+    return nil;
 }
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
 {
-    return [self.itemDescriptions subarrayWithRange:range];
+    if (([self albumsList] || [self songsList]) && !self.selection)
+    {
+        return [self.itemDescriptions subarrayWithRange:range];
+    }
+    return nil;
 }
 
 - (BOOL)autoSelectSingleItem

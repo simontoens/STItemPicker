@@ -152,9 +152,8 @@
 {
     NSRange range = NSMakeRange(0, self.dataSource.count);
     self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:range]];
-    self.tableSectionHandler.itemDescriptions = self.dataSource.itemDescriptionsEnabled ? 
-        [self.dataSource getItemDescriptionsInRange:range] : nil;
-    self.tableSectionHandler.itemImages = self.dataSource.itemImagesEnabled ? [self.dataSource getItemImagesInRange:range] : nil;
+    self.tableSectionHandler.itemDescriptions = [self.dataSource getItemDescriptionsInRange:range];
+    self.tableSectionHandler.itemImages = [self.dataSource getItemImagesInRange:range];
     self.tableSectionHandler.itemAttributes = [self.dataSource getItemAttributesInRange:range];
     self.sections = self.tableSectionHandler.sections;
 }

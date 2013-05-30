@@ -7,11 +7,11 @@
 @property(nonatomic, strong) NSString *itemProperty;
 @property(nonatomic, strong) MPMediaQuery *query;
 - (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
-- (BOOL)isArtistList;
-- (BOOL)isAlbumList;
-- (BOOL)isSongList;
+- (BOOL)artistList;
+- (BOOL)albumList;
+- (BOOL)songList;
+- (NSArray *)getItemImagesInRangeInternal:(NSRange)range;
 - (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range;
-
 @end
 
 @implementation MPMediaDataSource
@@ -63,9 +63,9 @@ static UIImage *kDefaultArtwork;
 
 - (UIImage *)headerImage
 {
-    if ([self isSongList] && [self.query.filterPredicates count] > 1)
+    if ([self songList] && [self.query.filterPredicates count] > 1)
     {
-        for (UIImage *image in [self getItemImagesInRange:NSMakeRange(0, self.count)])
+        for (UIImage *image in [self getItemImagesInRangeInternal:NSMakeRange(0, self.count)])
         {
             if (image != kDefaultArtwork)
             {
@@ -78,17 +78,12 @@ static UIImage *kDefaultArtwork;
     return nil;
 }
 
-- (BOOL)itemsAlreadySorted
-{
-    return YES;
-}
-
-- (BOOL)itemImagesEnabled
-{
-    return [self isAlbumList];
-}
-
 - (NSArray *)getItemImagesInRange:(NSRange)range
+{
+    return [self albumList] ? [self getItemImagesInRangeInternal:range] : nil;
+}
+
+- (NSArray *)getItemImagesInRangeInternal:(NSRange)range
 {
     NSArray *items = [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtwork] inRange:range];
     NSMutableArray *images = [NSMutableArray arrayWithCapacity:[items count]];
@@ -101,19 +96,15 @@ static UIImage *kDefaultArtwork;
     return images;
 }
 
-- (BOOL)itemDescriptionsEnabled
-{
-    return [self isAlbumList] || ([self isSongList] && [self.query.filterPredicates count] == 1);
-}
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
 {
-    if ([self isAlbumList])
+    if ([self albumList])
     {
         return [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtist] inRange:range];
         
     } 
-    else
+    else if ([self songList] && [self.query.filterPredicates count] == 1)
     {
         NSMutableArray *descriptions = [NSMutableArray arrayWithCapacity:range.length * 2];
         NSArray *properties = [NSArray arrayWithObjects:MPMediaItemPropertyArtist, MPMediaItemPropertyAlbumTitle, nil];
@@ -141,11 +132,11 @@ static UIImage *kDefaultArtwork;
 
 - (NSString *)title
 {
-    if ([self isArtistList])
+    if ([self artistList])
     {
         return @"Artists";
     }
-    else if ([self isAlbumList])
+    else if ([self albumList])
     {
         return @"Albums";
     }
@@ -167,16 +158,16 @@ static UIImage *kDefaultArtwork;
 
 - (BOOL)autoSelectSingleItem
 {
-    return [self isAlbumList];
+    return [self albumList];
 }
 
 - (UIImage *)tabImage
 {
-    if ([self isArtistList])
+    if ([self artistList])
     {
         return [UIImage imageNamed:@"Artists.png"];
     }
-    else if ([self isAlbumList])
+    else if ([self albumList])
     {
         return [UIImage imageNamed:@"Albums.png"];        
     } 
@@ -215,14 +206,14 @@ static UIImage *kDefaultArtwork;
 {
     MPMediaQuery *nextQuery = nil;
     NSString *nextItemProperty = nil;
-    if ([self isArtistList])
+    if ([self artistList])
     {
         nextQuery = [MPMediaQuery albumsQuery];
         [self addFilterPredicates:[NSArray arrayWithObjects:MPMediaItemPropertyAlbumArtist, MPMediaItemPropertyArtist, nil] 
                           toQuery:nextQuery basedOnSelection:context];
         nextItemProperty = MPMediaItemPropertyAlbumTitle;
     }
-    else if ([self isAlbumList])
+    else if ([self albumList])
     {
         nextQuery = [MPMediaQuery songsQuery];
         [self addFilterPredicates:[NSArray arrayWithObject:MPMediaItemPropertyAlbumTitle] toQuery:nextQuery basedOnSelection:context];
@@ -260,17 +251,17 @@ static UIImage *kDefaultArtwork;
     return itemProperties;
 }
 
-- (BOOL)isArtistList
+- (BOOL)artistList
 {
     return self.query.groupingType == MPMediaGroupingArtist;
 }
 
-- (BOOL)isAlbumList
+- (BOOL)albumList
 {
     return self.query.groupingType == MPMediaGroupingAlbum;
 }
 
-- (BOOL)isSongList 
+- (BOOL)songList 
 {
     return self.query.groupingType == MPMediaGroupingTitle;
 }

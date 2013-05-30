@@ -18,7 +18,7 @@
 @property(nonatomic, assign, readonly) NSUInteger count;
 
 /**
- * The items in the specified range.  Must return a non-nil, non-empty array.
+ * The items in the specified range.  Must return a non-nil array.
  */
 - (NSArray *)getItemsInRange:(NSRange)range;
 
@@ -43,24 +43,14 @@
 @optional
 
 /**
- * Return YES to display a description below each item.  Defaults to NO.
- */
-@property(nonatomic, assign, readonly) BOOL itemDescriptionsEnabled;
-
-/**
- * If enabled (see above), return array of descriptions to display below each item.  
- * Elements in the returned NSArray may be NSNull for those items that don't have a description.
+ * Return array of descriptions to display below each item; elements in the returned NSArray may be NSNull for 
+ * those items that don't have a description.  Return nil if descriptions are not enabled.
  */
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range;
 
 /**
- * Return YES to enable showing images next to each item.  Defaults to NO.
- */
-@property(nonatomic, assign, readonly) BOOL itemImagesEnabled;
-
-/**
- * Return the image to display next to the items in the specified range.  
- * Elements in the returned NSArray may be NSNull for those items that don't have an image.
+ * Return the image to display next to the items in the specified range; elements in the returned NSArray may be NSNull 
+ * for those items that don't have an image.  Return nil if images are not enabled.
  */
 - (NSArray *)getItemImagesInRange:(NSRange)range;
 

@@ -152,17 +152,8 @@ UIColor *kGreyBackgroundColor;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {  
-    UIImage *image = nil;
-    if (self.dataSource.itemImagesEnabled)
-    {
-        image = [self.dataSourceAccess getItemImage:indexPath];        
-    }
-    
-    NSString *description = nil;
-    if (self.dataSource.itemDescriptionsEnabled)
-    {
-        description = [self.dataSourceAccess getItemDescription:indexPath];
-    }
+    UIImage *image = [self.dataSourceAccess getItemImage:indexPath];        
+    NSString *description = [self.dataSourceAccess getItemDescription:indexPath];
     
     ItemPickerCell *cell = [TableViewCellContainer newCellForTableView:tableView 
                                                                   text:[self.dataSourceAccess getItem:indexPath]
