@@ -15,6 +15,11 @@
  */
 - (id)initWithDataSources:(NSArray *)dataSource;
 
+/**
+ * The underlying item picker view controller.  The easiest way to render the picker is to show it as
+ * a modal view controller, for example using something like: 
+ * <pre>[self.navigationController presentModalViewController:itemPicker.viewController animated:YES]</pre>
+ */
 @property(nonatomic, strong, readonly) UIViewController *viewController;
 
 /**

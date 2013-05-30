@@ -8,6 +8,8 @@
 @property(nonatomic, strong) NSString *itemProperty;
 @property(nonatomic, strong) MPMediaQuery *query;
 - (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
+- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection;
+- (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery;
 - (BOOL)artistList;
 - (BOOL)albumList;
 - (BOOL)songList;
@@ -114,20 +116,6 @@ static UIImage *kDefaultArtwork;
     return [self albumList] ? [self getItemImagesInRangeInternal:range] : nil;
 }
 
-- (NSArray *)getItemImagesInRangeInternal:(NSRange)range
-{
-    NSArray *items = [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtwork] inRange:range];
-    NSMutableArray *images = [NSMutableArray arrayWithCapacity:[items count]];
-    for (MPMediaItemArtwork *artwork in items)
-    {
-        CGSize size = artwork.bounds.size;
-        UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
-        [images addObject:image ? image : kDefaultArtwork];
-    }
-    return images;
-}
-
-
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
 {
     if ([self albumList])
@@ -208,30 +196,6 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection
-{
-    MPMediaDataSource *dataSource = selection.dataSource;
-    NSArray *propValues = [dataSource getItemProperties:itemProperties inRange:NSMakeRange(selection.selectedIndex, 1)];
-    for (int i = 0; i < [itemProperties count]; i++)
-    {
-        id propValue = [propValues objectAtIndex:i];
-        if (propValue == [NSNull null]) 
-        {
-            continue;
-        }
-        [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[propValues objectAtIndex:i]
-                                                                   forProperty:[itemProperties objectAtIndex:i]]];
-    }
-}
-
-- (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery
-{
-    for (MPMediaPropertyPredicate *predicate in fromQuery.filterPredicates)
-    {
-        [toQuery addFilterPredicate:predicate];
-    }
-}
-
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
                                        previousSelections:(NSArray *)previousSelections
 {
@@ -263,6 +227,45 @@ static UIImage *kDefaultArtwork;
     }
 
     return nil;
+}
+
+# pragma mark - Private methods
+
+- (NSArray *)getItemImagesInRangeInternal:(NSRange)range
+{
+    NSArray *items = [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtwork] inRange:range];
+    NSMutableArray *images = [NSMutableArray arrayWithCapacity:[items count]];
+    for (MPMediaItemArtwork *artwork in items)
+    {
+        CGSize size = artwork.bounds.size;
+        UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
+        [images addObject:image ? image : kDefaultArtwork];
+    }
+    return images;
+}
+
+- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection
+{
+    MPMediaDataSource *dataSource = selection.dataSource;
+    NSArray *propValues = [dataSource getItemProperties:itemProperties inRange:NSMakeRange(selection.selectedIndex, 1)];
+    for (int i = 0; i < [itemProperties count]; i++)
+    {
+        id propValue = [propValues objectAtIndex:i];
+        if (propValue == [NSNull null]) 
+        {
+            continue;
+        }
+        [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[propValues objectAtIndex:i]
+                                                                   forProperty:[itemProperties objectAtIndex:i]]];
+    }
+}
+
+- (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery
+{
+    for (MPMediaPropertyPredicate *predicate in fromQuery.filterPredicates)
+    {
+        [toQuery addFilterPredicate:predicate];
+    }
 }
 
 - (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range 
