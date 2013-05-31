@@ -252,6 +252,7 @@ UIColor *kGreyBackgroundColor;
     }
     else
     {
+        [self.selectedItems removeAllObjects];
         [self.itemPickerDelegate onPickItems:[NSArray arrayWithObject:[self.contextStack allObjects]]];
     }
 }
