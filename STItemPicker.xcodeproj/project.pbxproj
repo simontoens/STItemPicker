@@ -11,6 +11,7 @@
 		BE074E57172397FD001681EE /* Tuple.m in Sources */ = {isa = PBXBuildFile; fileRef = BE074E56172397FD001681EE /* Tuple.m */; };
 		BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
 		BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
+		BE0D6C891758528300844B26 /* ItemPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D6C881758528300844B26 /* ItemPickerCell.m */; };
 		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
 		BE26E7CC17090287000850F2 /* ItemPickerCellImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7CB17090287000850F2 /* ItemPickerCellImage.xib */; };
@@ -32,7 +33,6 @@
 		BE541ED617234072001088BC /* Albums.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED317234072001088BC /* Albums.png */; };
 		BE541ED717234072001088BC /* Artists.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED417234072001088BC /* Artists.png */; };
 		BE541ED817234072001088BC /* Songs.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED517234072001088BC /* Songs.png */; };
-		BE541EDB17235087001088BC /* ItemPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE541EDA17235087001088BC /* ItemPickerCell.m */; };
 		BE669C4317257E58007F153A /* ItemPickerDataSourceDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEC6FCE11724CBBC00A00165 /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
@@ -78,6 +78,8 @@
 		BE074E56172397FD001681EE /* Tuple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tuple.m; path = Submodules/STObjCToolbelt/Source/Tuple.m; sourceTree = "<group>"; };
 		BE0A762C1733770900D40692 /* ItemPickerSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerSection.h; path = ItemPickerSource/ItemPickerSection.h; sourceTree = "<group>"; };
 		BE0A762D1733770A00D40692 /* ItemPickerSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerSection.m; path = ItemPickerSource/ItemPickerSection.m; sourceTree = "<group>"; };
+		BE0D6C871758528300844B26 /* ItemPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerCell.h; path = ItemPickerSource/ItemPickerCell.h; sourceTree = "<group>"; };
+		BE0D6C881758528300844B26 /* ItemPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerCell.m; path = ItemPickerSource/ItemPickerCell.m; sourceTree = "<group>"; };
 		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
 		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
@@ -104,8 +106,6 @@
 		BE541ED317234072001088BC /* Albums.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Albums.png; path = Images/Sample/Albums.png; sourceTree = "<group>"; };
 		BE541ED417234072001088BC /* Artists.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Artists.png; path = Images/Sample/Artists.png; sourceTree = "<group>"; };
 		BE541ED517234072001088BC /* Songs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Songs.png; path = Images/Sample/Songs.png; sourceTree = "<group>"; };
-		BE541ED917235087001088BC /* ItemPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemPickerCell.h; sourceTree = "<group>"; };
-		BE541EDA17235087001088BC /* ItemPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPickerCell.m; sourceTree = "<group>"; };
 		BE669C4117257E58007F153A /* ItemPickerDataSourceDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerDataSourceDefaults.h; path = ItemPickerSource/ItemPickerDataSourceDefaults.h; sourceTree = "<group>"; };
 		BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerDataSourceDefaults.m; path = ItemPickerSource/ItemPickerDataSourceDefaults.m; sourceTree = "<group>"; };
 		BEB54D4917080731002042CD /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = Submodules/STObjCToolbelt/Source/Stack.h; sourceTree = "<group>"; };
@@ -317,6 +317,8 @@
 				BEE04006174C54F700362C73 /* API */,
 				BED14D9117456C1100A145BA /* DataSourceAccess.h */,
 				BED14D9217456C1100A145BA /* DataSourceAccess.m */,
+				BE0D6C871758528300844B26 /* ItemPickerCell.h */,
+				BE0D6C881758528300844B26 /* ItemPickerCell.m */,
 				BE669C4117257E58007F153A /* ItemPickerDataSourceDefaults.h */,
 				BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */,
 				BE0A762C1733770900D40692 /* ItemPickerSection.h */,
@@ -324,8 +326,6 @@
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
 				BEEB9CE916FFE5870021E035 /* ItemPickerView.xib */,
-				BE541ED917235087001088BC /* ItemPickerCell.h */,
-				BE541EDA17235087001088BC /* ItemPickerCell.m */,
 				BE386308172F867B0059378C /* ItemPickerCell.xib */,
 				BE26E7CB17090287000850F2 /* ItemPickerCellImage.xib */,
 				BE2C70FF174ACE9700C93E8F /* ItemPickerCellDescription.xib */,
@@ -500,7 +500,6 @@
 				BEB54D4B17080731002042CD /* Stack.m in Sources */,
 				BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */,
 				BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */,
-				BE541EDB17235087001088BC /* ItemPickerCell.m in Sources */,
 				BE074E57172397FD001681EE /* Tuple.m in Sources */,
 				BEC6FCE11724CBBC00A00165 /* SampleCityDataSource.m in Sources */,
 				BE669C4317257E58007F153A /* ItemPickerDataSourceDefaults.m in Sources */,
@@ -511,6 +510,7 @@
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
 				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
 				BE4463C617547769003B9134 /* ItemAttributes.m in Sources */,
+				BE0D6C891758528300844B26 /* ItemPickerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
