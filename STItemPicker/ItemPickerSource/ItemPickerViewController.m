@@ -190,6 +190,7 @@ UIColor *kGreyBackgroundColor;
 {
     NSArray *selections = [self.selectedItems copy];
     [self.selectedItems removeAllObjects];
+    [self.tableView reloadData];
     [self.itemPickerDelegate onPickItems:selections];
 }
 
