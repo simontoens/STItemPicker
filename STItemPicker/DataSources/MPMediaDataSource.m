@@ -218,7 +218,7 @@ static UIImage *kDefaultArtwork;
             [self addFilterPredicatesFromQuery:self.query toQuery:nextQuery];
         }
 
-        return [[MPMediaDataSource alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
+        return [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
     }
 
     return nil;
