@@ -1,18 +1,13 @@
 // @author Simon Toens 04/21/13
 
-#import <MediaPlayer/MediaPlayer.h>
 #import "ItemPickerHeader.h"
 #import "MPMediaDataSource.h"
 
 @interface MPMediaDataSource() 
 @property(nonatomic, strong) NSString *itemProperty;
-@property(nonatomic, strong) MPMediaQuery *query;
 - (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
 - (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection;
 - (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery;
-- (BOOL)artistList;
-- (BOOL)albumList;
-- (BOOL)songList;
 - (NSArray *)getItemImagesInRangeInternal:(NSRange)range;
 - (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range;
 @end
