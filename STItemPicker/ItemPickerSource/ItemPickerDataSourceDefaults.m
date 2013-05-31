@@ -37,6 +37,14 @@
     return self.dataSource.title;
 }
 
+- (void)initForRange:(NSRange)range
+{
+    if ([self.dataSource respondsToSelector:@selector(initForRange:)])
+    {
+        [self.dataSource initForRange:range];
+    }
+}
+
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
 {
     return [self.dataSource respondsToSelector:@selector(getItemDescriptionsInRange:)] ? [self.dataSource getItemDescriptionsInRange:range] : nil;

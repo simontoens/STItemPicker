@@ -4,13 +4,24 @@
 #import "ItemAttributes.h"
 #import "ItemPickerContext.h"
 #import "ItemPickerDataSource.h"
+#import "ItemPickerHeader.h"
 
 /**
- * Provides access to data exposed by an ItemPickerDataSource in a TableView friendly format.
+ * All data source access goes through this class.  Encapsulates how we ask for data.
  */
 @interface DataSourceAccess : NSObject
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
+
+- (NSUInteger)getCount;
+
+- (NSString *)getTitle;
+
+- (UIImage *)getHeaderImage;
+
+- (UIImage *)getTabImage;
+
+- (ItemPickerHeader *)getHeader;
 
 - (id)getSection:(NSUInteger)index;
 
@@ -25,5 +36,7 @@
 - (NSArray *)getSectionTitles;
 
 - (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
+
+- (id<ItemPickerDataSource>)getDataSource;
 
 @end

@@ -38,6 +38,36 @@
     return self;
 }
 
+- (id<ItemPickerDataSource>)getDataSource
+{
+    return self.dataSource;
+}
+
+- (NSUInteger)getCount
+{
+    return self.dataSource.count;
+}
+
+- (NSString *)getTitle
+{
+    return self.dataSource.title;
+}
+
+- (UIImage *)getHeaderImage
+{
+    return self.dataSource.headerImage;
+}
+
+- (UIImage *)getTabImage
+{
+    return self.dataSource.tabImage;
+}
+
+- (ItemPickerHeader *)getHeader
+{
+    return self.dataSource.header;
+}
+
 - (id)getSection:(NSUInteger)index
 {
     [self process];

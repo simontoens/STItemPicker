@@ -28,7 +28,6 @@
 - (void)updateViewState;
 
 @property(nonatomic, strong) Stack *contextStack;
-@property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, strong) DataSourceAccess *dataSourceAccess;
 @property(nonatomic, strong) UIBarButtonItem *doneButton;
 @property(nonatomic, strong) NSMutableArray *selectedItems;
@@ -41,7 +40,6 @@
 UIColor *kGreyBackgroundColor;
 
 @synthesize contextStack = _contextStack;
-@synthesize dataSource = _dataSource;
 @synthesize dataSourceAccess = _dataSourceAccess;
 @synthesize doneButton;
 @synthesize itemPickerDelegate;
@@ -67,7 +65,6 @@ UIColor *kGreyBackgroundColor;
     if (self = [super initWithNibName:nibName bundle:nil]) 
     {
         _contextStack = contextStack;
-        _dataSource = dataSource;
         _dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource];
         
         _maxSelectableItems = 1;
@@ -76,8 +73,8 @@ UIColor *kGreyBackgroundColor;
 
         if (self.tabBarItem) 
         {
-            self.title = dataSource.title;
-            self.tabBarItem.image = dataSource.tabImage;
+            self.title = [_dataSourceAccess getTitle];
+            self.tabBarItem.image = [_dataSourceAccess getTabImage];
         }
     }
     return self;
@@ -130,7 +127,7 @@ UIColor *kGreyBackgroundColor;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     ItemPickerContext *context = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
-    [self selectedItemAtIndexPath:indexPath contextForSelection:context dataSource:self.dataSource];
+    [self selectedItemAtIndexPath:indexPath contextForSelection:context dataSource:[self.dataSourceAccess getDataSource]];
 }
 
 #pragma mark - UITableViewDataSource protocol
@@ -299,7 +296,7 @@ UIColor *kGreyBackgroundColor;
         NSArray *contexts = [self.contextStack allObjects];
         container.boldLabel.text = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;        
         container.label.text = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
-        container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", self.dataSource.count, self.dataSource.title];
+        container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", [self.dataSourceAccess getCount], [self.dataSourceAccess getTitle]];
     }
     return container;
 }
@@ -308,7 +305,7 @@ UIColor *kGreyBackgroundColor;
 {
     TableHeaderViewContainer *container = nil;
     
-    ItemPickerHeader *header = self.dataSource.header;    
+    ItemPickerHeader *header = [self.dataSourceAccess getHeader];    
     if (header)
     {
         container = [self getHeaderViewContainerWithImage:header.image defaultLabels:header.defaultNilLabels];
@@ -331,7 +328,7 @@ UIColor *kGreyBackgroundColor;
     }
     else 
     {    
-        UIImage *headerImage = self.dataSource.headerImage;
+        UIImage *headerImage = [self.dataSourceAccess getHeaderImage];
         if (headerImage)
         {
             container = [self getHeaderViewContainerWithImage:headerImage defaultLabels:YES];
@@ -343,7 +340,7 @@ UIColor *kGreyBackgroundColor;
 - (void)configureTitle 
 {
     ItemPickerContext *prevSelection = [self getPreviousContext];
-    self.title = prevSelection ? prevSelection.selectedItem : self.dataSource.title;
+    self.title = prevSelection ? prevSelection.selectedItem : [self.dataSourceAccess getTitle];
 }
 
 - (void)configureNavigationItem

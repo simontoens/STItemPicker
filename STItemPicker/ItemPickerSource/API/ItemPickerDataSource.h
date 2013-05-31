@@ -43,6 +43,11 @@
 @optional
 
 /**
+ * Called before any other methods for the specified range.
+ */
+- (void)initForRange:(NSRange)range;
+
+/**
  * Return array of descriptions to display below each item; elements in the returned NSArray may be NSNull for 
  * those items that don't have a description.  Return nil if descriptions are not enabled.
  */
