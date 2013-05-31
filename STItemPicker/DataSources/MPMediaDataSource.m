@@ -24,19 +24,19 @@ static UIImage *kDefaultArtwork;
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
 }
 
-+ (id)artistsDataSource
+- (id)initArtistsDataSource
 {
-    return [[MPMediaDataSource alloc] initWithQuery:[MPMediaQuery artistsQuery] itemProperty:MPMediaItemPropertyArtist];    
+    return [self initWithQuery:[MPMediaQuery artistsQuery] itemProperty:MPMediaItemPropertyArtist];    
 }
 
-+ (id)albumsDataSource
+- (id)initAlbumsDataSource
 {
-    return [[MPMediaDataSource alloc] initWithQuery:[MPMediaQuery albumsQuery] itemProperty:MPMediaItemPropertyAlbumTitle];
+    return [self initWithQuery:[MPMediaQuery albumsQuery] itemProperty:MPMediaItemPropertyAlbumTitle];
 }
 
-+ (id)songsDataSource
+- (id)initSongsDataSource
 {
-    return [[MPMediaDataSource alloc] initWithQuery:[MPMediaQuery songsQuery] itemProperty:MPMediaItemPropertyTitle];
+    return [self initWithQuery:[MPMediaQuery songsQuery] itemProperty:MPMediaItemPropertyTitle];
 }
 
 - (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty
@@ -273,7 +273,7 @@ static UIImage *kDefaultArtwork;
         for (NSString *property in properties)
         {
             id propVal = [item valueForProperty:property];
-            [itemProperties addObject:propVal ? propVal : [NSNull null]];
+            [itemProperties addObject:propVal ? propVal : [NSNull null]];            
         }
     }
     

@@ -40,9 +40,9 @@
 {
     ItemPicker *itemPicker = [self getItemPickerWithDataSources:
                               [NSArray arrayWithObjects:
-                               [MPMediaDataSource artistsDataSource],
-                               [MPMediaDataSource albumsDataSource],
-                               [MPMediaDataSource songsDataSource],
+                               [[MPMediaDataSource alloc] initArtistsDataSource],
+                               [[MPMediaDataSource alloc] initAlbumsDataSource],
+                               [[MPMediaDataSource alloc] initSongsDataSource],
                                nil]];
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }

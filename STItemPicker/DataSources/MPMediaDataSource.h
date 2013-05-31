@@ -6,9 +6,9 @@
 
 @interface MPMediaDataSource : NSObject <ItemPickerDataSource>
 
-+ (id)artistsDataSource;
-+ (id)albumsDataSource;
-+ (id)songsDataSource;
+- (id)initArtistsDataSource;
+- (id)initAlbumsDataSource;
+- (id)initSongsDataSource;
 
 - (BOOL)artistList;
 - (BOOL)albumList;
