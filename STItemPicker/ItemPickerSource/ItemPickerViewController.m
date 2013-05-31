@@ -188,7 +188,9 @@ UIColor *kGreyBackgroundColor;
 
 - (void)onMultiSelectDone
 {
-    [self.itemPickerDelegate onPickItems:self.selectedItems];
+    NSArray *selections = [self.selectedItems copy];
+    [self.selectedItems removeAllObjects];
+    [self.itemPickerDelegate onPickItems:selections];
 }
 
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
@@ -252,7 +254,6 @@ UIColor *kGreyBackgroundColor;
     }
     else
     {
-        [self.selectedItems removeAllObjects];
         [self.itemPickerDelegate onPickItems:[NSArray arrayWithObject:[self.contextStack allObjects]]];
     }
 }
