@@ -100,7 +100,7 @@ static UIImage *kDefaultArtwork;
             {
                 header.label = [values objectAtIndex:i+2];
             }
-            if (header.boldLabel && header.label && header.smallestLabel)
+            if (header.boldLabel && header.label)
             {
                 break;
             }
