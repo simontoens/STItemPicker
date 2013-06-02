@@ -326,14 +326,6 @@ UIColor *kGreyBackgroundColor;
             container.smallestLabel.text = header.smallestLabel;
         }
     }
-    else 
-    {    
-        UIImage *headerImage = [self.dataSourceAccess getHeaderImage];
-        if (headerImage)
-        {
-            container = [self getHeaderViewContainerWithImage:headerImage defaultLabels:YES];
-        }
-    }
     self.tableView.tableHeaderView = container.tableHeaderView;
 }
 

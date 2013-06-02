@@ -50,11 +50,6 @@
     return [self.dataSource respondsToSelector:@selector(getItemDescriptionsInRange:)] ? [self.dataSource getItemDescriptionsInRange:range] : nil;
 }
 
-- (UIImage *)headerImage
-{
-    return [self.dataSource respondsToSelector:@selector(headerImage)] ? self.dataSource.headerImage : nil;
-}
-
 - (NSArray *)getItemImagesInRange:(NSRange)range
 {
     return [self.dataSource respondsToSelector:@selector(getItemImagesInRange:)] ? [self.dataSource getItemImagesInRange:range]  : nil;

@@ -64,11 +64,6 @@ static NSRange kUnsetRange;
     return self.dataSource.title;
 }
 
-- (UIImage *)getHeaderImage
-{
-    return self.dataSource.headerImage;
-}
-
 - (UIImage *)getTabImage
 {
     return self.dataSource.tabImage;

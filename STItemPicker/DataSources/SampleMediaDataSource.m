@@ -151,7 +151,7 @@ static NSArray *kAllTitles;
 
 - (ItemPickerHeader *)header
 {
-    if (self.headerImage && self.headerImage != kDefaultArtwork)
+    if (self.headerImage)
     {
         ItemPickerHeader *header = [[ItemPickerHeader alloc] init];
         header.image = self.headerImage;

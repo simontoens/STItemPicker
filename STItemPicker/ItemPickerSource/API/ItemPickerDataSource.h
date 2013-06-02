@@ -34,8 +34,8 @@
 
 /**
  * The view's title; used as the view tab's title, if there is more than a single top-level
- * ItemPickerDataSource.  Also used as label in the table view header, if headerImage is 
- * implemented (see below).
+ * ItemPickerDataSource.  Also used as default header label, if the header property's value
+ * returns an ItemPickerHeader instance.
  */
 @property(nonatomic, strong, readonly) NSString *title;
 
@@ -82,17 +82,6 @@
  * If items for this data source have a single element, automatically select it.  Defaults to NO.
  */
 @property(nonatomic, assign, readonly) BOOL autoSelectSingleItem;
-
-/**
- * Optional table view header image.  Returning a UIImage instance enables a header section with the image
- * on the left and default labels using the value of the "title" property (see above) as well as
- * previous selections.
- *
- * For more fine-grained control of the header, see the "header" property below.
- *
- * Defaults to nil (no header enabled).
- */
-@property(nonatomic, strong, readonly) UIImage *headerImage;
 
 /**
  * Optional table view header information.  Returning an ItemPickerHeader instance enables a header section

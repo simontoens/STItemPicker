@@ -17,8 +17,6 @@
 
 - (NSString *)getTitle;
 
-- (UIImage *)getHeaderImage;
-
 - (UIImage *)getTabImage;
 
 - (ItemPickerHeader *)getHeader;
