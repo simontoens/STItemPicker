@@ -34,6 +34,8 @@
 		BE541ED717234072001088BC /* Artists.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED417234072001088BC /* Artists.png */; };
 		BE541ED817234072001088BC /* Songs.png in Resources */ = {isa = PBXBuildFile; fileRef = BE541ED517234072001088BC /* Songs.png */; };
 		BE669C4317257E58007F153A /* ItemPickerDataSourceDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */; };
+		BE7ADDE9175BBD9100E565DF /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7ADDE8175BBD9100E565DF /* libOCMock.a */; };
+		BE7ADDED175BBDC200E565DF /* DataSourceAccessTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEC6FCE11724CBBC00A00165 /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
 		BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = BED14D9217456C1100A145BA /* DataSourceAccess.m */; };
@@ -108,6 +110,8 @@
 		BE541ED517234072001088BC /* Songs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Songs.png; path = Images/Sample/Songs.png; sourceTree = "<group>"; };
 		BE669C4117257E58007F153A /* ItemPickerDataSourceDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerDataSourceDefaults.h; path = ItemPickerSource/ItemPickerDataSourceDefaults.h; sourceTree = "<group>"; };
 		BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerDataSourceDefaults.m; path = ItemPickerSource/ItemPickerDataSourceDefaults.m; sourceTree = "<group>"; };
+		BE7ADDE8175BBD9100E565DF /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = Submodules/OCMock/lib/libOCMock.a; sourceTree = "<group>"; };
+		BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSourceAccessTest.m; sourceTree = "<group>"; };
 		BEB54D4917080731002042CD /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = Submodules/STObjCToolbelt/Source/Stack.h; sourceTree = "<group>"; };
 		BEB54D4A17080731002042CD /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = Submodules/STObjCToolbelt/Source/Stack.m; sourceTree = "<group>"; };
 		BEC6FCDF1724CBBC00A00165 /* SampleCityDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleCityDataSource.h; path = DataSources/SampleCityDataSource.h; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE7ADDE9175BBD9100E565DF /* libOCMock.a in Frameworks */,
 				BEEB9CC716FFE3B60021E035 /* SenTestingKit.framework in Frameworks */,
 				BEEB9CC816FFE3B60021E035 /* UIKit.framework in Frameworks */,
 				BEEB9CC916FFE3B60021E035 /* Foundation.framework in Frameworks */,
@@ -235,6 +240,7 @@
 		BEEB9C9F16FFE3B60021E035 = {
 			isa = PBXGroup;
 			children = (
+				BE7ADDE8175BBD9100E565DF /* libOCMock.a */,
 				BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */,
 				BEF2916A1730C900002D3BB3 /* CoreMedia.framework */,
 				BEEB9CB416FFE3B60021E035 /* STItemPicker */,
@@ -296,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */,
+				BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */,
 				BEEB9CE116FFE4DC0021E035 /* TableSectionHandlerTest.m */,
 				BEEB9CCD16FFE3B60021E035 /* Supporting Files */,
 			);
@@ -522,6 +529,7 @@
 				BEEB9CE316FFE50A0021E035 /* TableSectionHandlerTest.m in Sources */,
 				BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */,
 				BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */,
+				BE7ADDED175BBDC200E565DF /* DataSourceAccessTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,7 +648,17 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STItemPicker/STItemPicker-Prefix.pch";
+				"HEADER_SEARCH_PATHS[arch=*]" = "${SRCROOT}/Submodules/OCMock";
 				INFOPLIST_FILE = "STItemPickerTests/STItemPickerTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Submodules/OCMock/lib\"",
+				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-force_load",
+					"${SRCROOT}/Submodules/OCMock/lib/libOCMock.a",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -658,6 +676,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STItemPicker/STItemPicker-Prefix.pch";
 				INFOPLIST_FILE = "STItemPickerTests/STItemPickerTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Submodules/OCMock/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
