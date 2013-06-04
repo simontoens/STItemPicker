@@ -51,11 +51,11 @@
  * beginning of the array represents the first selection, the instance at the end of the array 
  * represents the final leaf item selection.
  */
-- (void)onPickItems:(NSArray *)pickedItemContexts;
+- (void)onItemPickerPickedItems:(NSArray *)pickedItemContexts;
 
 /**
  * Callback for the cancel button, if enabled (see showCancelButton above).
  */
-- (void)onCancel;
+- (void)onItemPickerCanceled;
 
 @end

@@ -60,7 +60,7 @@
     return itemPicker;
 }
 
-- (void)onPickItems:(NSArray *)pickedItemContexts
+- (void)onItemPickerPickedItems:(NSArray *)pickedItemContexts
 {
     self.pickLabel.text = @"";
     [self.navigationController dismissModalViewControllerAnimated:YES];
@@ -76,7 +76,7 @@
     }
 }
 
-- (void)onCancel
+- (void)onItemPickerCanceled
 {
     [self.navigationController dismissModalViewControllerAnimated:YES];    
 }

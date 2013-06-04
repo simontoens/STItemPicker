@@ -245,7 +245,7 @@ UIColor *kGreyBackgroundColor;
     }
     else
     {
-        [self.itemPickerDelegate onPickItems:[NSArray arrayWithObject:[self.contextStack allObjects]]];
+        [self.itemPickerDelegate onItemPickerPickedItems:[NSArray arrayWithObject:[self.contextStack allObjects]]];
     }
 }
 
@@ -361,13 +361,13 @@ UIColor *kGreyBackgroundColor;
 {
     NSArray *selections = [self.selectedItems copy];
     [self deselectAllItems];
-    [self.itemPickerDelegate onPickItems:selections];
+    [self.itemPickerDelegate onItemPickerPickedItems:selections];
 }
 
 - (void)onCancel
 {
     [self deselectAllItems];
-    [self.itemPickerDelegate onCancel];
+    [self.itemPickerDelegate onItemPickerCanceled];
 }
 
 - (void)deselectAllItems
