@@ -8,11 +8,19 @@
 - (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
 - (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection;
 - (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery;
-- (NSArray *)getItemImagesInRangeInternal:(NSRange)range;
-- (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range;
+- (UIImage *)getMediaItemAlbumImage:(MPMediaItem *)item;
+
+@property(nonatomic, strong) NSMutableArray *items;
+@property(nonatomic, strong) NSMutableArray *itemDescriptions;
+@property(nonatomic, strong) NSMutableArray *itemImages;
+
 @end
 
 @implementation MPMediaDataSource
+
+@synthesize items = _items;
+@synthesize itemDescriptions = _itemDescriptions;
+@synthesize itemImages = _itemImages;
 
 static UIImage *kDefaultArtwork;
 
@@ -54,94 +62,74 @@ static UIImage *kDefaultArtwork;
     return [self.query.collections count];
 }
 
-- (NSArray *)getItemsInRange:(NSRange)range
-{
-    return [self getItemProperties:[NSArray arrayWithObject:self.itemProperty] inRange:range];
-}
-
 - (ItemPickerHeader *)header
 {
     if ([self songList] && [self.query.filterPredicates count] > 1)
     {
         int numSongs = self.count;
-        NSRange range = NSMakeRange(0, numSongs);
         ItemPickerHeader *header = [[ItemPickerHeader alloc] init];
         header.defaultNilLabels = NO;
-        header.image = kDefaultArtwork;
-        for (UIImage *image in [self getItemImagesInRangeInternal:range])
-        {
-            if (image != kDefaultArtwork)
-            {
-                header.image = image;
-                break;
-            }
-        }
-        
-        NSArray *properties = [NSArray arrayWithObjects:
-            MPMediaItemPropertyArtist, MPMediaItemPropertyArtist, MPMediaItemPropertyAlbumTitle, nil];
-        NSArray *values = [self getItemProperties:properties inRange:range];
-        
-        for (int i = 0; i < [values count]; i+=3)
-        {
-            if ([values objectAtIndex:i] != [NSNull null])
-            {
-                header.boldLabel = [values objectAtIndex:i];
-            }
-            if ([values objectAtIndex:i+1] != [NSNull null] && !header.boldLabel)
-            {
-                header.boldLabel = [values objectAtIndex:i+1];
-            }
-            if ([values objectAtIndex:i+2] != [NSNull null])
-            {
-                header.label = [values objectAtIndex:i+2];
-            }
-            if (header.boldLabel && header.label)
-            {
-                break;
-            }
-        }        
+        MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:0];
+        MPMediaItem *item = [collection representativeItem];
+        header.image = [self getMediaItemAlbumImage:item];
+        header.boldLabel = [item valueForProperty:MPMediaItemPropertyArtist];
+        header.label = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
         header.smallerLabel = [NSString stringWithFormat:@"%i %@%@", numSongs, @"Song", numSongs > 1 ? @"s" : @""];
         return header;
     }
     return nil;
 }
 
+- (void)initForRange:(NSRange)range
+{
+    _items = [[NSMutableArray alloc] initWithCapacity:range.length];
+    _itemDescriptions = [[NSMutableArray alloc] initWithCapacity:range.length];
+    _itemImages = [[NSMutableArray alloc] initWithCapacity:range.length];
+    
+    for (int i = range.location; i < range.location + range.length; i++)
+    {
+        MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:i];
+        MPMediaItem *item = [collection representativeItem];
+        [_items addObject:[item valueForProperty:_itemProperty]];
+        
+        NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
+        NSString *album = [item valueForProperty:MPMediaItemPropertyArtist];
+        
+        if ([self albumList]) 
+        {
+            [_itemImages addObject:[self getMediaItemAlbumImage:item]];
+            
+            [_itemDescriptions addObject:artist];
+        }
+        else if ([self songList] && [self.query.filterPredicates count] == 1)
+        {
+            artist = artist ? artist : @"";
+            album = album ? album : @"";
+            if ([artist length] == 0 || [album length] == 0)
+            {
+                [_itemDescriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
+            }
+            else 
+            {
+                [_itemDescriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
+            }
+        }
+    }
+}
+
+- (NSArray *)getItemsInRange:(NSRange)range
+{
+    return self.items;
+}
+
 - (NSArray *)getItemImagesInRange:(NSRange)range
 {
-    return [self albumList] ? [self getItemImagesInRangeInternal:range] : nil;
+    return [self.itemImages count] > 0 ? self.itemImages : nil;
 }
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
 {
-    if ([self albumList])
-    {
-        return [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtist] inRange:range];
-        
-    } 
-    else if ([self songList] && [self.query.filterPredicates count] == 1)
-    {
-        NSMutableArray *descriptions = [NSMutableArray arrayWithCapacity:range.length * 2];
-        NSArray *properties = [NSArray arrayWithObjects:MPMediaItemPropertyArtist, MPMediaItemPropertyAlbumTitle, nil];
-        NSArray *values = [self getItemProperties:properties inRange:range];
-        for (int i = 0; i < [values count]; i+=2)
-        {
-            id artist = [values objectAtIndex:i];
-            id album = [values objectAtIndex:i+1];
-            artist = artist == [NSNull null] ? @"" : artist;
-            album = album == [NSNull null] ? @"" : album;
-            if ([artist length] == 0 || [album length] == 0)
-            {
-                [descriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
-            }
-            else 
-            {
-                [descriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
-            }
-        }
-        return descriptions;
-    }
-    
-    return nil;
+    return [self.itemDescriptions count] > 0 ? self.itemDescriptions : nil;
 }
 
 - (NSString *)title
@@ -226,32 +214,19 @@ static UIImage *kDefaultArtwork;
 
 # pragma mark - Private methods
 
-- (NSArray *)getItemImagesInRangeInternal:(NSRange)range
-{
-    NSArray *items = [self getItemProperties:[NSArray arrayWithObject:MPMediaItemPropertyArtwork] inRange:range];
-    NSMutableArray *images = [NSMutableArray arrayWithCapacity:[items count]];
-    for (MPMediaItemArtwork *artwork in items)
-    {
-        CGSize size = artwork.bounds.size;
-        UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
-        [images addObject:image ? image : kDefaultArtwork];
-    }
-    return images;
-}
-
 - (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection
 {
     MPMediaDataSource *dataSource = selection.dataSource;
-    NSArray *propValues = [dataSource getItemProperties:itemProperties inRange:NSMakeRange(selection.selectedIndex, 1)];
-    for (int i = 0; i < [itemProperties count]; i++)
+    
+    MPMediaItemCollection *collection  = [dataSource.query.collections objectAtIndex:selection.selectedIndex];
+    MPMediaItem *item = [collection representativeItem];
+    for (NSString *property in itemProperties)
     {
-        id propValue = [propValues objectAtIndex:i];
-        if (propValue == [NSNull null]) 
+        NSString *propertyValue = [item valueForProperty:property];
+        if (propertyValue)
         {
-            continue;
+            [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:propertyValue forProperty:property]];
         }
-        [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[propValues objectAtIndex:i]
-                                                                   forProperty:[itemProperties objectAtIndex:i]]];
     }
 }
 
@@ -263,21 +238,12 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (NSArray *)getItemProperties:(NSArray *)properties inRange:(NSRange)range 
+- (UIImage *)getMediaItemAlbumImage:(MPMediaItem *)item
 {
-    NSMutableArray *itemProperties = [NSMutableArray arrayWithCapacity:range.length * [properties count]];
-    for (int i = range.location; i < range.location + range.length; i++)
-    {
-        MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:i];
-        MPMediaItem *item = [collection representativeItem];
-        for (NSString *property in properties)
-        {
-            id propVal = [item valueForProperty:property];
-            [itemProperties addObject:propVal ? propVal : [NSNull null]];            
-        }
-    }
-    
-    return itemProperties;
+    MPMediaItemArtwork *artwork = [item valueForProperty:MPMediaItemPropertyArtwork];
+    CGSize size = artwork.bounds.size;
+    UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
+    return image ? image : kDefaultArtwork;
 }
 
 - (BOOL)artistList
