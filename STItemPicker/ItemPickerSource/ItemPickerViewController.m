@@ -17,6 +17,7 @@
 - (void)configureHeaderView;
 - (void)configureNavigationItem;
 - (void)configureTitle;
+- (void)deselectAllItems;
 
 - (ItemPickerContext *)getPreviousContext;
 - (void)handleSelection:(NSIndexPath *)indexPath;
@@ -183,14 +184,6 @@ UIColor *kGreyBackgroundColor;
     self.doneButton.enabled = [self.selectedItems count] > 0;
 }
 
-- (void)onMultiSelectDone
-{
-    NSArray *selections = [self.selectedItems copy];
-    [self.selectedItems removeAllObjects];
-    [self.tableView reloadData];
-    [self.itemPickerDelegate onPickItems:selections];
-}
-
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
 {
     // review how we determine that a cell has been previously selected - 
@@ -343,14 +336,14 @@ UIColor *kGreyBackgroundColor;
     {
         button = self.doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
                                                                    target:self
-                                                                   action:@selector(onMultiSelectDone)];
+                                                                   action:@selector(onMultiSelect)];
         [self updateViewState];
     }
     
     if (self.showCancelButton)
     {
         button = cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered 
-                                                                target:self.itemPickerDelegate
+                                                                target:self
                                                                 action:@selector(onCancel)];
     }
     
@@ -362,6 +355,26 @@ UIColor *kGreyBackgroundColor;
     {
         self.navigationItem.rightBarButtonItem = button;
     }
+}
+
+- (void)onMultiSelect
+{
+    NSArray *selections = [self.selectedItems copy];
+    [self deselectAllItems];
+    [self.itemPickerDelegate onPickItems:selections];
+}
+
+- (void)onCancel
+{
+    [self deselectAllItems];
+    [self.itemPickerDelegate onCancel];
+}
+
+- (void)deselectAllItems
+{
+    [self.selectedItems removeAllObjects];
+    [self updateViewState];
+    [self.tableView reloadData];
 }
 
 @end

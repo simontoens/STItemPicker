@@ -10,12 +10,14 @@
 
 @interface TestViewController()
 @property(nonatomic, weak) IBOutlet UILabel *pickLabel;
+@property(nonatomic, strong) ItemPicker *sampleMediaItemPicker;
 - (ItemPicker *)getItemPickerWithDataSources:(NSArray *)dataSources;
 @end
 
 @implementation TestViewController
 
 @synthesize pickLabel;
+@synthesize sampleMediaItemPicker;
 
 - (IBAction)onSampleCityDataSource:(id)sender
 {
@@ -26,24 +28,28 @@
 
 - (IBAction)onSampleMediaDataSource:(id)sender 
 {
-    ItemPicker *itemPicker = [self getItemPickerWithDataSources:
-                              [NSArray arrayWithObjects:
-                               [SampleMediaDataSource artistsDataSource], 
-                               [SampleMediaDataSource albumsDataSource],
-                               [SampleMediaDataSource songsDataSource], 
-                               nil]];
-    itemPicker.maxSelectableItems = 3;
-    [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];    
+    if (!self.sampleMediaItemPicker)
+    {
+        self.sampleMediaItemPicker = [self getItemPickerWithDataSources:
+                                         [NSArray arrayWithObjects:
+                                             [SampleMediaDataSource artistsDataSource], 
+                                             [SampleMediaDataSource albumsDataSource],
+                                             [SampleMediaDataSource songsDataSource], 
+                                             nil]];
+        self.sampleMediaItemPicker.maxSelectableItems = 3;
+    }
+
+    [self.navigationController presentModalViewController:self.sampleMediaItemPicker.viewController animated:YES];    
 }
 
 - (IBAction)onMPMediaDataSource:(id)sender
 {
     ItemPicker *itemPicker = [self getItemPickerWithDataSources:
-                              [NSArray arrayWithObjects:
-                               [[MPMediaDataSource alloc] initArtistsDataSource],
-                               [[MPMediaDataSource alloc] initAlbumsDataSource],
-                               [[MPMediaDataSource alloc] initSongsDataSource],
-                               nil]];
+                                 [NSArray arrayWithObjects:
+                                     [[MPMediaDataSource alloc] initArtistsDataSource],
+                                     [[MPMediaDataSource alloc] initAlbumsDataSource],
+                                     [[MPMediaDataSource alloc] initSongsDataSource],
+                                     nil]];
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }
 

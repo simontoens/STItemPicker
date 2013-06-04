@@ -37,6 +37,8 @@
         itemPickerCell = [TableViewCellContainer newTableViewCellWithNibName:cellIdentifier];
     }
     
+    itemPickerCell.userInteractionEnabled = YES;
+    
     if (image)
     {
         itemPickerCell.iview.image = image;
