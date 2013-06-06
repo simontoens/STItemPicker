@@ -2,72 +2,47 @@
 
 #import "TableViewCellContainer.h"
 
-@interface TableViewCellContainer()
-
-+ (ItemPickerCell *)newTableViewCellWithNibName:(NSString *)nibName;
-
-@property (nonatomic, weak) IBOutlet ItemPickerCell *cell;
-
-@end
-
 @implementation TableViewCellContainer
 
-@synthesize cell;
-
-+ (ItemPickerCell *)newCellForTableView:(UITableView *)tableView 
++ (UITableViewCell *)newCellForTableView:(UITableView *)tableView 
                                    text:(NSString *)text
                                   image:(UIImage *)image 
                             description:(NSString *)description                         
                          itemAttributes:(ItemAttributes *)itemAttributes
 {
-    NSString *cellIdentifier = @"ItemPickerCell";
-    if (image)
+    static NSString *cellReuseIdentifier = @"STItemPickerCell";
+    UITableViewCellStyle cellStyle = description ? UITableViewCellStyleSubtitle : UITableViewCellStyleDefault;
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellReuseIdentifier];
+    
+    if (!cell)
     {
-        cellIdentifier = [NSString stringWithFormat:@"%@Image", cellIdentifier];
-    }
-    if (description)
-    {
-        cellIdentifier = [NSString stringWithFormat:@"%@Description", cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:cellReuseIdentifier];
     }
     
-    ItemPickerCell *itemPickerCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-
-    if (!itemPickerCell)
-    {
-        itemPickerCell = [TableViewCellContainer newTableViewCellWithNibName:cellIdentifier];
-    }
-    
-    itemPickerCell.userInteractionEnabled = YES;
+    cell.userInteractionEnabled = YES;
+    cell.textLabel.text = text;
     
     if (image)
     {
-        itemPickerCell.iview.image = image;
+        cell.imageView.image = image;
     }
     if (description)
     {
-        itemPickerCell.description.text = description;
+        cell.detailTextLabel.text = description;        
     }
-    
-    itemPickerCell.label.text = text;
     
     if (itemAttributes)
     {
-        itemPickerCell.label.textColor = itemAttributes.textColor;
+        cell.textLabel.textColor = itemAttributes.textColor;
         if (description)
         {
-            itemPickerCell.description.textColor = itemAttributes.textColor;
+            cell.detailTextLabel.textColor = itemAttributes.textColor;
         }
-        itemPickerCell.userInteractionEnabled = itemAttributes.userInteractionEnabled;
+        cell.userInteractionEnabled = itemAttributes.userInteractionEnabled;
     }
     
-    return itemPickerCell;
-}
-
-+ (ItemPickerCell *)newTableViewCellWithNibName:(NSString *)nibName
-{
-    TableViewCellContainer *container = [[TableViewCellContainer alloc] init];
-    [[NSBundle mainBundle] loadNibNamed:nibName owner:container options:nil];
-    return container.cell;    
+    return cell;
 }
 
 @end

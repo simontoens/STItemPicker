@@ -1,7 +1,6 @@
 // @author Simon Toens 12/14/12
 
 #import "DataSourceAccess.h"
-#import "ItemPickerCell.h"
 #import "ItemPickerContext.h"
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
@@ -153,7 +152,7 @@ UIColor *kGreyBackgroundColor;
     UIImage *image = [self.dataSourceAccess getItemImage:indexPath];        
     NSString *description = [self.dataSourceAccess getItemDescription:indexPath];
     
-    ItemPickerCell *cell = [TableViewCellContainer newCellForTableView:tableView 
+    UITableViewCell *cell = [TableViewCellContainer newCellForTableView:tableView 
                                                                   text:[self.dataSourceAccess getItem:indexPath]
                                                                  image:image 
                                                            description:description

@@ -11,15 +11,10 @@
 		BE074E57172397FD001681EE /* Tuple.m in Sources */ = {isa = PBXBuildFile; fileRef = BE074E56172397FD001681EE /* Tuple.m */; };
 		BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
 		BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
-		BE0D6C891758528300844B26 /* ItemPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D6C881758528300844B26 /* ItemPickerCell.m */; };
 		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
-		BE26E7CC17090287000850F2 /* ItemPickerCellImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE26E7CB17090287000850F2 /* ItemPickerCellImage.xib */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
-		BE2C70FD174ACACE00C93E8F /* ItemPickerCellImageDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2C70FC174ACACE00C93E8F /* ItemPickerCellImageDescription.xib */; };
-		BE2C7100174ACE9700C93E8F /* ItemPickerCellDescription.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE2C70FF174ACE9700C93E8F /* ItemPickerCellDescription.xib */; };
-		BE386309172F867B0059378C /* ItemPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE386308172F867B0059378C /* ItemPickerCell.xib */; };
 		BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */; };
 		BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */; };
 		BE40E319173F4F3A0040038C /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
@@ -80,19 +75,13 @@
 		BE074E56172397FD001681EE /* Tuple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tuple.m; path = Submodules/STObjCToolbelt/Source/Tuple.m; sourceTree = "<group>"; };
 		BE0A762C1733770900D40692 /* ItemPickerSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerSection.h; path = ItemPickerSource/ItemPickerSection.h; sourceTree = "<group>"; };
 		BE0A762D1733770A00D40692 /* ItemPickerSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerSection.m; path = ItemPickerSource/ItemPickerSection.m; sourceTree = "<group>"; };
-		BE0D6C871758528300844B26 /* ItemPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerCell.h; path = ItemPickerSource/ItemPickerCell.h; sourceTree = "<group>"; };
-		BE0D6C881758528300844B26 /* ItemPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerCell.m; path = ItemPickerSource/ItemPickerCell.m; sourceTree = "<group>"; };
 		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
 		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
-		BE26E7CB17090287000850F2 /* ItemPickerCellImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerCellImage.xib; path = ItemPickerSource/ItemPickerCellImage.xib; sourceTree = "<group>"; };
 		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
 		BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellContainer.m; path = ItemPickerSource/TableViewCellContainer.m; sourceTree = "<group>"; };
 		BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Reflection.h"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.h"; sourceTree = "<group>"; };
 		BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+Reflection.m"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.m"; sourceTree = "<group>"; };
-		BE2C70FC174ACACE00C93E8F /* ItemPickerCellImageDescription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerCellImageDescription.xib; path = ItemPickerSource/ItemPickerCellImageDescription.xib; sourceTree = "<group>"; };
-		BE2C70FF174ACE9700C93E8F /* ItemPickerCellDescription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerCellDescription.xib; path = ItemPickerSource/ItemPickerCellDescription.xib; sourceTree = "<group>"; };
-		BE386308172F867B0059378C /* ItemPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ItemPickerCell.xib; path = ItemPickerSource/ItemPickerCell.xib; sourceTree = "<group>"; };
 		BE3A0C051702BE26001B18EC /* SampleMediaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleMediaDataSource.h; path = DataSources/SampleMediaDataSource.h; sourceTree = "<group>"; };
 		BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleMediaDataSource.m; path = DataSources/SampleMediaDataSource.m; sourceTree = "<group>"; };
 		BE3FFC95174D92C2002806DD /* ItemPickerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerHeader.h; path = ItemPickerSource/API/ItemPickerHeader.h; sourceTree = "<group>"; };
@@ -324,8 +313,6 @@
 				BEE04006174C54F700362C73 /* API */,
 				BED14D9117456C1100A145BA /* DataSourceAccess.h */,
 				BED14D9217456C1100A145BA /* DataSourceAccess.m */,
-				BE0D6C871758528300844B26 /* ItemPickerCell.h */,
-				BE0D6C881758528300844B26 /* ItemPickerCell.m */,
 				BE669C4117257E58007F153A /* ItemPickerDataSourceDefaults.h */,
 				BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */,
 				BE0A762C1733770900D40692 /* ItemPickerSection.h */,
@@ -333,10 +320,6 @@
 				BEEB9CE716FFE5870021E035 /* ItemPickerViewController.h */,
 				BEEB9CE816FFE5870021E035 /* ItemPickerViewController.m */,
 				BEEB9CE916FFE5870021E035 /* ItemPickerView.xib */,
-				BE386308172F867B0059378C /* ItemPickerCell.xib */,
-				BE26E7CB17090287000850F2 /* ItemPickerCellImage.xib */,
-				BE2C70FF174ACE9700C93E8F /* ItemPickerCellDescription.xib */,
-				BE2C70FC174ACACE00C93E8F /* ItemPickerCellImageDescription.xib */,
 				BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */,
 				BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */,
 				BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */,
@@ -453,14 +436,10 @@
 				BE4751BC1708EFC80082AF30 /* Parklife.jpg in Resources */,
 				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
-				BE26E7CC17090287000850F2 /* ItemPickerCellImage.xib in Resources */,
 				BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */,
 				BE541ED617234072001088BC /* Albums.png in Resources */,
 				BE541ED717234072001088BC /* Artists.png in Resources */,
 				BE541ED817234072001088BC /* Songs.png in Resources */,
-				BE386309172F867B0059378C /* ItemPickerCell.xib in Resources */,
-				BE2C70FD174ACACE00C93E8F /* ItemPickerCellImageDescription.xib in Resources */,
-				BE2C7100174ACE9700C93E8F /* ItemPickerCellDescription.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,7 +496,6 @@
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
 				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
 				BE4463C617547769003B9134 /* ItemAttributes.m in Sources */,
-				BE0D6C891758528300844B26 /* ItemPickerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
