@@ -53,8 +53,11 @@
  */
 - (void)onItemPickerPickedItems:(NSArray *)pickedItemContexts;
 
+
+@optional
+
 /**
- * Callback for the cancel button, if enabled (see showCancelButton above).
+ * Callback for the cancel button.  Must be implemented if showCancelButton above is set to YES.
  */
 - (void)onItemPickerCanceled;
 
