@@ -7,7 +7,9 @@
 #import "ItemPickerHeader.h"
 
 /**
- * All data source access goes through this class.  Encapsulates how we ask for data.
+ * All data source access goes through this class.  
+ *
+ * Translates between the data shape provided by the data source and the data shape required by the ItemPicker UI.
  */
 @interface DataSourceAccess : NSObject
 
