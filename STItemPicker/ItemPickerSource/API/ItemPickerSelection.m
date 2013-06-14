@@ -1,9 +1,9 @@
 // @author Simon Toens 03/30/13
 
-#import "ItemPickerContext.h"
+#import "ItemPickerSelection.h"
 #import "Preconditions.h"
 
-@implementation ItemPickerContext
+@implementation ItemPickerSelection
 
 @synthesize autoSelected = _autoSelected;
 @synthesize dataSource = _dataSource;
@@ -32,11 +32,11 @@
     {
         return YES;
     }
-    if (![object isKindOfClass:[ItemPickerContext class]])
+    if (![object isKindOfClass:[ItemPickerSelection class]])
     {
         return NO;
     }
-    ItemPickerContext *other = (ItemPickerContext *)object;
+    ItemPickerSelection *other = (ItemPickerSelection *)object;
     return self.selectedIndex == other.selectedIndex && [self.selectedItem isEqualToString:other.selectedItem];
 }
 
@@ -50,7 +50,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    return [[ItemPickerContext alloc] initWithDataSource:self.dataSource 
+    return [[ItemPickerSelection alloc] initWithDataSource:self.dataSource 
                                            selectedIndex:self.selectedIndex 
                                             selectedItem:[self.selectedItem copyWithZone:zone] 
                                             autoSelected:self.autoSelected];

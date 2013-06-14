@@ -1,6 +1,6 @@
 // @author Simon Toens 03/03/13
 
-#import "ItemPickerContext.h"
+#import "ItemPickerSelection.h"
 #import "ItemPickerViewController.h"
 #import "MPMediaDataSource.h"
 #import "SampleMediaDataSource.h"
@@ -60,15 +60,15 @@
     return itemPicker;
 }
 
-- (void)onItemPickerPickedItems:(NSArray *)pickedItemContexts
+- (void)onItemPickerPickedItems:(NSArray *)pickedItemSelections
 {
     self.pickLabel.text = @"";
     [self.navigationController dismissModalViewControllerAnimated:YES];
     int selectionCounter = 1;
-    for (NSArray *selections in pickedItemContexts)
+    for (NSArray *selections in pickedItemSelections)
     {
         NSString *s = [NSString stringWithFormat:@"%@Selection %i: ", self.pickLabel.text, selectionCounter++];
-        for (ItemPickerContext *ctx in selections)
+        for (ItemPickerSelection *ctx in selections)
         {
             s = [NSString stringWithFormat:@"%@->%@ (index %i)\n", s, ctx.selectedItem, ctx.selectedIndex];
         }

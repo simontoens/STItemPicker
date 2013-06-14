@@ -1,6 +1,6 @@
 // @author Simon Toens 03/16/13
 
-#import "ItemPickerContext.h"
+#import "ItemPickerSelection.h"
 #import "MultiDictionary.h"
 #import "SampleMediaDataSource.h"
 
@@ -25,7 +25,7 @@
 
 @property(nonatomic, assign, readonly) NSUInteger depth;
 @property(nonatomic, strong, readonly) NSArray *items;
-@property(nonatomic, strong) ItemPickerContext *selection;
+@property(nonatomic, strong) ItemPickerSelection *selection;
 
 @end
 
@@ -106,7 +106,7 @@ static NSArray *kAllTitles;
     return [self.items subarrayWithRange:range];
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)context 
                                        previousSelections:(NSArray *)previousSelections
 {
     if (self.depth <= [kAllDictionaries count] - 1)

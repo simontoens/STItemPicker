@@ -1,7 +1,7 @@
 // @author Simon Toens 12/14/12
 
 #import "DataSourceAccess.h"
-#import "ItemPickerContext.h"
+#import "ItemPickerSelection.h"
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
 #import "Stack.h"
@@ -18,12 +18,12 @@
 - (void)configureTitle;
 - (void)deselectAllItems;
 
-- (ItemPickerContext *)getPreviousContext;
+- (ItemPickerSelection *)getPreviousContext;
 - (void)handleSelection:(NSIndexPath *)indexPath;
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
 - (void)pushDataSource:(id<ItemPickerDataSource>)dataSource;
 - (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
-            contextForSelection:(ItemPickerContext *)context
+            contextForSelection:(ItemPickerSelection *)context
                      dataSource:(id<ItemPickerDataSource>)dataSource;
 - (void)updateViewState;
 
@@ -126,7 +126,7 @@ UIColor *kGreyBackgroundColor;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    ItemPickerContext *context = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
+    ItemPickerSelection *context = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
     [self selectedItemAtIndexPath:indexPath contextForSelection:context dataSource:[self.dataSourceAccess getDataSource]];
 }
 
@@ -187,7 +187,7 @@ UIColor *kGreyBackgroundColor;
 {
     // review how we determine that a cell has been previously selected - 
     // this is creating a lot of ItemPickerContext instances
-    ItemPickerContext *ctx = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
+    ItemPickerSelection *ctx = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
     [self.contextStack push:ctx];
     NSArray *selectionPath = [self.contextStack allObjects];
     BOOL selected = [self.selectedItems containsObject:selectionPath];
@@ -196,7 +196,7 @@ UIColor *kGreyBackgroundColor;
 }
 
 - (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
-            contextForSelection:(ItemPickerContext *)context
+            contextForSelection:(ItemPickerSelection *)context
                      dataSource:(id<ItemPickerDataSource>)dataSource 
 {
     NSArray *prevSelections = [[self.contextStack allObjects] copy];
@@ -254,7 +254,7 @@ UIColor *kGreyBackgroundColor;
     {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         DataSourceAccess *access = [[DataSourceAccess alloc] initWithDataSource:dataSource];
-        ItemPickerContext *context = [access getItemPickerContext:indexPath autoSelected:YES];
+        ItemPickerSelection *context = [access getItemPickerContext:indexPath autoSelected:YES];
         [self selectedItemAtIndexPath:indexPath contextForSelection:context dataSource:dataSource];
     }
     else
@@ -269,13 +269,13 @@ UIColor *kGreyBackgroundColor;
     }
 }
 
-- (ItemPickerContext *)getPreviousContext
+- (ItemPickerSelection *)getPreviousContext
 {
     NSArray *contexts = [self.contextStack allObjects];
     return [contexts count] > 0 ? [contexts objectAtIndex:[contexts count] - 1] : nil;
 }
 
-- (ItemPickerContext *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
+- (ItemPickerSelection *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
 {
     return [contexts count] > offset ? [contexts objectAtIndex:[contexts count] - 1 - offset] : nil;
 }
@@ -323,7 +323,7 @@ UIColor *kGreyBackgroundColor;
 
 - (void)configureTitle 
 {
-    ItemPickerContext *prevSelection = [self getPreviousContext];
+    ItemPickerSelection *prevSelection = [self getPreviousContext];
     self.title = prevSelection ? prevSelection.selectedItem : [self.dataSourceAccess getTitle];
 }
 

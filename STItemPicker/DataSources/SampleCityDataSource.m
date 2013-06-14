@@ -51,7 +51,7 @@ static NSArray *kAllDictionaries;
     return @"Continents";
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)context 
                                        previousSelections:(NSArray *)previousSelections
 {
     if (self.depth <= [kAllDictionaries count] - 1)

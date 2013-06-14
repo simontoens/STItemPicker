@@ -1,7 +1,7 @@
 // @author Simon Toens 03/16/13
 
 #import <Foundation/Foundation.h>
-#import "ItemPickerContext.h"
+#import "ItemPickerSelection.h"
 #import "ItemPickerHeader.h"
 
 /**
@@ -29,7 +29,7 @@
  * @param context  The current selection
  * @param previousSelections  ItemPickerContext instances for previous selections.  The oldest selection is at index 0.
  */
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)context 
                                        previousSelections:(NSArray *)previousSelections;
 
 /**

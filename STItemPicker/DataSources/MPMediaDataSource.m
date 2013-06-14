@@ -6,7 +6,7 @@
 @interface MPMediaDataSource() 
 @property(nonatomic, strong) NSString *itemProperty;
 - (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
-- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection;
+- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerSelection *)selection;
 - (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery;
 - (UIImage *)getMediaItemAlbumImage:(MPMediaItem *)item;
 
@@ -179,7 +179,7 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerContext *)context 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)context 
                                        previousSelections:(NSArray *)previousSelections
 {
     MPMediaQuery *nextQuery = nil;
@@ -214,7 +214,7 @@ static UIImage *kDefaultArtwork;
 
 # pragma mark - Private methods
 
-- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerContext *)selection
+- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerSelection *)selection
 {
     MPMediaDataSource *dataSource = selection.dataSource;
     

@@ -160,9 +160,9 @@ static NSRange kUnsetRange;
         ((ItemPickerDataSourceDefaults *)self.dataSource).dataSource : self.dataSource;
 }
 
-- (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
+- (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
 {
-    return [[ItemPickerContext alloc] initWithDataSource:[self getUnwrappedDataSource]
+    return [[ItemPickerSelection alloc] initWithDataSource:[self getUnwrappedDataSource]
                                            selectedIndex:[self convertIndexPathToArrayIndex:indexPath]
                                             selectedItem:[self getItem:indexPath] 
                                             autoSelected:autoSelected];

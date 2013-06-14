@@ -2,7 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ItemAttributes.h"
-#import "ItemPickerContext.h"
+#import "ItemPickerSelection.h"
 #import "ItemPickerDataSource.h"
 #import "ItemPickerHeader.h"
 
@@ -33,7 +33,7 @@
 
 - (NSArray *)getSectionTitles;
 
-- (ItemPickerContext *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
+- (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
 
 - (id<ItemPickerDataSource>)getDataSource;
 

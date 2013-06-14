@@ -34,7 +34,7 @@
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
 		BEC6FCE11724CBBC00A00165 /* SampleCityDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */; };
 		BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = BED14D9217456C1100A145BA /* DataSourceAccess.m */; };
-		BEE0400A174C557E00362C73 /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE04009174C557E00362C73 /* ItemPickerContext.m */; };
+		BEE0400A174C557E00362C73 /* ItemPickerSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE04009174C557E00362C73 /* ItemPickerSelection.m */; };
 		BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = BEE0400D174C55FF00362C73 /* ItemPicker.m */; };
 		BEEB9CAF16FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
 		BEEB9CB116FFE3B60021E035 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB016FFE3B60021E035 /* Foundation.framework */; };
@@ -107,8 +107,8 @@
 		BEC6FCE01724CBBC00A00165 /* SampleCityDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleCityDataSource.m; path = DataSources/SampleCityDataSource.m; sourceTree = "<group>"; };
 		BED14D9117456C1100A145BA /* DataSourceAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataSourceAccess.h; path = ItemPickerSource/DataSourceAccess.h; sourceTree = "<group>"; };
 		BED14D9217456C1100A145BA /* DataSourceAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataSourceAccess.m; path = ItemPickerSource/DataSourceAccess.m; sourceTree = "<group>"; };
-		BEE04008174C557E00362C73 /* ItemPickerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerContext.h; path = ItemPickerSource/API/ItemPickerContext.h; sourceTree = "<group>"; };
-		BEE04009174C557E00362C73 /* ItemPickerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerContext.m; path = ItemPickerSource/API/ItemPickerContext.m; sourceTree = "<group>"; };
+		BEE04008174C557E00362C73 /* ItemPickerSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerSelection.h; path = ItemPickerSource/API/ItemPickerSelection.h; sourceTree = "<group>"; };
+		BEE04009174C557E00362C73 /* ItemPickerSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerSelection.m; path = ItemPickerSource/API/ItemPickerSelection.m; sourceTree = "<group>"; };
 		BEE0400B174C55C100362C73 /* ItemPickerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerDataSource.h; path = ItemPickerSource/API/ItemPickerDataSource.h; sourceTree = "<group>"; };
 		BEE0400C174C55FF00362C73 /* ItemPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPicker.h; path = ItemPickerSource/API/ItemPicker.h; sourceTree = "<group>"; };
 		BEE0400D174C55FF00362C73 /* ItemPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPicker.m; path = ItemPickerSource/API/ItemPicker.m; sourceTree = "<group>"; };
@@ -217,9 +217,9 @@
 				BE4463C517547769003B9134 /* ItemAttributes.m */,
 				BEE0400C174C55FF00362C73 /* ItemPicker.h */,
 				BEE0400D174C55FF00362C73 /* ItemPicker.m */,
-				BEE04008174C557E00362C73 /* ItemPickerContext.h */,
-				BEE04009174C557E00362C73 /* ItemPickerContext.m */,
 				BEE0400B174C55C100362C73 /* ItemPickerDataSource.h */,
+				BEE04008174C557E00362C73 /* ItemPickerSelection.h */,
+				BEE04009174C557E00362C73 /* ItemPickerSelection.m */,
 				BE3FFC95174D92C2002806DD /* ItemPickerHeader.h */,
 				BE3FFC96174D92C2002806DD /* ItemPickerHeader.m */,
 			);
@@ -492,7 +492,7 @@
 				BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */,
 				BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */,
 				BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */,
-				BEE0400A174C557E00362C73 /* ItemPickerContext.m in Sources */,
+				BEE0400A174C557E00362C73 /* ItemPickerSelection.m in Sources */,
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
 				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
 				BE4463C617547769003B9134 /* ItemAttributes.m in Sources */,

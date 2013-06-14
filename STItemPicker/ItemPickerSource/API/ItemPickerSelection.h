@@ -7,7 +7,7 @@
 /**
  * Interesting information about a single selection.
  */
-@interface ItemPickerContext : NSObject <NSCopying>
+@interface ItemPickerSelection : NSObject <NSCopying>
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
            selectedIndex:(NSUInteger)index 
