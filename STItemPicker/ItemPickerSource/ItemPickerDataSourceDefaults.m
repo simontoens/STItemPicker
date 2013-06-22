@@ -20,6 +20,11 @@
     return self.dataSource.count;
 }
 
+- (BOOL)isLeaf
+{
+    return self.dataSource.isLeaf;
+}
+
 - (NSArray *)getItemsInRange:(NSRange)range
 {
     return [self.dataSource getItemsInRange:range];

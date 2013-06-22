@@ -132,6 +132,11 @@ static UIImage *kDefaultArtwork;
     return [self.itemDescriptions count] > 0 ? self.itemDescriptions : nil;
 }
 
+- (BOOL)isLeaf
+{
+    return [self songList];
+}
+
 - (NSString *)title
 {
     if ([self artistList])

@@ -18,6 +18,15 @@
 @property(nonatomic, assign, readonly) NSUInteger count;
 
 /**
+ * YES if this instance is a leaf data source, ie all items provided by this data source are selectable
+ * and none of them has any further detail data source.
+ *
+ * If this property's value is YES, getNextDataSourceForSelection must return nil and vice-versa; if this 
+ * property's value is NO, then getNextDataSourceForSelection must return a valid data source instance.
+ */
+@property(nonatomic, assign, readonly) BOOL isLeaf;
+
+/**
  * The items in the specified range.  Must return a non-nil array.
  */
 - (NSArray *)getItemsInRange:(NSRange)range;
@@ -26,10 +35,10 @@
  * Called when an item is selected.  Return the data source for the next table view, or nil if this 
  * is a leaf item that does not have any detail view.
  *
- * @param context  The current selection
- * @param previousSelections  ItemPickerContext instances for previous selections.  The oldest selection is at index 0.
+ * @param selection  The current selection
+ * @param previousSelections  ItemPickerContext instances for previous selections.  The oldest selection is at index 0
  */
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)context 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)selection 
                                        previousSelections:(NSArray *)previousSelections;
 
 /**

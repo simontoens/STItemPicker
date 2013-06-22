@@ -4,8 +4,9 @@
 #import "SampleCityDataSource.h"
 
 @interface SampleCityDataSource()
-@property (nonatomic, assign) NSUInteger depth;
-@property (nonatomic, strong) NSArray *items;
+@property(nonatomic, assign) NSUInteger depth;
+@property(nonatomic, assign, readwrite) BOOL isLeaf;
+@property(nonatomic, strong) NSArray *items;
 - (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items;
 @end
 
@@ -19,6 +20,7 @@ static MultiDictionary* kStatesToCities;
 static NSArray *kAllDictionaries;
 
 @synthesize depth = _depth;
+@synthesize isLeaf = _isLeaf;
 @synthesize items = _items;
 
 - (id)init
@@ -31,6 +33,7 @@ static NSArray *kAllDictionaries;
     if (self = [super init])
     {
         _depth = depth;
+        _isLeaf = NO;
         _items = items;
     }
     return self;
@@ -57,7 +60,10 @@ static NSArray *kAllDictionaries;
     if (self.depth <= [kAllDictionaries count] - 1)
     {
         MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
-        return [[SampleCityDataSource alloc] initWithDepth:self.depth+1 items:[[currentDict objectsForKey:context.selectedItem] allObjects]];
+        SampleCityDataSource *ds = [[SampleCityDataSource alloc] 
+            initWithDepth:self.depth+1 items:[[currentDict objectsForKey:context.selectedItem] allObjects]];
+        ds.isLeaf = self.depth == [kAllDictionaries count] - 1;
+        return ds;
     }
     return nil;
 }

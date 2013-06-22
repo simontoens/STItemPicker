@@ -162,6 +162,11 @@ static NSArray *kAllTitles;
     return nil;
 }
 
+- (BOOL)isLeaf
+{
+    return [self songsList];
+}
+
 # pragma mark - Private methods
 
 - (BOOL)artistsList 

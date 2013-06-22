@@ -4,4 +4,15 @@
 
 @implementation ItemPickerContext
 
+@synthesize selectedItems = _selectedItems;
+
+- (id)init
+{
+    if (self = [super init])
+    {
+        _selectedItems = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 @end

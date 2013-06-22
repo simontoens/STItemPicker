@@ -7,4 +7,6 @@
  */
 @interface ItemPickerContext : NSObject
 
+@property(nonatomic, strong) NSMutableArray *selectedItems;
+
 @end

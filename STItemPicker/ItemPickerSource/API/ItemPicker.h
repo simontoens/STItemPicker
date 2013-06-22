@@ -13,7 +13,7 @@
  * If there is more than one ItemPickerDataSource, the table views for each data source
  * will each have their own tab (using a UITabBarController).
  */
-- (id)initWithDataSources:(NSArray *)dataSource;
+- (id)initWithDataSources:(NSArray *)dataSources;
 
 /**
  * The underlying item picker view controller.  The easiest way to render the picker is to show it as

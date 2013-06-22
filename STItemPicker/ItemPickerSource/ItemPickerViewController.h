@@ -3,11 +3,12 @@
 #import <UIKit/UIKit.h>
 
 #import "ItemPicker.h"
+#import "ItemPickerContext.h"
 #import "ItemPickerDataSource.h"
 
 @interface ItemPickerViewController : UITableViewController
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource itemPickerContext:(ItemPickerContext *)itemPickerContext;
 
 @property(nonatomic, assign) BOOL showCancelButton;
 @property(nonatomic, assign) NSUInteger maxSelectableItems;

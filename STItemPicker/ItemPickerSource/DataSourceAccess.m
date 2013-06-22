@@ -74,6 +74,11 @@ static NSRange kUnsetRange;
     return self.dataSource.header;
 }
 
+- (BOOL)isLeaf
+{
+    return self.dataSource.isLeaf;
+}
+
 - (id)getSection:(NSUInteger)index
 {
     [self process];

@@ -9,8 +9,14 @@
 #import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
-- (id)initWithNibName:(NSString *)nibName dataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack;
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
+      itemPickerContext:(ItemPickerContext *)context
+   currentSelectionStack:(Stack *)currentSelectionStack;
+
+- (id)initWithNibName:(NSString *)nibName 
+           dataSource:(id<ItemPickerDataSource>)dataSource 
+    itemPickerContext:(ItemPickerContext *)itemPickerContext
+currentSelectionStack:(Stack *)currentSelectionStack;
 
 - (BOOL)moreCellsAreSelectable;
 - (void)configureHeaderView;
@@ -27,59 +33,66 @@
                      dataSource:(id<ItemPickerDataSource>)dataSource;
 - (void)updateViewState;
 
-@property(nonatomic, strong) Stack *contextStack;
+@property(nonatomic, strong) Stack *currentSelectionStack;
+@property(nonatomic, strong) ItemPickerContext *itemPickerContext;
 @property(nonatomic, strong) DataSourceAccess *dataSourceAccess;
 @property(nonatomic, strong) UIBarButtonItem *doneButton;
-@property(nonatomic, strong) NSMutableArray *selectedItems;
-
 
 @end
 
 @implementation ItemPickerViewController
 
-UIColor *kGreyBackgroundColor;
-
-@synthesize contextStack = _contextStack;
+@synthesize currentSelectionStack = _currentSelectionStack;
 @synthesize dataSourceAccess = _dataSourceAccess;
 @synthesize doneButton;
+@synthesize itemPickerContext = _itemPickerContext;
 @synthesize itemPickerDelegate;
 @synthesize maxSelectableItems = _maxSelectableItems;
-@synthesize selectedItems = _selectedItems;
 @synthesize showCancelButton = _showCancelButton;
 
+static NSString* kReloadTableDataNotification = @"STItemPickerReloadTableDataNotification";
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
+#pragma mark - Initializers/dealloc
+
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource itemPickerContext:(ItemPickerContext *)itemPickerContext
 {
-    return [self initWithDataSource:dataSource contextStack:[[Stack alloc] init]];    
+    return [self initWithDataSource:dataSource 
+                  itemPickerContext:itemPickerContext
+              currentSelectionStack:[[Stack alloc] init]];    
 }
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource contextStack:(Stack *)contextStack
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
+       itemPickerContext:(ItemPickerContext *)itemPickerContext
+   currentSelectionStack:(Stack *)currentSelectionStack
 {
-    return [self initWithNibName:@"ItemPickerView" dataSource:dataSource contextStack:contextStack];
+    return [self initWithNibName:@"ItemPickerView" 
+                      dataSource:dataSource 
+               itemPickerContext:itemPickerContext
+           currentSelectionStack:currentSelectionStack];
 }
 
 - (id)initWithNibName:(NSString *)nibName 
-           dataSource:(id<ItemPickerDataSource>)dataSource 
-         contextStack:(Stack *)contextStack
+           dataSource:(id<ItemPickerDataSource>)dataSource
+   itemPickerContext:(ItemPickerContext *)itemPickerContext
+currentSelectionStack:(Stack *)currentSelectionStack
 {
     if (self = [super initWithNibName:nibName bundle:nil]) 
     {
-        _contextStack = contextStack;
+        _currentSelectionStack = currentSelectionStack;
+        _itemPickerContext = itemPickerContext;
         _dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource];
         
         _maxSelectableItems = 1;
-        _selectedItems = [[NSMutableArray alloc] init];
         _showCancelButton = NO;
 
         if (self.tabBarItem) 
         {
             self.title = [_dataSourceAccess getTitle];
             self.tabBarItem.image = [_dataSourceAccess getTabImage];
-        }
+        }        
     }
     return self;
 }
-
 
 #pragma mark - UIViewController
 
@@ -94,6 +107,14 @@ UIColor *kGreyBackgroundColor;
     [self configureHeaderView];
     [self configureNavigationItem];
     [self configureTitle];
+    
+    if (_dataSourceAccess.isLeaf)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self.tableView
+                                                 selector:@selector(reloadData)
+                                                     name:kReloadTableDataNotification
+                                                   object:nil];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -104,9 +125,10 @@ UIColor *kGreyBackgroundColor;
 
 - (void)viewWillDisappear:(BOOL)animated 
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) 
     {
-        while ([[self.contextStack pop] autoSelected]);
+        while ([[self.currentSelectionStack pop] autoSelected]);
     }
     [super viewWillDisappear:animated];
 }
@@ -153,15 +175,17 @@ UIColor *kGreyBackgroundColor;
     NSString *description = [self.dataSourceAccess getItemDescription:indexPath];
     
     UITableViewCell *cell = [TableViewCellContainer newCellForTableView:tableView 
-                                                                  text:[self.dataSourceAccess getItem:indexPath]
-                                                                 image:image 
-                                                           description:description
-                                                        itemAttributes:[self.dataSourceAccess getItemAttributes:indexPath]];
+                                                                   text:[self.dataSourceAccess getItem:indexPath]
+                                                                  image:image 
+                                                            description:description
+                                                         itemAttributes:[self.dataSourceAccess getItemAttributes:indexPath]];
     
-    BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
-    cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
-    
-    cell.userInteractionEnabled = cell.userInteractionEnabled && (isCellSelected || [self moreCellsAreSelectable]);
+    if (self.dataSourceAccess.isLeaf)
+    {
+        BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
+        cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;    
+        cell.userInteractionEnabled = cell.userInteractionEnabled && (isCellSelected || [self moreCellsAreSelectable]);
+    }
     
     return cell; 
 }
@@ -173,14 +197,19 @@ UIColor *kGreyBackgroundColor;
 
 #pragma mark - Private methods
 
+- (void)reloadDataForAllTableViews
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kReloadTableDataNotification object:nil];
+}
+
 - (BOOL)moreCellsAreSelectable
 {
-    return [self.selectedItems count] < self.maxSelectableItems;    
+    return [self.itemPickerContext.selectedItems count] < self.maxSelectableItems;    
 }
 
 - (void)updateViewState
 {
-    self.doneButton.enabled = [self.selectedItems count] > 0;
+    self.doneButton.enabled = [self.itemPickerContext.selectedItems count] > 0;
 }
 
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
@@ -188,10 +217,10 @@ UIColor *kGreyBackgroundColor;
     // review how we determine that a cell has been previously selected - 
     // this is creating a lot of ItemPickerContext instances
     ItemPickerSelection *ctx = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
-    [self.contextStack push:ctx];
-    NSArray *selectionPath = [self.contextStack allObjects];
-    BOOL selected = [self.selectedItems containsObject:selectionPath];
-    [self.contextStack pop];
+    [self.currentSelectionStack push:ctx];
+    NSArray *selectionPath = [self.currentSelectionStack allObjects];
+    BOOL selected = [self.itemPickerContext.selectedItems containsObject:selectionPath];
+    [self.currentSelectionStack pop];
     return selected;
 }
 
@@ -199,10 +228,10 @@ UIColor *kGreyBackgroundColor;
             contextForSelection:(ItemPickerSelection *)context
                      dataSource:(id<ItemPickerDataSource>)dataSource 
 {
-    NSArray *prevSelections = [[self.contextStack allObjects] copy];
+    NSArray *prevSelections = [[self.currentSelectionStack allObjects] copy];
     id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:context previousSelections:prevSelections];
     
-    [self.contextStack push:context];
+    [self.currentSelectionStack push:context];
 
     if (nextDataSource)
     {
@@ -219,32 +248,32 @@ UIColor *kGreyBackgroundColor;
     if (self.maxSelectableItems > 1)
     {
         UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];            
-        NSArray *selectionPath = [self.contextStack allObjects];            
-        if ([self.selectedItems containsObject:selectionPath])
+        NSArray *selectionPath = [self.currentSelectionStack allObjects];            
+        if ([self.itemPickerContext.selectedItems containsObject:selectionPath])
         {
-            [self.selectedItems removeObject:selectionPath];
+            [self.itemPickerContext.selectedItems removeObject:selectionPath];
             cell.accessoryType = UITableViewCellAccessoryNone;
-            [self.tableView reloadData];
+            [self reloadDataForAllTableViews];
         }
         else
         {
             if ([self moreCellsAreSelectable])
             {
-                [self.selectedItems addObject:[selectionPath copy]];
+                [self.itemPickerContext.selectedItems addObject:[selectionPath copy]];
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;    
             }
             else 
             {
-                [self.tableView reloadData];
+                [self reloadDataForAllTableViews];
             }
         }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.contextStack pop];
+        [self.currentSelectionStack pop];
         [self updateViewState];
     }
     else
     {
-        [self.itemPickerDelegate onItemPickerPickedItems:[NSArray arrayWithObject:[self.contextStack allObjects]]];
+        [self.itemPickerDelegate onItemPickerPickedItems:[NSArray arrayWithObject:[self.currentSelectionStack allObjects]]];
     }
 }
 
@@ -259,11 +288,13 @@ UIColor *kGreyBackgroundColor;
     }
     else
     {    
-        ItemPickerViewController *controller = [[ItemPickerViewController alloc] initWithDataSource:dataSource 
-                                                                                       contextStack:self.contextStack];
+        ItemPickerViewController *controller = [[ItemPickerViewController alloc] 
+                                                initWithDataSource:dataSource
+                                                 itemPickerContext:self.itemPickerContext
+                                             currentSelectionStack:self.currentSelectionStack];
+        
         controller.itemPickerDelegate = self.itemPickerDelegate;
         controller.maxSelectableItems = self.maxSelectableItems;
-        controller.selectedItems = self.selectedItems;
         controller.showCancelButton = self.showCancelButton;
         [self.navigationController pushViewController:controller animated:YES];    
     }
@@ -271,7 +302,7 @@ UIColor *kGreyBackgroundColor;
 
 - (ItemPickerSelection *)getPreviousContext
 {
-    NSArray *contexts = [self.contextStack allObjects];
+    NSArray *contexts = [self.currentSelectionStack allObjects];
     return [contexts count] > 0 ? [contexts objectAtIndex:[contexts count] - 1] : nil;
 }
 
@@ -285,7 +316,7 @@ UIColor *kGreyBackgroundColor;
     TableHeaderViewContainer *container = [TableHeaderViewContainer newTableHeaderViewWithImage:image];
     if (defaultLabels)
     {
-        NSArray *contexts = [self.contextStack allObjects];
+        NSArray *contexts = [self.currentSelectionStack allObjects];
         container.boldLabel.text = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;        
         container.label.text = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
         container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", [self.dataSourceAccess getCount], [self.dataSourceAccess getTitle]];
@@ -358,7 +389,7 @@ UIColor *kGreyBackgroundColor;
 
 - (void)onMultiSelect
 {
-    NSArray *selections = [self.selectedItems copy];
+    NSArray *selections = [self.itemPickerContext.selectedItems copy];
     [self deselectAllItems];
     [self.itemPickerDelegate onItemPickerPickedItems:selections];
 }
@@ -371,9 +402,9 @@ UIColor *kGreyBackgroundColor;
 
 - (void)deselectAllItems
 {
-    [self.selectedItems removeAllObjects];
+    [self.itemPickerContext.selectedItems removeAllObjects];
     [self updateViewState];
-    [self.tableView reloadData];
+    [self reloadDataForAllTableViews];
 }
 
 @end
