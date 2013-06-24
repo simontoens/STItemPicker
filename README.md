@@ -5,7 +5,7 @@ A generic, data-driven, multi-level, master-detail item picker controller, simil
 
 The [ItemPickerSource](STItemPicker/ItemPickerSource) folder has all required source code for the library.  The item picker API lives in [ItemPickerSource/API](STItemPicker/ItemPickerSource/API).  The [DataSources](STItemPicker/DataSources) folder contains sample data source implementations, including a [data source](STItemPicker/DataSources/MPMediaDataSource.m) accessing the content of a device's iPod Library.
 
-The [ItemPicker](STItemPicker/ItemPickerSource/API/ItemPicker.m) class is the library's entry point; it also has global configuration options, such as showing a cancel button.  See [examples](STItemPicker/TestViewController.m) on how to setup and display the ItemPicker.
+The [ItemPicker](STItemPicker/ItemPickerSource/API/ItemPicker.h) class is the library's entry point; it also has global configuration options, such as showing a cancel button.  See [examples](STItemPicker/TestViewController.m) on how to setup and display the ItemPicker.
 
 Run in the Simulator to get an idea of how the ItemPicker looks like.
 
