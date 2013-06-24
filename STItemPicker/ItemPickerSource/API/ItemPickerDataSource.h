@@ -21,13 +21,14 @@
  * YES if this instance is a leaf data source, ie all items provided by this data source are selectable
  * and none of them has any further detail data source.
  *
- * If this property's value is YES, getNextDataSourceForSelection must return nil and vice-versa; if this 
- * property's value is NO, then getNextDataSourceForSelection must return a valid data source instance.
+ * Note that if this property's value is YES, getNextDataSourceForSelection must return nil.  If this property's value is NO, getNextDataSourceForSelection must return a valid data source instance.
  */
 @property(nonatomic, assign, readonly) BOOL isLeaf;
 
 /**
- * The items in the specified range.  Must return a non-nil array.
+ * Returns the items to display in the ItemPicker table view.  Must return a non-nil NSArray of NSString instances.
+ * 
+ * @param range  The items returned must be in the specified range.  The largest possible range asked for is [0, count-1].
  */
 - (NSArray *)getItemsInRange:(NSRange)range;
 
