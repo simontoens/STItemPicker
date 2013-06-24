@@ -1,6 +1,7 @@
 // @author Simon Toens 12/14/12
 
 #import "DataSourceAccess.h"
+#import "ItemPicker.h"
 #import "ItemPickerSelection.h"
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
@@ -28,6 +29,7 @@ currentSelectionStack:(Stack *)currentSelectionStack;
 - (void)handleSelection:(NSIndexPath *)indexPath;
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
 - (void)pushDataSource:(id<ItemPickerDataSource>)dataSource;
+- (void)registerForNotifications;
 - (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
             contextForSelection:(ItemPickerSelection *)context
                      dataSource:(id<ItemPickerDataSource>)dataSource;
@@ -50,7 +52,7 @@ currentSelectionStack:(Stack *)currentSelectionStack;
 @synthesize maxSelectableItems = _maxSelectableItems;
 @synthesize showCancelButton = _showCancelButton;
 
-static NSString* kReloadTableDataNotification = @"STItemPickerReloadTableDataNotification";
+static NSString* ReloadTableDataNotification = @"STItemPickerReloadTableDataNotification";
 
 #pragma mark - Initializers/dealloc
 
@@ -107,14 +109,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
     [self configureHeaderView];
     [self configureNavigationItem];
     [self configureTitle];
-    
-    if (_dataSourceAccess.isLeaf)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self.tableView
-                                                 selector:@selector(reloadData)
-                                                     name:kReloadTableDataNotification
-                                                   object:nil];
-    }
+    [self registerForNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -180,7 +175,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
                                                             description:description
                                                          itemAttributes:[self.dataSourceAccess getItemAttributes:indexPath]];
     
-    if (self.dataSourceAccess.isLeaf)
+    if (self.dataSourceAccess.isLeaf && self.maxSelectableItems > 1)
     {
         BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
         cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;    
@@ -199,7 +194,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
 - (void)reloadDataForAllTableViews
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kReloadTableDataNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ReloadTableDataNotification object:nil];
 }
 
 - (BOOL)moreCellsAreSelectable
@@ -214,6 +209,12 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self.itemPickerContext.selectedItems count] == 0)
+    {
+        // if nothing is selected, this cell is not selected for sure
+        return NO;
+    }
+    
     // review how we determine that a cell has been previously selected - 
     // this is creating a lot of ItemPickerContext instances
     ItemPickerSelection *ctx = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
@@ -385,6 +386,16 @@ currentSelectionStack:(Stack *)currentSelectionStack
     {
         self.navigationItem.rightBarButtonItem = button;
     }
+}
+
+- (void)registerForNotifications
+{
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    if (self.dataSourceAccess.isLeaf)
+    {
+        [defaultCenter addObserver:self.tableView selector:@selector(reloadData) name:ReloadTableDataNotification object:nil];        
+    }
+    [defaultCenter addObserver:self.tableView selector:@selector(reloadData) name:ItemPickerDataSourceDidChangeNotification object:nil];
 }
 
 - (void)onMultiSelect

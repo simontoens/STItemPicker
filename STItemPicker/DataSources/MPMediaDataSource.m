@@ -1,5 +1,6 @@
 // @author Simon Toens 04/21/13
 
+#import "ItemPicker.h"
 #import "ItemPickerHeader.h"
 #import "MPMediaDataSource.h"
 
@@ -9,6 +10,8 @@
 - (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerSelection *)selection;
 - (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery;
 - (UIImage *)getMediaItemAlbumImage:(MPMediaItem *)item;
+- (void)registerForLibraryChangeNotifications;
+- (void)unregisterForLibraryChangeNotifications;
 
 @property(nonatomic, strong) NSMutableArray *items;
 @property(nonatomic, strong) NSMutableArray *itemDescriptions;
@@ -26,6 +29,9 @@ static UIImage *kDefaultArtwork;
 
 @synthesize itemProperty = _itemProperty;
 @synthesize query = _query;
+
+
+#pragma mark - Initializers/Dealloc
 
 + (void)initialize
 {
@@ -53,9 +59,18 @@ static UIImage *kDefaultArtwork;
     {
         _itemProperty = itemProperty;
         _query = query;
+        [self registerForLibraryChangeNotifications];
+        
     }
     return self;
 }
+
+- (void)dealloc
+{
+    [self unregisterForLibraryChangeNotifications];
+}
+
+#pragma mark - ItemPickerDataSource Protocol conformance
 
 - (NSUInteger)count
 {
@@ -93,7 +108,7 @@ static UIImage *kDefaultArtwork;
         [_items addObject:[item valueForProperty:_itemProperty]];
         
         NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
-        NSString *album = [item valueForProperty:MPMediaItemPropertyArtist];
+        NSString *album = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
         
         if ([self albumList]) 
         {
@@ -109,7 +124,7 @@ static UIImage *kDefaultArtwork;
             {
                 [_itemDescriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
             }
-            else 
+            else
             {
                 [_itemDescriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
             }
@@ -264,6 +279,24 @@ static UIImage *kDefaultArtwork;
 - (BOOL)songList 
 {
     return self.query.groupingType == MPMediaGroupingTitle;
+}
+
+- (void)onLibraryChanged
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:ItemPickerDataSourceDidChangeNotification object:nil];
+}
+
+- (void)registerForLibraryChangeNotifications
+{
+    [[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self selector:@selector(onLibraryChanged) name:MPMediaLibraryDidChangeNotification object:nil];
+}
+
+- (void)unregisterForLibraryChangeNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
 }
 
 @end

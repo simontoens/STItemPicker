@@ -38,7 +38,13 @@
  */
 @property(nonatomic, assign) NSUInteger maxSelectableItems;
 
+/**
+ * Post this notification using NSNotificationCenter to force a UI refresh when data in the underlying data source changes.
+ */
+extern NSString *ItemPickerDataSourceDidChangeNotification;
+
 @end
+
 
 @protocol ItemPickerDelegate <NSObject>
 

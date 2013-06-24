@@ -21,6 +21,8 @@
 @synthesize showCancelButton = _showCancelButton;
 @synthesize viewController = _viewController;
 
+NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDidUpdate";
+
 - (id)initWithDataSources:(NSArray *)dataSources
 {
     if (self = [super init]) 
