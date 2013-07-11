@@ -28,13 +28,13 @@
 @property(nonatomic, weak) id<ItemPickerDelegate> delegate;
 
 /**
- * If YES, show a "Cancel" button on the right in the navigation bar.  Defaults to NO.
+ * If YES, display a "Done" button on the right in the navigation bar.  Defaults to NO.
  */
-@property(nonatomic, assign) BOOL showCancelButton;
+@property(nonatomic, assign) BOOL showDoneButton;
 
 /**
  * The maximum number of items that can be selected in a single ItemPicker session.  If more than
- * 1, a "Done" button is added to the right in the navigation bar.  Defaults to 1.
+ * 1, a "Done" button (see above) is added to the right in the navigation bar.  Defaults to 1.
  */
 @property(nonatomic, assign) NSUInteger maxSelectableItems;
 
@@ -58,13 +58,5 @@ extern NSString *ItemPickerDataSourceDidChangeNotification;
  * represents the final leaf item selection.
  */
 - (void)onItemPickerPickedItems:(NSArray *)itemPickerSelections;
-
-
-@optional
-
-/**
- * Callback for the cancel button.  Must be implemented if showCancelButton above is set to YES.
- */
-- (void)onItemPickerCanceled;
 
 @end

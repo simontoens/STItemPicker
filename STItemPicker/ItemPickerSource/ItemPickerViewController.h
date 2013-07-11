@@ -10,7 +10,7 @@
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource itemPickerContext:(ItemPickerContext *)itemPickerContext;
 
-@property(nonatomic, assign) BOOL showCancelButton;
+@property(nonatomic, assign) BOOL showDoneButton;
 @property(nonatomic, assign) NSUInteger maxSelectableItems;
 
 @property(nonatomic, weak) id<ItemPickerDelegate>itemPickerDelegate;

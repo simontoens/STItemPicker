@@ -18,7 +18,7 @@
 @synthesize dataSources = _dataSources;
 @synthesize delegate;
 @synthesize maxSelectableItems = _maxSelectableItems;
-@synthesize showCancelButton = _showCancelButton;
+@synthesize showDoneButton = _showDoneButton;
 @synthesize viewController = _viewController;
 
 NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDidUpdate";
@@ -31,7 +31,7 @@ NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDi
         _dataSources = dataSources;
         
         _maxSelectableItems = 1;
-        _showCancelButton = NO;
+        _showDoneButton = NO;
     }
     return self;
 }
@@ -69,7 +69,7 @@ NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDi
         initWithDataSource:wrappedDataSource itemPickerContext:itemPickerContext];
     controller.itemPickerDelegate = self.delegate;
     controller.maxSelectableItems = self.maxSelectableItems;
-    controller.showCancelButton = self.showCancelButton;
+    controller.showDoneButton = self.showDoneButton;
     return [[UINavigationController alloc] initWithRootViewController:controller];    
 }
 

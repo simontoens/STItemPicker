@@ -22,7 +22,6 @@
 - (IBAction)onSampleCityDataSource:(id)sender
 {
     ItemPicker *itemPicker = [self getItemPickerWithDataSources:[NSArray arrayWithObject:[[SampleCityDataSource alloc] init]]];
-    itemPicker.showCancelButton = YES;
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }
 
@@ -50,6 +49,7 @@
                                      [[MPMediaDataSource alloc] initAlbumsDataSource],
                                      [[MPMediaDataSource alloc] initSongsDataSource],
                                      nil]];
+    itemPicker.showDoneButton = YES;
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }
 

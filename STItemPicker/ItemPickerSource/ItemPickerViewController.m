@@ -33,7 +33,6 @@ currentSelectionStack:(Stack *)currentSelectionStack;
 - (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
             contextForSelection:(ItemPickerSelection *)context
                      dataSource:(id<ItemPickerDataSource>)dataSource;
-- (void)updateViewState;
 
 @property(nonatomic, strong) Stack *currentSelectionStack;
 @property(nonatomic, strong) ItemPickerContext *itemPickerContext;
@@ -50,7 +49,7 @@ currentSelectionStack:(Stack *)currentSelectionStack;
 @synthesize itemPickerContext = _itemPickerContext;
 @synthesize itemPickerDelegate;
 @synthesize maxSelectableItems = _maxSelectableItems;
-@synthesize showCancelButton = _showCancelButton;
+@synthesize showDoneButton = _showCancelButton;
 
 static NSString* ReloadTableDataNotification = @"STItemPickerReloadTableDataNotification";
 
@@ -110,12 +109,6 @@ currentSelectionStack:(Stack *)currentSelectionStack
     [self configureNavigationItem];
     [self configureTitle];
     [self registerForNotifications];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self updateViewState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
@@ -202,11 +195,6 @@ currentSelectionStack:(Stack *)currentSelectionStack
     return [self.itemPickerContext.selectedItems count] < self.maxSelectableItems;    
 }
 
-- (void)updateViewState
-{
-    self.doneButton.enabled = [self.itemPickerContext.selectedItems count] > 0;
-}
-
 - (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.itemPickerContext.selectedItems count] == 0)
@@ -270,7 +258,6 @@ currentSelectionStack:(Stack *)currentSelectionStack
         }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.currentSelectionStack pop];
-        [self updateViewState];
     }
     else
     {
@@ -296,7 +283,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
         
         controller.itemPickerDelegate = self.itemPickerDelegate;
         controller.maxSelectableItems = self.maxSelectableItems;
-        controller.showCancelButton = self.showCancelButton;
+        controller.showDoneButton = self.showDoneButton;
         [self.navigationController pushViewController:controller animated:YES];    
     }
 }
@@ -360,32 +347,14 @@ currentSelectionStack:(Stack *)currentSelectionStack
 }
 
 - (void)configureNavigationItem
-{
-    UIBarButtonItem *button = nil, *cancelButton = nil;
-    
-    if (self.maxSelectableItems > 1)
+{    
+    if (self.showDoneButton || self.maxSelectableItems > 1)
     {
-        button = self.doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
-                                                                   target:self
-                                                                   action:@selector(onMultiSelect)];
-        [self updateViewState];
-    }
-    
-    if (self.showCancelButton)
-    {
-        button = cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered 
-                                                                target:self
-                                                                action:@selector(onCancel)];
-    }
-    
-    if (doneButton && cancelButton)
-    {
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:cancelButton, doneButton, nil];    
-    }
-    else
-    {
-        self.navigationItem.rightBarButtonItem = button;
-    }
+        self.navigationItem.rightBarButtonItem = 
+            [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
+                                                          target:self
+                                                          action:@selector(onDone)];
+    }    
 }
 
 - (void)registerForNotifications
@@ -398,23 +367,16 @@ currentSelectionStack:(Stack *)currentSelectionStack
     [defaultCenter addObserver:self.tableView selector:@selector(reloadData) name:ItemPickerDataSourceDidChangeNotification object:nil];
 }
 
-- (void)onMultiSelect
+- (void)onDone
 {
     NSArray *selections = [self.itemPickerContext.selectedItems copy];
     [self deselectAllItems];
     [self.itemPickerDelegate onItemPickerPickedItems:selections];
 }
 
-- (void)onCancel
-{
-    [self deselectAllItems];
-    [self.itemPickerDelegate onItemPickerCanceled];
-}
-
 - (void)deselectAllItems
 {
     [self.itemPickerContext.selectedItems removeAllObjects];
-    [self updateViewState];
     [self reloadDataForAllTableViews];
 }
 
