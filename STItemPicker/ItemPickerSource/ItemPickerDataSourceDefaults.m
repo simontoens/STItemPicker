@@ -90,4 +90,9 @@
     return [self.dataSource respondsToSelector:@selector(header)] ? self.dataSource.header : nil;
 }
 
+- (BOOL)allowDrilldownToAllReachableItems
+{
+    return [self.dataSource respondsToSelector:@selector(allowDrilldownToAllReachableItems)] ? self.dataSource.allowDrilldownToAllReachableItems : NO;
+}
+
 @end

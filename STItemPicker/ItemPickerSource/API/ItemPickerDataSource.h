@@ -50,6 +50,7 @@
 @property(nonatomic, strong, readonly) NSString *title;
 
 
+
 @optional
 
 /**
@@ -104,5 +105,10 @@
  * Optional attributes to tweak the appearance of each table view cell.
  */
 - (NSArray *)getItemAttributesInRange:(NSRange)range;
+
+/**
+ * Blah.  isLeaf must be NO.
+ */
+- (BOOL)allowDrilldownToAllReachableItems;
 
 @end

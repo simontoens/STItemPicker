@@ -60,7 +60,7 @@ static NSArray *kAllTitles;
 + (id)artistsDataSource
 {
     SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistToAlbums allKeys]];
-    ds.sectionsEnabled = YES;
+    //ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Artists.png"];
     return ds;
 }
@@ -68,7 +68,7 @@ static NSArray *kAllTitles;
 + (id)albumsDataSource
 {
     SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumToSongs allKeys]];
-    ds.sectionsEnabled = YES;
+    //ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Albums.png"];
     return ds;
 }
@@ -76,7 +76,7 @@ static NSArray *kAllTitles;
 + (id)songsDataSource
 {
     SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumToSongs allValues]];
-    ds.sectionsEnabled = YES;
+    //ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Songs.png"];
     return ds;
 }
@@ -182,6 +182,12 @@ static NSArray *kAllTitles;
 - (BOOL)songsList 
 {
     return [self.title isEqualToString:kSongs];
+}
+
+- (BOOL)allowDrilldownToAllReachableItems
+{
+    return YES;
+    //return NO;
 }
 
 - (void)initSecondayLists

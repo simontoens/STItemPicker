@@ -3,15 +3,18 @@
 #import "DataSourceAccess.h"
 #import "ItemPickerDataSourceDefaults.h"
 #import "ItemPickerSection.h"
+#import "Preconditions.h"
 #import "TableSectionHandler.h"
 
 @interface DataSourceAccess()
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, assign) BOOL processed;
+@property(nonatomic, assign) BOOL showAllItemsRow;
 @property(nonatomic, strong) NSArray *sections;
 @property(nonatomic, strong) NSArray *sectionTitles;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 @property(nonatomic, assign) NSRange currentRange;
+@property(nonatomic, assign) NSUInteger dataSourceTotalItemCount;
 
 - (void)buildDefaultSection;
 - (void)buildSections;
@@ -23,6 +26,7 @@
 
 @implementation DataSourceAccess
 
+static NSInteger kSpecialAllItemsRowsIndex = -1;
 static NSRange kUnsetRange;
 
 @synthesize currentRange = _currentRange;
@@ -30,8 +34,10 @@ static NSRange kUnsetRange;
 @synthesize dataSource = _dataSource;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
+@synthesize dataSourceTotalItemCount = _dataSourceTotalItemCount;
 @synthesize sectionTitles;
-@synthesize tableSectionHandler;
+@synthesize showAllItemsRow = _showAllItemsRow;
+@synthesize tableSectionHandler = _tableSectionHandler;
 
 + (void)initialize
 {
@@ -57,84 +63,137 @@ static NSRange kUnsetRange;
 
 - (NSUInteger)getCount
 {
-    return self.dataSource.count;
+    if (!_processed) 
+    {
+        [self process];
+    }
+    return self.dataSourceTotalItemCount;
 }
 
 - (NSString *)getTitle
 {
+    if (!_processed) 
+    {
+        [self process];
+    }
     return self.dataSource.title;
 }
 
 - (UIImage *)getTabImage
 {
+    if (!_processed) 
+    {
+        [self process];
+    }
     return self.dataSource.tabImage;
 }
 
 - (ItemPickerHeader *)getHeader
 {
+    if (!_processed) 
+    {
+        [self process];
+    }
     return self.dataSource.header;
 }
 
 - (BOOL)isLeaf
 {
+    if (!_processed) 
+    {
+        [self process];
+    }
     return self.dataSource.isLeaf;
 }
 
 - (id)getSection:(NSUInteger)index
 {
-    [self process];
+    if (!_processed) 
+    {
+        [self process];
+    }
     return [self.sections objectAtIndex:index];
 }
 
 - (NSArray *)getSectionTitles
 {
-    [self process];
+    if (!_processed) 
+    {
+        [self process];
+    }
     return self.sectionTitles;
 }
 
 - (NSString *)getItem:(NSIndexPath *)indexPath
 {
-    [self process];
+    if (!_processed) 
+    {
+        [self process];
+    }
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
-    if (self.tableSectionHandler)
+    
+    if (index == kSpecialAllItemsRowsIndex)
+    {
+        return @"All Items ...";
+    }
+    
+    if (_tableSectionHandler)
     {
         return [self.tableSectionHandler.items objectAtIndex:index];
     }
     else
     {
-        index = [self.itemCache ensureAvailability:index];
-        return [self.itemCache.items objectAtIndex:index];
+        index = [_itemCache ensureAvailability:index];
+        return [_itemCache.items objectAtIndex:index];
     }
 }
 
 - (NSString *)getItemDescription:(NSIndexPath *)indexPath
 {
-    [self process];
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
-    if (self.tableSectionHandler)
+    if (!_processed) 
     {
-        return [self.tableSectionHandler.itemDescriptions objectAtIndex:index];
+        [self process];
+    }
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    
+    if (index == kSpecialAllItemsRowsIndex)
+    {
+        return nil;
+    }
+    
+    if (_tableSectionHandler)
+    {
+        return [_tableSectionHandler.itemDescriptions objectAtIndex:index];
     }
     else
     {
-        index = [self.itemCache ensureAvailability:index];
-        return [self.itemCache.descriptions objectAtIndex:index];
+        index = [_itemCache ensureAvailability:index];
+        return [_itemCache.descriptions objectAtIndex:index];
     }
 }
 
 - (UIImage *)getItemImage:(NSIndexPath *)indexPath
 {
-    [self process];
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
-    id image = nil;
-    if (self.tableSectionHandler)
+    if (!_processed) 
     {
-        image = [self.tableSectionHandler.itemImages objectAtIndex:index];
+        [self process];
+    }
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    
+    if (index == kSpecialAllItemsRowsIndex)
+    {
+        return nil;
+    }
+    
+    id image = nil;
+    if (_tableSectionHandler)
+    {
+        image = [_tableSectionHandler.itemImages objectAtIndex:index];
     }
     else
     {
-        index = [self.itemCache ensureAvailability:index];
-        return [self.itemCache.images objectAtIndex:index];
+        index = [_itemCache ensureAvailability:index];
+        return [_itemCache.images objectAtIndex:index];
     }
     
     return image == [NSNull null] ? nil : image;
@@ -142,16 +201,25 @@ static NSRange kUnsetRange;
 
 - (ItemAttributes *)getItemAttributes:(NSIndexPath *)indexPath
 {
-    [self process];
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
-    if (self.tableSectionHandler)
+    if (!_processed) 
     {
-        return [self.tableSectionHandler.itemAttributes objectAtIndex:index];
+        [self process];
+    }
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    
+    if (index == kSpecialAllItemsRowsIndex)
+    {
+        return nil;
+    }
+    
+    if (_tableSectionHandler)
+    {
+        return [_tableSectionHandler.itemAttributes objectAtIndex:index];
     }
     else
     {
-        index = [self.itemCache ensureAvailability:index];
-        return [self.itemCache.attributes objectAtIndex:index];
+        index = [_itemCache ensureAvailability:index];
+        return [_itemCache.attributes objectAtIndex:index];
     }
 }
 
@@ -172,11 +240,14 @@ static NSRange kUnsetRange;
 
 - (void)process
 {
-    if (self.processed)
-    {
-        return;
-    }
+    [Preconditions assert:!self.processed message:@"processed should be false"];
+    
     self.processed = YES;
+    
+    id<ItemPickerDataSource> ds = self.dataSource;    
+    self.showAllItemsRow = !ds.isLeaf && ds.allowDrilldownToAllReachableItems;
+    self.dataSourceTotalItemCount = ds.count + (self.showAllItemsRow ? 1 : 0);
+    
     if (self.dataSource.sectionsEnabled)
     {
         self.sections = self.dataSource.sections;
@@ -196,19 +267,20 @@ static NSRange kUnsetRange;
 
 - (void)buildSections
 {
-    NSRange range = NSMakeRange(0, self.dataSource.count);
-    [self.dataSource initForRange:range];
-
-    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:range]];
-    self.tableSectionHandler.itemDescriptions = [self.dataSource getItemDescriptionsInRange:range];
-    self.tableSectionHandler.itemImages = [self.dataSource getItemImagesInRange:range];
-    self.tableSectionHandler.itemAttributes = [self.dataSource getItemAttributesInRange:range];
+    NSRange allItemsRange = NSMakeRange(0, self.dataSource.count);
+    [self.dataSource initForRange:allItemsRange];
+    
+    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:allItemsRange]];
+    self.tableSectionHandler.itemDescriptions = [self.dataSource getItemDescriptionsInRange:allItemsRange];
+    self.tableSectionHandler.itemImages = [self.dataSource getItemImagesInRange:allItemsRange];
+    self.tableSectionHandler.itemAttributes = [self.dataSource getItemAttributesInRange:allItemsRange];
     self.sections = self.tableSectionHandler.sections;
 }
 
 - (void)buildDefaultSection
 {
-    self.sections = [NSArray arrayWithObject:[[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, self.dataSource.count)]];
+    ItemPickerSection *defaultSection = [[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, self.dataSourceTotalItemCount)];
+    self.sections = [NSArray arrayWithObject:defaultSection];
 }
 
 - (void)buildSectionTitles
@@ -229,7 +301,14 @@ static NSRange kUnsetRange;
         NSRange range = [[self.sections objectAtIndex:i] range];
         row += range.length;
     }
-    return row + indexPath.row;
+    NSInteger index = row + indexPath.row;
+    
+    if (self.showAllItemsRow)
+    {
+        return index == 0 ? kSpecialAllItemsRowsIndex : index - 1;
+    }
+    
+    return index;
 }
 
 @end
