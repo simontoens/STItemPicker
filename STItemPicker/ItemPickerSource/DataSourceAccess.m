@@ -55,6 +55,11 @@ static NSRange kUnsetRange;
     return self.dataSource;
 }
 
+- (BOOL)getSectionsEnabled
+{
+    return self.dataSource.sectionsEnabled;
+}
+
 - (NSUInteger)getCount
 {
     return self.dataSource.count;
