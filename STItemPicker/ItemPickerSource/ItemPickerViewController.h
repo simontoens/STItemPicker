@@ -2,6 +2,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "DataSourceAccess.h"
 #import "ItemPicker.h"
 #import "ItemPickerContext.h"
 #import "ItemPickerDataSource.h"
@@ -14,5 +15,7 @@
 @property(nonatomic, assign) NSUInteger maxSelectableItems;
 
 @property(nonatomic, weak) id<ItemPickerDelegate>itemPickerDelegate;
+
+@property(nonatomic, strong) DataSourceAccess *dataSourceAccess;
 
 @end

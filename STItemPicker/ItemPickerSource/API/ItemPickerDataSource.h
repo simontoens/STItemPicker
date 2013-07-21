@@ -78,8 +78,7 @@
 /**
  * Return an array of instances that have title and range properties (the same properties as MPMediaQuerySection has),
  * _if_ this DataSource wants to use its own logic to determine section names.
- * If this method returns sections to use, they must match the items; if this method returns a non nil value, the items
- * will not be sorted or otherwise modified.
+ * If this method returns sections to use, they must match the items and the items will not be sorted or otherwise modified.
  */
 @property(nonatomic, strong, readonly) NSArray *sections;
 

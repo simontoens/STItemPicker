@@ -27,6 +27,7 @@
     items = [NSArray arrayWithObjects:@"2", @"1", nil];
     dataSource = [OCMockObject mockForProtocol:@protocol(ItemPickerDataSource)];
     dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource];
+    dataSourceAccess.itemCache.size = 1;
     otherRangeMethodsCalled = NO;
     initForRangeCalled = NO;
 }    
@@ -47,7 +48,7 @@
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"2"];
     STAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
-    STAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
+    STAssertFalse(otherRangeMethodsCalled, @"Did not expect other range methods to be called");
 
     otherRangeMethodsCalled = NO;
     range = NSMakeRange(1, 1);
@@ -76,7 +77,7 @@
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"1"];
     STAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
-    STAssertFalse(otherRangeMethodsCalled, @"Expected other range methods to be called");
+    STAssertFalse(otherRangeMethodsCalled, @"Did not expect other range methods to be called");
     
     otherRangeMethodsCalled = NO;
     range = NSMakeRange(1, 1);

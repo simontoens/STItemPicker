@@ -1,6 +1,5 @@
 // @author Simon Toens 12/14/12
 
-#import "DataSourceAccess.h"
 #import "ItemPicker.h"
 #import "ItemPickerSelection.h"
 #import "ItemPickerViewController.h"
@@ -36,7 +35,6 @@ currentSelectionStack:(Stack *)currentSelectionStack;
 
 @property(nonatomic, strong) Stack *currentSelectionStack;
 @property(nonatomic, strong) ItemPickerContext *itemPickerContext;
-@property(nonatomic, strong) DataSourceAccess *dataSourceAccess;
 @property(nonatomic, strong) UIBarButtonItem *doneButton;
 
 @end

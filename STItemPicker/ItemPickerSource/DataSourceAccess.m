@@ -18,7 +18,6 @@
 - (void)buildSectionTitles;
 - (NSInteger)convertIndexPathToArrayIndex:(NSIndexPath *)indexPath;
 - (void)process;
-- (void)initializeDataSourceForRange:(NSRange)range;
 
 @end
 
@@ -27,6 +26,7 @@
 static NSRange kUnsetRange;
 
 @synthesize currentRange = _currentRange;
+@synthesize itemCache = _itemCache;
 @synthesize dataSource = _dataSource;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
@@ -44,6 +44,7 @@ static NSRange kUnsetRange;
     {
         _currentRange = kUnsetRange;
         _dataSource = dataSource;
+        _itemCache = [[ItemCache alloc] initForDataSource:dataSource];
         _processed = NO;
     }
     return self;
@@ -101,9 +102,8 @@ static NSRange kUnsetRange;
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        [self initializeDataSourceForRange:range];
-        return [[self.dataSource getItemsInRange:range] lastObject];
+        index = [self.itemCache ensureAvailability:index];
+        return [self.itemCache.items objectAtIndex:index];
     }
 }
 
@@ -117,9 +117,8 @@ static NSRange kUnsetRange;
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        [self initializeDataSourceForRange:range];
-        return [[self.dataSource getItemDescriptionsInRange:range] lastObject];
+        index = [self.itemCache ensureAvailability:index];
+        return [self.itemCache.descriptions objectAtIndex:index];
     }
 }
 
@@ -134,9 +133,8 @@ static NSRange kUnsetRange;
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        [self initializeDataSourceForRange:range];
-        image = [[self.dataSource getItemImagesInRange:range] lastObject];
+        index = [self.itemCache ensureAvailability:index];
+        return [self.itemCache.images objectAtIndex:index];
     }
     
     return image == [NSNull null] ? nil : image;
@@ -152,9 +150,8 @@ static NSRange kUnsetRange;
     }
     else
     {
-        NSRange range = NSMakeRange(index, 1);
-        [self initializeDataSourceForRange:range];        
-        return [[self.dataSource getItemAttributesInRange:range] lastObject];
+        index = [self.itemCache ensureAvailability:index];
+        return [self.itemCache.attributes objectAtIndex:index];
     }
 }
 
@@ -168,9 +165,9 @@ static NSRange kUnsetRange;
 - (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
 {
     return [[ItemPickerSelection alloc] initWithDataSource:[self getUnwrappedDataSource]
-                                           selectedIndex:[self convertIndexPathToArrayIndex:indexPath]
-                                            selectedItem:[self getItem:indexPath] 
-                                            autoSelected:autoSelected];
+                                             selectedIndex:[self convertIndexPathToArrayIndex:indexPath]
+                                              selectedItem:[self getItem:indexPath] 
+                                              autoSelected:autoSelected];
 }
 
 - (void)process
@@ -197,15 +194,6 @@ static NSRange kUnsetRange;
     [self buildSectionTitles];
 }
 
-- (void)initializeDataSourceForRange:(NSRange)range
-{
-    if (self.currentRange.location != range.location || self.currentRange.length != range.length)
-    {
-        [self.dataSource initForRange:range];
-        self.currentRange = range;
-    }
-}
-
 - (void)buildSections
 {
     NSRange range = NSMakeRange(0, self.dataSource.count);
@@ -220,8 +208,7 @@ static NSRange kUnsetRange;
 
 - (void)buildDefaultSection
 {
-    self.sections = [NSArray arrayWithObject:[[ItemPickerSection alloc] 
-        initWithTitle:@"" range:NSMakeRange(0, self.dataSource.count)]];
+    self.sections = [NSArray arrayWithObject:[[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, self.dataSource.count)]];
 }
 
 - (void)buildSectionTitles

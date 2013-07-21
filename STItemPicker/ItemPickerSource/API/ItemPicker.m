@@ -1,5 +1,6 @@
 // @author Simon Toens 03/17/13
 
+#import "DataSourceAccess.h"
 #import "ItemPickerContext.h"
 #import "ItemPickerDataSourceDefaults.h"
 #import "ItemPickerViewController.h"
@@ -17,6 +18,7 @@
 
 @synthesize dataSources = _dataSources;
 @synthesize delegate;
+@synthesize itemLoadRangeLength = _itemLoadRangeLength;
 @synthesize maxSelectableItems = _maxSelectableItems;
 @synthesize showDoneButton = _showDoneButton;
 @synthesize viewController = _viewController;
@@ -29,7 +31,7 @@ NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDi
     {
         [Preconditions assertNotEmpty:dataSources];
         _dataSources = dataSources;
-        
+        _itemLoadRangeLength = 500;
         _maxSelectableItems = 1;
         _showDoneButton = NO;
     }
@@ -70,6 +72,7 @@ NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDi
     controller.itemPickerDelegate = self.delegate;
     controller.maxSelectableItems = self.maxSelectableItems;
     controller.showDoneButton = self.showDoneButton;
+    controller.dataSourceAccess.itemCache.size = self.itemLoadRangeLength;
     return [[UINavigationController alloc] initWithRootViewController:controller];    
 }
 

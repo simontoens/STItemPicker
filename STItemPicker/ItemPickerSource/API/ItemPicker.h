@@ -39,6 +39,11 @@
 @property(nonatomic, assign) NSUInteger maxSelectableItems;
 
 /**
+ * The maximum number of items that are loaded from the data source and cached.  Defaults to 500.
+ */
+@property(nonatomic, assign) NSUInteger itemLoadRangeLength;
+
+/**
  * Post this notification using NSNotificationCenter to force a UI refresh when data in the underlying data source changes.
  */
 extern NSString *ItemPickerDataSourceDidChangeNotification;

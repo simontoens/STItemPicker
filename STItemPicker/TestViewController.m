@@ -50,6 +50,7 @@
                                      [[MPMediaDataSource alloc] initSongsDataSource],
                                      nil]];
     itemPicker.showDoneButton = YES;
+    itemPicker.itemLoadRangeLength = 100;
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }
 

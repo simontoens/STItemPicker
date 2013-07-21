@@ -2,6 +2,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ItemAttributes.h"
+#import "ItemCache.h"
 #import "ItemPickerSelection.h"
 #import "ItemPickerDataSource.h"
 #import "ItemPickerHeader.h"
@@ -39,5 +40,7 @@
 - (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
 
 - (id<ItemPickerDataSource>)getDataSource;
+
+@property(nonatomic, strong, readonly) ItemCache *itemCache;
 
 @end
