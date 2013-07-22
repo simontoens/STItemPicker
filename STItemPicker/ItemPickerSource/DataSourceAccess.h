@@ -39,6 +39,8 @@
 
 - (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
 
+- (BOOL)getSectionsEnabled;
+
 - (id<ItemPickerDataSource>)getDataSource;
 
 @property(nonatomic, strong, readonly) ItemCache *itemCache;

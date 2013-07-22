@@ -5,10 +5,10 @@
 @implementation TableViewCellContainer
 
 + (UITableViewCell *)newCellForTableView:(UITableView *)tableView 
-                                   text:(NSString *)text
-                                  image:(UIImage *)image 
-                            description:(NSString *)description                         
-                         itemAttributes:(ItemAttributes *)itemAttributes
+                                    text:(NSString *)text
+                                   image:(UIImage *)image 
+                             description:(NSString *)description                         
+                          itemAttributes:(ItemAttributes *)itemAttributes
 {
     static NSString *cellReuseIdentifier = @"STItemPickerCell";
     UITableViewCellStyle cellStyle = description ? UITableViewCellStyleSubtitle : UITableViewCellStyleDefault;

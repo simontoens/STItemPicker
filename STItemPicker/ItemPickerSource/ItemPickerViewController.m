@@ -166,11 +166,21 @@ currentSelectionStack:(Stack *)currentSelectionStack
                                                             description:description
                                                          itemAttributes:[self.dataSourceAccess getItemAttributes:indexPath]];
     
-    if (self.dataSourceAccess.isLeaf && self.maxSelectableItems > 1)
+    if (self.dataSourceAccess.isLeaf)
     {
-        BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
-        cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;    
-        cell.userInteractionEnabled = cell.userInteractionEnabled && (isCellSelected || [self moreCellsAreSelectable]);
+        if (self.maxSelectableItems > 1) 
+        {
+            BOOL isCellSelected = [self isCellSelectedAtIndexPath:indexPath]; 
+            cell.accessoryType = isCellSelected ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;    
+            cell.userInteractionEnabled = cell.userInteractionEnabled && (isCellSelected || [self moreCellsAreSelectable]);
+        }
+    }
+    else 
+    {
+        if (![self.dataSourceAccess getSectionsEnabled])
+        {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
     }
     
     return cell; 
