@@ -8,12 +8,13 @@
 #import "ItemPickerHeader.h"
 
 /**
- * All data source access goes through this class.  It translates between the data shape provided by the 
- * data source and the data shape required by the ItemPicker UI.
+ * Layer of functionality between the datasource and the UI. 
+ * All data source access goes through this class.  It translates between the datasource data shape 
+ * and the data shape required by the ItemPicker UI, provides item caching, etc.
  */
 @interface DataSourceAccess : NSObject
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
 
 - (NSUInteger)getCount;
 
@@ -37,11 +38,13 @@
 
 - (NSArray *)getSectionTitles;
 
-- (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
+- (ItemPickerSelection *)getItemPickerSelection:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
 
 - (BOOL)getSectionsEnabled;
 
 - (id<ItemPickerDataSource>)getDataSource;
+
+- (BOOL)selectedShowAllItems:(ItemPickerSelection *)selection;
 
 @property(nonatomic, strong, readonly) ItemCache *itemCache;
 

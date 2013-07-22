@@ -30,7 +30,7 @@ currentSelectionStack:(Stack *)currentSelectionStack;
 - (void)pushDataSource:(id<ItemPickerDataSource>)dataSource;
 - (void)registerForNotifications;
 - (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
-            contextForSelection:(ItemPickerSelection *)context
+                      selection:(ItemPickerSelection *)selection
                      dataSource:(id<ItemPickerDataSource>)dataSource;
 
 @property(nonatomic, strong) Stack *currentSelectionStack;
@@ -79,7 +79,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
     {
         _currentSelectionStack = currentSelectionStack;
         _itemPickerContext = itemPickerContext;
-        _dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource];
+        _dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource autoSelected:NO];
         
         _maxSelectableItems = 1;
         _showCancelButton = NO;
@@ -134,8 +134,8 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    ItemPickerSelection *context = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
-    [self selectedItemAtIndexPath:indexPath contextForSelection:context dataSource:[self.dataSourceAccess getDataSource]];
+    ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath autoSelected:NO];
+    [self selectedItemAtIndexPath:indexPath selection:selection dataSource:[self.dataSourceAccess getDataSource]];
 }
 
 #pragma mark - UITableViewDataSource protocol
@@ -213,8 +213,8 @@ currentSelectionStack:(Stack *)currentSelectionStack
     
     // review how we determine that a cell has been previously selected - 
     // this is creating a lot of ItemPickerContext instances
-    ItemPickerSelection *ctx = [self.dataSourceAccess getItemPickerContext:indexPath autoSelected:NO];
-    [self.currentSelectionStack push:ctx];
+    ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath autoSelected:NO];
+    [self.currentSelectionStack push:selection];
     NSArray *selectionPath = [self.currentSelectionStack allObjects];
     BOOL selected = [self.itemPickerContext.selectedItems containsObject:selectionPath];
     [self.currentSelectionStack pop];
@@ -222,13 +222,13 @@ currentSelectionStack:(Stack *)currentSelectionStack
 }
 
 - (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
-            contextForSelection:(ItemPickerSelection *)context
+                      selection:(ItemPickerSelection *)selection
                      dataSource:(id<ItemPickerDataSource>)dataSource 
 {
     NSArray *prevSelections = [[self.currentSelectionStack allObjects] copy];
-    id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:context previousSelections:prevSelections];
+    id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:selection previousSelections:prevSelections];
     
-    [self.currentSelectionStack push:context];
+    [self.currentSelectionStack push:selection];
 
     if (nextDataSource)
     {
@@ -277,10 +277,10 @@ currentSelectionStack:(Stack *)currentSelectionStack
 {
     if (dataSource.autoSelectSingleItem && dataSource.count == 1)
     {
+        DataSourceAccess *access = [[DataSourceAccess alloc] initWithDataSource:dataSource autoSelected:YES];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        DataSourceAccess *access = [[DataSourceAccess alloc] initWithDataSource:dataSource];
-        ItemPickerSelection *context = [access getItemPickerContext:indexPath autoSelected:YES];
-        [self selectedItemAtIndexPath:indexPath contextForSelection:context dataSource:dataSource];
+        ItemPickerSelection *selection = [access getItemPickerSelection:indexPath autoSelected:YES];
+        [self selectedItemAtIndexPath:indexPath selection:selection dataSource:dataSource];
     }
     else
     {    

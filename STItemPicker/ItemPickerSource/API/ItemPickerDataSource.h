@@ -107,7 +107,12 @@
 - (NSArray *)getItemAttributesInRange:(NSRange)range;
 
 /**
- * Blah.  isLeaf must be NO.
+ * Adds an extra table view cell to the top of the table for selecting all items.  
+ * When this cell is selected, the ItemPickerSelection instance in the getNextDataSourceForSelection callback
+ * has the "allItems" property set to YES.  getNextDataSourceForSelection should return an ItemPickerDataSource
+ * instance that has all items.
+ * 
+ * isLeaf must be NO for this ItemPickerDataSource, otherwise this property is ignored.
  */
 - (BOOL)allowDrilldownToAllReachableItems;
 

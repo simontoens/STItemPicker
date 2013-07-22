@@ -7,6 +7,7 @@
 
 @synthesize autoSelected = _autoSelected;
 @synthesize dataSource = _dataSource;
+@synthesize selectedAllItems = _selectedAllItems;
 @synthesize selectedIndex = _selectedIndex; 
 @synthesize selectedItem = _selectedItem;
 
@@ -14,12 +15,14 @@
            selectedIndex:(NSUInteger)selectedIndex
             selectedItem:(NSString *)selectedItem
             autoSelected:(BOOL)autoSelected
+        selectedAllItems:(BOOL)selectedAllItems
 {
     if (self = [super init]) 
     {
        [Preconditions assertNotNil:dataSource message:@"datasource cannot be nil"];
         _autoSelected = autoSelected;
         _dataSource = dataSource;
+        _selectedAllItems = selectedAllItems;
         _selectedIndex = selectedIndex;
         _selectedItem = selectedItem;
     }
@@ -51,9 +54,10 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     return [[ItemPickerSelection alloc] initWithDataSource:self.dataSource 
-                                           selectedIndex:self.selectedIndex 
-                                            selectedItem:[self.selectedItem copyWithZone:zone] 
-                                            autoSelected:self.autoSelected];
+                                             selectedIndex:self.selectedIndex 
+                                              selectedItem:[self.selectedItem copyWithZone:zone] 
+                                              autoSelected:self.autoSelected
+                                          selectedAllItems:self.selectedAllItems];
 }
 
 - (NSString *)description 

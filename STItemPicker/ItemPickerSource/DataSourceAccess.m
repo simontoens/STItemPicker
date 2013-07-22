@@ -7,6 +7,7 @@
 #import "TableSectionHandler.h"
 
 @interface DataSourceAccess()
+@property(nonatomic, assign) BOOL autoSelected;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
 @property(nonatomic, assign) BOOL processed;
 @property(nonatomic, assign) BOOL showAllItemsRow;
@@ -26,9 +27,10 @@
 
 @implementation DataSourceAccess
 
-static NSInteger kSpecialAllItemsRowsIndex = -1;
+static NSInteger kAllItemsRowIndex = -1;
 static NSRange kUnsetRange;
 
+@synthesize autoSelected = _autoSelected;
 @synthesize currentRange = _currentRange;
 @synthesize itemCache = _itemCache;
 @synthesize dataSource = _dataSource;
@@ -44,10 +46,11 @@ static NSRange kUnsetRange;
     kUnsetRange = NSMakeRange(0, 0);
 }
 
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
+- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected
 {
     if (self = [super init])
     {
+        _autoSelected = autoSelected;
         _currentRange = kUnsetRange;
         _dataSource = dataSource;
         _itemCache = [[ItemCache alloc] initForDataSource:dataSource];
@@ -63,6 +66,10 @@ static NSRange kUnsetRange;
 
 - (BOOL)getSectionsEnabled
 {
+    if (!_processed) 
+    {
+        [self process];
+    }
     return self.dataSource.sectionsEnabled;
 }
 
@@ -137,7 +144,7 @@ static NSRange kUnsetRange;
     }
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
-    if (index == kSpecialAllItemsRowsIndex)
+    if (index == kAllItemsRowIndex)
     {
         return @"All Items ...";
     }
@@ -161,7 +168,7 @@ static NSRange kUnsetRange;
     }
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
-    if (index == kSpecialAllItemsRowsIndex)
+    if (index == kAllItemsRowIndex)
     {
         return nil;
     }
@@ -185,7 +192,7 @@ static NSRange kUnsetRange;
     }
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
-    if (index == kSpecialAllItemsRowsIndex)
+    if (index == kAllItemsRowIndex)
     {
         return nil;
     }
@@ -212,7 +219,7 @@ static NSRange kUnsetRange;
     }
     NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
-    if (index == kSpecialAllItemsRowsIndex)
+    if (index == kAllItemsRowIndex)
     {
         return nil;
     }
@@ -228,6 +235,11 @@ static NSRange kUnsetRange;
     }
 }
 
+- (BOOL)selectedShowAllItems:(ItemPickerSelection *)selection
+{
+    return self.showAllItemsRow && selection.selectedIndex == kAllItemsRowIndex;
+}
+
 - (id<ItemPickerDataSource>)getUnwrappedDataSource
 {
     // and so the abstraction begins to break down...
@@ -235,12 +247,14 @@ static NSRange kUnsetRange;
         ((ItemPickerDataSourceDefaults *)self.dataSource).dataSource : self.dataSource;
 }
 
-- (ItemPickerSelection *)getItemPickerContext:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
+- (ItemPickerSelection *)getItemPickerSelection:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
 {
+    NSUInteger selectedIndex = [self convertIndexPathToArrayIndex:indexPath];
     return [[ItemPickerSelection alloc] initWithDataSource:[self getUnwrappedDataSource]
-                                             selectedIndex:[self convertIndexPathToArrayIndex:indexPath]
-                                              selectedItem:[self getItem:indexPath] 
-                                              autoSelected:autoSelected];
+                                             selectedIndex:selectedIndex
+                                              selectedItem:[self getItem:indexPath]
+                                              autoSelected:autoSelected
+                                          selectedAllItems:selectedIndex == kAllItemsRowIndex];
 }
 
 - (void)process
@@ -250,7 +264,7 @@ static NSRange kUnsetRange;
     self.processed = YES;
     
     id<ItemPickerDataSource> ds = self.dataSource;    
-    self.showAllItemsRow = !ds.isLeaf && ds.allowDrilldownToAllReachableItems;
+    self.showAllItemsRow = !ds.isLeaf && !self.autoSelected && ds.allowDrilldownToAllReachableItems;
     self.dataSourceTotalItemCount = ds.count + (self.showAllItemsRow ? 1 : 0);
     
     if (self.dataSource.sectionsEnabled)
@@ -310,7 +324,7 @@ static NSRange kUnsetRange;
     
     if (self.showAllItemsRow)
     {
-        return index == 0 ? kSpecialAllItemsRowsIndex : index - 1;
+        return index == 0 ? kAllItemsRowIndex : index - 1;
     }
     
     return index;

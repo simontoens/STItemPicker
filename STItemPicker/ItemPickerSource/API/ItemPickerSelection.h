@@ -12,11 +12,14 @@
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
            selectedIndex:(NSUInteger)index 
             selectedItem:(NSString *)item 
-            autoSelected:(BOOL)autoSelected;
+            autoSelected:(BOOL)autoSelected
+        selectedAllItems:(BOOL)selectedAllitems;
 
-@property(nonatomic, assign, readonly) BOOL autoSelected;
 @property(nonatomic, strong, readonly) id<ItemPickerDataSource>dataSource;
 @property(nonatomic, assign, readonly) NSUInteger selectedIndex;
 @property(nonatomic, strong, readonly) NSString *selectedItem;
+
+@property(nonatomic, assign, readonly) BOOL autoSelected;
+@property(nonatomic, assign, readonly) BOOL selectedAllItems;
 
 @end
