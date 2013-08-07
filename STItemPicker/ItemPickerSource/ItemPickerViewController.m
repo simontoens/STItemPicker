@@ -134,7 +134,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath autoSelected:NO];
+    ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath];
     [self selectedItemAtIndexPath:indexPath selection:selection dataSource:[self.dataSourceAccess getDataSource]];
 }
 
@@ -213,7 +213,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
     
     // review how we determine that a cell has been previously selected - 
     // this is creating a lot of ItemPickerContext instances
-    ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath autoSelected:NO];
+    ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath];
     [self.currentSelectionStack push:selection];
     NSArray *selectionPath = [self.currentSelectionStack allObjects];
     BOOL selected = [self.itemPickerContext.selectedItems containsObject:selectionPath];
@@ -279,7 +279,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
     {
         DataSourceAccess *access = [[DataSourceAccess alloc] initWithDataSource:dataSource autoSelected:YES];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        ItemPickerSelection *selection = [access getItemPickerSelection:indexPath autoSelected:YES];
+        ItemPickerSelection *selection = [access getItemPickerSelection:indexPath];
         [self selectedItemAtIndexPath:indexPath selection:selection dataSource:dataSource];
     }
     else

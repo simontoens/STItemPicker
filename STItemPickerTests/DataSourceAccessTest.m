@@ -26,7 +26,7 @@
     [super setUp];
     items = [NSArray arrayWithObjects:@"2", @"1", nil];
     dataSource = [OCMockObject mockForProtocol:@protocol(ItemPickerDataSource)];
-    dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource];
+    dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource autoSelected:NO];
     dataSourceAccess.itemCache.size = 1;
     otherRangeMethodsCalled = NO;
     initForRangeCalled = NO;

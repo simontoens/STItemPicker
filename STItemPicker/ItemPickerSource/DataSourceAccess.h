@@ -38,7 +38,7 @@
 
 - (NSArray *)getSectionTitles;
 
-- (ItemPickerSelection *)getItemPickerSelection:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected;
+- (ItemPickerSelection *)getItemPickerSelection:(NSIndexPath *)indexPath;
 
 - (BOOL)getSectionsEnabled;
 

@@ -247,13 +247,13 @@ static NSRange kUnsetRange;
         ((ItemPickerDataSourceDefaults *)self.dataSource).dataSource : self.dataSource;
 }
 
-- (ItemPickerSelection *)getItemPickerSelection:(NSIndexPath *)indexPath autoSelected:(BOOL)autoSelected
+- (ItemPickerSelection *)getItemPickerSelection:(NSIndexPath *)indexPath
 {
     NSUInteger selectedIndex = [self convertIndexPathToArrayIndex:indexPath];
     return [[ItemPickerSelection alloc] initWithDataSource:[self getUnwrappedDataSource]
                                              selectedIndex:selectedIndex
                                               selectedItem:[self getItem:indexPath]
-                                              autoSelected:autoSelected
+                                              autoSelected:self.autoSelected
                                           selectedAllItems:selectedIndex == kAllItemsRowIndex];
 }
 
