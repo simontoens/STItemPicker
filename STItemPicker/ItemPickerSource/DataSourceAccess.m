@@ -142,7 +142,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -166,7 +166,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -190,7 +190,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -217,7 +217,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -284,16 +284,29 @@ static NSRange kUnsetRange;
     [self buildSectionTitles];
 }
 
+- (NSArray *)getFixedSections
+{
+    return self.showAllItemsRow ? 
+    [NSArray arrayWithObject:[[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, 1)]] : [NSArray array];
+}
+
 - (void)buildSections
 {
     NSRange allItemsRange = NSMakeRange(0, self.dataSource.count);
     [self.dataSource initForRange:allItemsRange];
     
-    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:allItemsRange]];
+    NSArray *fixedSections = [self getFixedSections];
+    
+    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:allItemsRange] 
+                                                            sectionOffset:[fixedSections count]];
     self.tableSectionHandler.itemDescriptions = [self.dataSource getItemDescriptionsInRange:allItemsRange];
     self.tableSectionHandler.itemImages = [self.dataSource getItemImagesInRange:allItemsRange];
     self.tableSectionHandler.itemAttributes = [self.dataSource getItemAttributesInRange:allItemsRange];
-    self.sections = self.tableSectionHandler.sections;
+    
+    NSMutableArray *sections = [NSMutableArray arrayWithCapacity:[fixedSections count] + [self.tableSectionHandler.sections count]];
+    [sections addObjectsFromArray:fixedSections];
+    [sections addObjectsFromArray:self.tableSectionHandler.sections];
+    self.sections = sections;
 }
 
 - (void)buildDefaultSection

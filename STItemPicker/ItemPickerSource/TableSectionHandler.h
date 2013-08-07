@@ -4,7 +4,7 @@
 
 @interface TableSectionHandler : NSObject
 
-- (id)initWithItems:(NSArray *)items;
+- (id)initWithItems:(NSArray *)items sectionOffset:(NSUInteger)sectionOffset;
 
 @property(nonatomic, strong, readonly) NSArray *items;
 @property(nonatomic, strong, readonly) NSArray *sections;

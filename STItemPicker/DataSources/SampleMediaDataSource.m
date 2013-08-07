@@ -112,9 +112,22 @@ static NSArray *kAllTitles;
 {
     if (itemPickerSelection.selectedAllItems)
     {
-        ItemPickerSelection *previousSelection = [previousSelections lastObject];
-        NSArray *nextItems = [[kArtistsToAllSongs objectsForKey:previousSelection.selectedItem] allObjects];
-        return [[SampleMediaDataSource alloc] initWithDepth:[kAllDictionaries count] items:nextItems];        
+        NSArray *nextItems = nil;
+        BOOL sectionsEnabled = NO;
+        if ([previousSelections count] == 0)
+        {
+            nextItems = [kArtistsToAllSongs allValues];
+            sectionsEnabled = YES;
+        }
+        else
+        {
+            ItemPickerSelection *previousSelection = [previousSelections lastObject];
+            nextItems = [[[kArtistsToAllSongs objectsForKey:previousSelection.selectedItem] allObjects] 
+                         sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        }
+        SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:[kAllDictionaries count] items:nextItems];
+        ds.sectionsEnabled = sectionsEnabled;
+        return ds;
     }
     
     if (self.depth <= [kAllDictionaries count] - 1)

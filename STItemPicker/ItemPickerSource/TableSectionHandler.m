@@ -29,6 +29,7 @@
 - (void)sortItems;
 
 @property(nonatomic, assign) BOOL processed;
+@property(nonatomic, assign) NSUInteger sectionOffset;
 
 @property(nonatomic, strong, readwrite) NSArray *items;
 @property(nonatomic, strong, readwrite) NSArray *sections;
@@ -55,6 +56,7 @@ static NSDictionary *kCharacterSetToCharacter;
 @synthesize itemDescriptions = _itemDescriptions;
 @synthesize itemImages = _itemImages;
 @synthesize processed = _processed;
+@synthesize sectionOffset = _sectionOffset;
 @synthesize sections = _sections;
 
 
@@ -88,12 +90,13 @@ static NSDictionary *kCharacterSetToCharacter;
                                    nil];
 }
 
-- (id)initWithItems:(NSArray *)items 
+- (id)initWithItems:(NSArray *)items sectionOffset:(NSUInteger)sectionOffset
 {
     if (self = [super init]) 
     {
         [Preconditions assertNotEmpty:items message:@"items cannot be nil or empty"];
         _items = items;
+        _sectionOffset = sectionOffset;
         _processed = NO;
     }
     return self;
@@ -262,7 +265,8 @@ static NSDictionary *kCharacterSetToCharacter;
         
         if (![previousSectionName isEqualToString:sectionNameForCurrentItem])
         {
-            [self addSection:previousSectionName location:i - itemsInSectionCount length:itemsInSectionCount sections:sections];
+            [self addSection:previousSectionName location:i - itemsInSectionCount + self.sectionOffset length:itemsInSectionCount 
+                    sections:sections];
             itemsInSectionCount = 0;
             previousSectionName = sectionNameForCurrentItem;
         }
@@ -270,7 +274,7 @@ static NSDictionary *kCharacterSetToCharacter;
         itemsInSectionCount += 1;        
     }
     
-    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount length:itemsInSectionCount sections:sections ];
+    [self addSection:previousSectionName location:[_items count] - itemsInSectionCount + self.sectionOffset length:itemsInSectionCount sections:sections];
     self.sections = sections;
 }
 

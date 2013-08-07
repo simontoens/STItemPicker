@@ -22,15 +22,10 @@
     
     cell.userInteractionEnabled = YES;
     cell.textLabel.text = text;
-    
-    if (image)
-    {
-        cell.imageView.image = image;
-    }
-    if (description)
-    {
-        cell.detailTextLabel.text = description;        
-    }
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.imageView.image = image;
+    cell.detailTextLabel.text = description;
+    cell.detailTextLabel.textColor = [UIColor grayColor];
     
     if (itemAttributes)
     {
