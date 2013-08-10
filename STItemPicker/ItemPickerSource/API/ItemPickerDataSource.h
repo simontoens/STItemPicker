@@ -18,10 +18,9 @@
 @property(nonatomic, assign, readonly) NSUInteger count;
 
 /**
- * YES if this instance is a leaf data source, ie all items provided by this data source are selectable
- * and none of them has any further detail data source.
+ * YES if this instance is a leaf data source, ie none of the items provided by this data have any further detail data source.
  *
- * Note that if this property's value is YES, getNextDataSourceForSelection must return nil.  If this property's value is NO, getNextDataSourceForSelection must return a valid data source instance.
+ * Note that if this property's value is YES, getNextDataSourceForSelection must return nil.
  */
 @property(nonatomic, assign, readonly) BOOL isLeaf;
 
