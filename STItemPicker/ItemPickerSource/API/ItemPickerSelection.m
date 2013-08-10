@@ -7,7 +7,7 @@
 
 @synthesize autoSelected = _autoSelected;
 @synthesize dataSource = _dataSource;
-@synthesize selectedAllItems = _selectedAllItems;
+@synthesize metaCell = _metaCell;
 @synthesize selectedIndex = _selectedIndex; 
 @synthesize selectedItem = _selectedItem;
 
@@ -15,14 +15,14 @@
            selectedIndex:(NSUInteger)selectedIndex
             selectedItem:(NSString *)selectedItem
             autoSelected:(BOOL)autoSelected
-        selectedAllItems:(BOOL)selectedAllItems
+                metaCell:(BOOL)metaCell
 {
     if (self = [super init]) 
     {
        [Preconditions assertNotNil:dataSource message:@"datasource cannot be nil"];
         _autoSelected = autoSelected;
         _dataSource = dataSource;
-        _selectedAllItems = selectedAllItems;
+        _metaCell = metaCell;
         _selectedIndex = selectedIndex;
         _selectedItem = selectedItem;
     }
@@ -57,7 +57,7 @@
                                              selectedIndex:self.selectedIndex 
                                               selectedItem:[self.selectedItem copyWithZone:zone] 
                                               autoSelected:self.autoSelected
-                                          selectedAllItems:self.selectedAllItems];
+                                                  metaCell:self.metaCell];
 }
 
 - (NSString *)description 

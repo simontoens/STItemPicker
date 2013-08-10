@@ -3,6 +3,9 @@
 #import <Foundation/Foundation.h>
 #import "ItemPickerDataSource.h"
 
+/**
+ * Default values for ItemPickerDataSource's optional methods and properties.
+ */
 @interface ItemPickerDataSourceDefaults : NSObject <ItemPickerDataSource>
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource;

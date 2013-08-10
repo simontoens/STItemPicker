@@ -13,13 +13,13 @@
            selectedIndex:(NSUInteger)index 
             selectedItem:(NSString *)item 
             autoSelected:(BOOL)autoSelected
-        selectedAllItems:(BOOL)selectedAllitems;
+                metaCell:(BOOL)metaCell;
 
 @property(nonatomic, strong, readonly) id<ItemPickerDataSource>dataSource;
 @property(nonatomic, assign, readonly) NSUInteger selectedIndex;
 @property(nonatomic, strong, readonly) NSString *selectedItem;
 
 @property(nonatomic, assign, readonly) BOOL autoSelected;
-@property(nonatomic, assign, readonly) BOOL selectedAllItems;
+@property(nonatomic, assign, readonly) BOOL metaCell;
 
 @end

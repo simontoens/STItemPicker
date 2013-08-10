@@ -90,9 +90,9 @@
     return [self.dataSource respondsToSelector:@selector(header)] ? self.dataSource.header : nil;
 }
 
-- (BOOL)allowDrilldownToAllReachableItems
+- (NSString *)metaCellTitle
 {
-    return [self.dataSource respondsToSelector:@selector(allowDrilldownToAllReachableItems)] ? self.dataSource.allowDrilldownToAllReachableItems : NO;
+    return [self.dataSource respondsToSelector:@selector(metaCellTitle)] ? self.dataSource.metaCellTitle : nil;
 }
 
 @end

@@ -9,36 +9,37 @@
 @interface DataSourceAccess()
 @property(nonatomic, assign) BOOL autoSelected;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
+@property(nonatomic, strong) NSString *metaCellTitle;
 @property(nonatomic, assign) BOOL processed;
-@property(nonatomic, assign) BOOL showAllItemsRow;
 @property(nonatomic, strong) NSArray *sections;
 @property(nonatomic, strong) NSArray *sectionTitles;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
 @property(nonatomic, assign) NSRange currentRange;
 @property(nonatomic, assign) NSUInteger dataSourceTotalItemCount;
 
+- (void)addFixedSections;
 - (void)buildDefaultSection;
 - (void)buildSections;
 - (void)buildSectionTitles;
-- (NSInteger)convertIndexPathToArrayIndex:(NSIndexPath *)indexPath;
+- (NSUInteger)convertIndexPathToArrayIndex:(NSIndexPath *)indexPath;
 - (void)process;
 
 @end
 
 @implementation DataSourceAccess
 
-static NSInteger kAllItemsRowIndex = -1;
+static NSUInteger kAllItemsRowIndex = NSUIntegerMax;
 static NSRange kUnsetRange;
 
 @synthesize autoSelected = _autoSelected;
 @synthesize currentRange = _currentRange;
 @synthesize itemCache = _itemCache;
 @synthesize dataSource = _dataSource;
+@synthesize metaCellTitle;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
 @synthesize dataSourceTotalItemCount = _dataSourceTotalItemCount;
 @synthesize sectionTitles;
-@synthesize showAllItemsRow = _showAllItemsRow;
 @synthesize tableSectionHandler = _tableSectionHandler;
 
 + (void)initialize
@@ -142,11 +143,11 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
-        return @"All Items ...";
+        return self.dataSource.metaCellTitle;
     }
     
     if (_tableSectionHandler)
@@ -166,7 +167,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -190,7 +191,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -217,7 +218,7 @@ static NSRange kUnsetRange;
     {
         [self process];
     }
-    NSInteger index = [self convertIndexPathToArrayIndex:indexPath];
+    NSUInteger index = [self convertIndexPathToArrayIndex:indexPath];
     
     if (index == kAllItemsRowIndex)
     {
@@ -235,11 +236,6 @@ static NSRange kUnsetRange;
     }
 }
 
-- (BOOL)selectedShowAllItems:(ItemPickerSelection *)selection
-{
-    return self.showAllItemsRow && selection.selectedIndex == kAllItemsRowIndex;
-}
-
 - (id<ItemPickerDataSource>)getUnwrappedDataSource
 {
     // and so the abstraction begins to break down...
@@ -254,7 +250,7 @@ static NSRange kUnsetRange;
                                              selectedIndex:selectedIndex
                                               selectedItem:[self getItem:indexPath]
                                               autoSelected:self.autoSelected
-                                          selectedAllItems:selectedIndex == kAllItemsRowIndex];
+                                                  metaCell:selectedIndex == kAllItemsRowIndex];
 }
 
 - (void)process
@@ -262,10 +258,10 @@ static NSRange kUnsetRange;
     [Preconditions assert:!self.processed message:@"processed should be false"];
     
     self.processed = YES;
-    
-    id<ItemPickerDataSource> ds = self.dataSource;    
-    self.showAllItemsRow = !ds.isLeaf && !self.autoSelected && ds.allowDrilldownToAllReachableItems;
-    self.dataSourceTotalItemCount = ds.count + (self.showAllItemsRow ? 1 : 0);
+        
+    id<ItemPickerDataSource> ds = self.dataSource;
+    self.metaCellTitle = ds.metaCellTitle;
+    self.dataSourceTotalItemCount = ds.count + (self.metaCellTitle ? 1 : 0);
     
     if (self.dataSource.sectionsEnabled)
     {
@@ -274,9 +270,9 @@ static NSRange kUnsetRange;
         {
             [self buildSections];
         }
+        [self addFixedSections];
     }
-    
-    if (!self.sections)
+    else 
     {
         [self buildDefaultSection];
     }
@@ -284,29 +280,27 @@ static NSRange kUnsetRange;
     [self buildSectionTitles];
 }
 
-- (NSArray *)getFixedSections
+- (void)addFixedSections
 {
-    return self.showAllItemsRow ? 
-    [NSArray arrayWithObject:[[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, 1)]] : [NSArray array];
+    if (self.metaCellTitle)
+    {
+        NSMutableArray *sections = [NSMutableArray arrayWithCapacity:[self.sections count] + 1];
+        [sections addObject:[[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, 1)]];
+        [sections addObjectsFromArray:self.sections];
+        self.sections = sections;
+    }
 }
 
 - (void)buildSections
 {
     NSRange allItemsRange = NSMakeRange(0, self.dataSource.count);
     [self.dataSource initForRange:allItemsRange];
-    
-    NSArray *fixedSections = [self getFixedSections];
-    
-    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:allItemsRange] 
-                                                            sectionOffset:[fixedSections count]];
+        
+    self.tableSectionHandler = [[TableSectionHandler alloc] initWithItems:[self.dataSource getItemsInRange:allItemsRange]]; 
     self.tableSectionHandler.itemDescriptions = [self.dataSource getItemDescriptionsInRange:allItemsRange];
     self.tableSectionHandler.itemImages = [self.dataSource getItemImagesInRange:allItemsRange];
     self.tableSectionHandler.itemAttributes = [self.dataSource getItemAttributesInRange:allItemsRange];
-    
-    NSMutableArray *sections = [NSMutableArray arrayWithCapacity:[fixedSections count] + [self.tableSectionHandler.sections count]];
-    [sections addObjectsFromArray:fixedSections];
-    [sections addObjectsFromArray:self.tableSectionHandler.sections];
-    self.sections = sections;
+    self.sections = self.tableSectionHandler.sections;
 }
 
 - (void)buildDefaultSection
@@ -325,21 +319,21 @@ static NSRange kUnsetRange;
     self.sectionTitles = titles;
 }
 
-- (NSInteger)convertIndexPathToArrayIndex:(NSIndexPath *)indexPath
+- (NSUInteger)convertIndexPathToArrayIndex:(NSIndexPath *)indexPath
 {
-    NSInteger row = 0;
+    NSUInteger row = 0;
     for (int i = 0; i < indexPath.section; i++) 
     {
         NSRange range = [[self.sections objectAtIndex:i] range];
         row += range.length;
     }
-    NSInteger index = row + indexPath.row;
+    NSUInteger index = row + indexPath.row;
     
-    if (self.showAllItemsRow)
+    if (self.metaCellTitle && !self.autoSelected)
     {
         return index == 0 ? kAllItemsRowIndex : index - 1;
     }
-    
+        
     return index;
 }
 

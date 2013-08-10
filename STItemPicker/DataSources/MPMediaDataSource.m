@@ -13,6 +13,7 @@
 - (void)registerForLibraryChangeNotifications;
 - (void)unregisterForLibraryChangeNotifications;
 
+@property(nonatomic, assign) BOOL showAllSongs;
 @property(nonatomic, strong) NSMutableArray *items;
 @property(nonatomic, strong) NSMutableArray *itemDescriptions;
 @property(nonatomic, strong) NSMutableArray *itemImages;
@@ -21,6 +22,7 @@
 
 @implementation MPMediaDataSource
 
+@synthesize showAllSongs = _showAllSongs;
 @synthesize items = _items;
 @synthesize itemDescriptions = _itemDescriptions;
 @synthesize itemImages = _itemImages;
@@ -57,6 +59,7 @@ static UIImage *kDefaultArtwork;
 {
     if (self = [super init])
     {
+        _showAllSongs = NO;
         _itemProperty = itemProperty;
         _query = query;
         [self registerForLibraryChangeNotifications];
@@ -79,7 +82,7 @@ static UIImage *kDefaultArtwork;
 
 - (ItemPickerHeader *)header
 {
-    if ([self songList] && [self.query.filterPredicates count] > 1)
+    if ([self songList] && [self.query.filterPredicates count] > 1 && !self.showAllSongs)
     {
         int numSongs = self.count;
         ItemPickerHeader *header = [[ItemPickerHeader alloc] init];
@@ -116,7 +119,7 @@ static UIImage *kDefaultArtwork;
             
             [_itemDescriptions addObject:artist];
         }
-        else if ([self songList] && [self.query.filterPredicates count] == 1)
+        else if ([self songList] && ([self.query.filterPredicates count] == 1 || self.showAllSongs))
         {
             artist = artist ? artist : @"";
             album = album ? album : @"";
@@ -183,6 +186,11 @@ static UIImage *kDefaultArtwork;
     return [self albumList];
 }
 
+- (NSString *)metaCellTitle
+{
+    return [self albumList] && [self.query.filterPredicates count] > 1 ? @"All Songs" : nil;
+}
+
 - (UIImage *)tabImage
 {
     if ([self artistList])
@@ -199,7 +207,7 @@ static UIImage *kDefaultArtwork;
     }
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)context 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)selection 
                                        previousSelections:(NSArray *)previousSelections
 {
     MPMediaQuery *nextQuery = nil;
@@ -208,13 +216,17 @@ static UIImage *kDefaultArtwork;
     {
         nextQuery = [MPMediaQuery albumsQuery];
         [self addFilterPredicates:[NSArray arrayWithObjects:MPMediaItemPropertyAlbumArtist, MPMediaItemPropertyArtist, nil] 
-                          toQuery:nextQuery basedOnSelection:context];
+                          toQuery:nextQuery basedOnSelection:selection];
         nextItemProperty = MPMediaItemPropertyAlbumTitle;
     }
     else if ([self albumList])
     {
         nextQuery = [MPMediaQuery songsQuery];
-        [self addFilterPredicates:[NSArray arrayWithObject:MPMediaItemPropertyAlbumTitle] toQuery:nextQuery basedOnSelection:context];
+        if (!selection.metaCell)
+        {
+            [self addFilterPredicates:[NSArray arrayWithObject:MPMediaItemPropertyAlbumTitle] 
+                              toQuery:nextQuery basedOnSelection:selection];
+        }
         nextItemProperty = MPMediaItemPropertyTitle;
     }
     
@@ -226,7 +238,9 @@ static UIImage *kDefaultArtwork;
             [self addFilterPredicatesFromQuery:self.query toQuery:nextQuery];
         }
 
-        return [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
+        MPMediaDataSource *nextDataSource = [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
+        nextDataSource.showAllSongs = selection.metaCell;
+        return nextDataSource;
     }
 
     return nil;
@@ -236,8 +250,7 @@ static UIImage *kDefaultArtwork;
 
 - (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerSelection *)selection
 {
-    MPMediaDataSource *dataSource = selection.dataSource;
-    
+    MPMediaDataSource *dataSource = selection.dataSource;    
     MPMediaItemCollection *collection  = [dataSource.query.collections objectAtIndex:selection.selectedIndex];
     MPMediaItem *item = [collection representativeItem];
     for (NSString *property in itemProperties)

@@ -107,13 +107,13 @@
 - (NSArray *)getItemAttributesInRange:(NSRange)range;
 
 /**
- * Adds an extra table view cell to the top of the table for selecting all items.  
- * When this cell is selected, the ItemPickerSelection instance in the getNextDataSourceForSelection callback
- * has the "allItems" property set to YES.  getNextDataSourceForSelection should return an ItemPickerDataSource
- * instance that has all items.
+ * If not nil, add an extra first cell to the table view with this title.  When this cell is selected, 
+ * the ItemPickerSelection instance in the getNextDataSourceForSelection callback
+ * has the "metaCell" property set to YES.  This can be used to implement functionalty
+ * such as the Music.app's "All Songs" special cell.
  * 
- * isLeaf must be NO for this ItemPickerDataSource, otherwise this property is ignored.
+ * Defaults to nil.
  */
-- (BOOL)allowDrilldownToAllReachableItems;
+@property(nonatomic, strong, readonly) NSString *metaCellTitle;
 
 @end

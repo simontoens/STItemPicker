@@ -110,7 +110,7 @@ static NSArray *kAllTitles;
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)itemPickerSelection 
                                        previousSelections:(NSArray *)previousSelections
 {
-    if (itemPickerSelection.selectedAllItems)
+    if (itemPickerSelection.metaCell)
     {
         NSArray *nextItems = nil;
         BOOL sectionsEnabled = NO;
@@ -129,8 +129,7 @@ static NSArray *kAllTitles;
         ds.sectionsEnabled = sectionsEnabled;
         return ds;
     }
-    
-    if (self.depth <= [kAllDictionaries count] - 1)
+    else if (self.depth <= [kAllDictionaries count] - 1)
     {
         MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
         NSArray *nextItems = [[currentDict objectsForKey:itemPickerSelection.selectedItem] allObjects];
@@ -205,9 +204,9 @@ static NSArray *kAllTitles;
     return [self.title isEqualToString:kSongs];
 }
 
-- (BOOL)allowDrilldownToAllReachableItems
+- (NSString *)metaCellTitle
 {
-    return [self albumsList];
+    return [self albumsList] ? @"All Songs" : nil;
 }
 
 - (void)initSecondayLists

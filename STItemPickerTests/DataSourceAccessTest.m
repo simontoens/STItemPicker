@@ -109,7 +109,7 @@
     [[[dataSource stub] andCall:@selector(dataSourceGetItemsInRange:) onObject:self] getItemImagesInRange:range];
     [[[dataSource stub] andCall:@selector(dataSourceGetItemsInRange:) onObject:self] getItemAttributesInRange:range];
     [[dataSource expect] isLeaf];
-    [[dataSource expect] allowDrilldownToAllReachableItems];
+    [[dataSource expect] metaCellTitle];
     [[[dataSource stub] andReturnValue:OCMOCK_VALUE((BOOL){sectionsEnabled})] sectionsEnabled];
     if (sectionsEnabled)
     {

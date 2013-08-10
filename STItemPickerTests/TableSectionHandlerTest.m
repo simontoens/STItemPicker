@@ -118,7 +118,7 @@
 {
     NSArray *items = [NSArray arrayWithObjects:@"3", @"2", @"1", nil];
     NSArray *images = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", nil];
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sectionOffset:0];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemImages = images;
 
     NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
@@ -132,7 +132,7 @@
 {
     NSArray *items = [NSArray arrayWithObjects:@"3", @"2", @"1", @"3", nil];
     NSArray *descriptions = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", @"dd", nil];
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sectionOffset:0];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemDescriptions = descriptions;
     
     NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", @"3", nil];
@@ -149,7 +149,7 @@
     ItemAttributes *a3 = [[ItemAttributes alloc] init];
     NSArray *items = [NSArray arrayWithObjects:@"3", @"1", @"2", nil];
     NSArray *ItemAttributes = [NSArray arrayWithObjects:a1, a2, a3, nil];
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sectionOffset:0];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.ItemAttributes = ItemAttributes;
     
     NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
@@ -163,7 +163,7 @@
     expectedSections:(NSArray *)expectedSections 
   expectedItemCounts:(int[])expectedItemCounts 
 {
-    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items sectionOffset:0];
+    TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     [self runTestItems:expectedSections expectedItemCounts:expectedItemCounts tableSectionHandler:handler];
 }
 

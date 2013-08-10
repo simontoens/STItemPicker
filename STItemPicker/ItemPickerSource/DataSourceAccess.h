@@ -8,9 +8,8 @@
 #import "ItemPickerHeader.h"
 
 /**
- * Layer of functionality between the datasource and the UI. 
- * All data source access goes through this class.  It translates between the datasource data shape 
- * and the data shape required by the ItemPicker UI, provides item caching, etc.
+ * This class is layered between the data source providing raw data and the clients (UI) accessing the data.
+ * It translates data shapes and provides caching.
  */
 @interface DataSourceAccess : NSObject
 
@@ -43,8 +42,6 @@
 - (BOOL)getSectionsEnabled;
 
 - (id<ItemPickerDataSource>)getDataSource;
-
-- (BOOL)selectedShowAllItems:(ItemPickerSelection *)selection;
 
 @property(nonatomic, strong, readonly) ItemCache *itemCache;
 
