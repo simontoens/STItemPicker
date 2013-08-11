@@ -19,4 +19,6 @@
 @property(nonatomic, strong, readonly) NSArray *images;
 @property(nonatomic, strong, readonly) NSArray *descriptions;
 
+- (void)invalidate;
+
 @end

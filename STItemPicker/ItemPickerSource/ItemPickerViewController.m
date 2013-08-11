@@ -370,9 +370,15 @@ currentSelectionStack:(Stack *)currentSelectionStack
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     if (self.dataSourceAccess.isLeaf)
     {
-        [defaultCenter addObserver:self.tableView selector:@selector(reloadData) name:ReloadTableDataNotification object:nil];        
+        [defaultCenter addObserver:self selector:@selector(reloadData) name:ReloadTableDataNotification object:nil];        
     }
-    [defaultCenter addObserver:self.tableView selector:@selector(reloadData) name:ItemPickerDataSourceDidChangeNotification object:nil];
+    [defaultCenter addObserver:self selector:@selector(reloadData) name:ItemPickerDataSourceDidChangeNotification object:nil];
+}
+
+- (void)reloadData
+{
+    [self.dataSourceAccess.itemCache invalidate];
+    [self.tableView reloadData];
 }
 
 - (void)onDone

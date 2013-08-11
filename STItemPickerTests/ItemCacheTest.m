@@ -224,6 +224,23 @@
     STAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
 }
 
+- (void)testInvalidate
+{
+    int itemCount = 11;
+    itemCache.size = 4;    
+    NSArray *items = [NSArray arrayWithObjects:@"0", @"1", @"2", @"3", nil];
+    
+    [self mockDataSourceForRange:NSMakeRange(0, 4) items:items itemCount:itemCount];
+    [itemCache ensureAvailability:0];
+    [dataSource verify];
+    
+    [itemCache invalidate];
+    
+    [self mockDataSourceForRange:NSMakeRange(0, 4) items:items itemCount:itemCount];
+    [itemCache ensureAvailability:0];
+    [dataSource verify];
+}
+
 - (void)mockDataSourceForRange:(NSRange)range itemCount:(NSUInteger)itemCount
 {
     NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:range.length];

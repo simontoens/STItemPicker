@@ -43,20 +43,25 @@
 
 - (NSUInteger)ensureAvailability:(NSUInteger)index
 {
-     if (!_initialized || index < self.range.location || index >= self.range.location + self.range.length)
-     {  
-         _initialized = YES;
+    if (!_initialized || index < self.range.location || index >= self.range.location + self.range.length)
+    {  
+        _initialized = YES;
 
-         NSRange newRange = [self calculateNewRangeForIndex:index];
+        NSRange newRange = [self calculateNewRangeForIndex:index];
                            
-         NSRange oldDataRange;
-         NSRange newDataRange;
-         BOOL oldDataFirst = [self calculateOldDataRange:&oldDataRange andNewDataRange:&newDataRange newRange:newRange];
+        NSRange oldDataRange;
+        NSRange newDataRange;
+        BOOL oldDataFirst = [self calculateOldDataRange:&oldDataRange andNewDataRange:&newDataRange newRange:newRange];
                   
-         [self loadDataWithNewDataRange:newDataRange oldDataRange:oldDataRange newRange:newRange oldDataFirst:oldDataFirst];
-     }
+        [self loadDataWithNewDataRange:newDataRange oldDataRange:oldDataRange newRange:newRange oldDataFirst:oldDataFirst];
+    }
     
      return index - _range.location;
+}
+
+- (void)invalidate
+{
+    self.initialized = NO;
 }
 
 - (void)setSize:(NSUInteger)size
