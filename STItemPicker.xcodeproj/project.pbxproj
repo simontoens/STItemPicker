@@ -13,6 +13,7 @@
 		BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
 		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
+		BE148AFB17C038D9000BF30C /* ItemAttributesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE148AFA17C038D9000BF30C /* ItemAttributesTest.m */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
 		BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */; };
@@ -81,6 +82,7 @@
 		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
 		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
+		BE148AFA17C038D9000BF30C /* ItemAttributesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemAttributesTest.m; sourceTree = "<group>"; };
 		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
 		BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellContainer.m; path = ItemPickerSource/TableViewCellContainer.m; sourceTree = "<group>"; };
 		BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Reflection.h"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.h"; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 		BEEB9CCC16FFE3B60021E035 /* STItemPickerTests */ = {
 			isa = PBXGroup;
 			children = (
+				BE148AFA17C038D9000BF30C /* ItemAttributesTest.m */,
 				BEA82F641793B38A00098F41 /* ItemCacheTest.m */,
 				BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */,
 				BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */,
@@ -524,6 +527,7 @@
 				BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */,
 				BE7ADDED175BBDC200E565DF /* DataSourceAccessTest.m in Sources */,
 				BEA82F651793B38A00098F41 /* ItemCacheTest.m in Sources */,
+				BE148AFB17C038D9000BF30C /* ItemAttributesTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

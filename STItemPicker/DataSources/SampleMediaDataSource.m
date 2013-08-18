@@ -1,5 +1,6 @@
 // @author Simon Toens 03/16/13
 
+#import "ItemAttributes.h"
 #import "ItemPickerSelection.h"
 #import "MultiDictionary.h"
 #import "SampleMediaDataSource.h"
@@ -11,13 +12,15 @@
 - (BOOL)albumsList;
 - (BOOL)songsList;
 + (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs;
-- (void)initSecondayLists;
+- (void)initAttributes;
 - (void)initDescriptions;
 - (void)initImages;
+- (void)initSecondayLists;
 
 @property(nonatomic, strong, readwrite) UIImage *headerImage;
 @property(nonatomic, strong, readwrite) NSMutableArray *itemDescriptions;
 @property(nonatomic, strong, readwrite) NSMutableArray *itemImages;
+@property(nonatomic, strong, readwrite) NSMutableArray *itemAttributes;
 @property(nonatomic, assign, readwrite) BOOL sectionsEnabled;
 @property(nonatomic, strong, readwrite) UIImage *tabImage;
 @property(nonatomic, strong, readwrite) NSString *title;
@@ -50,6 +53,7 @@ static NSArray *kAllTitles;
 
 @synthesize depth = _depth;
 @synthesize headerImage;
+@synthesize itemAttributes;
 @synthesize itemDescriptions;
 @synthesize itemImages;
 @synthesize items = _items;
@@ -102,11 +106,6 @@ static NSArray *kAllTitles;
     return [self.items count];
 }
 
-- (NSArray *)getItemsInRange:(NSRange)range
-{
-    return [self.items subarrayWithRange:range];
-}
-
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)itemPickerSelection 
                                        previousSelections:(NSArray *)previousSelections
 {
@@ -146,22 +145,24 @@ static NSArray *kAllTitles;
     return nil;
 }
 
+- (NSArray *)getItemsInRange:(NSRange)range
+{
+    return [self.items subarrayWithRange:range];
+}
+
 - (NSArray *)getItemImagesInRange:(NSRange)range
 {
-    if ([self albumsList])
-    {
-        return [self.itemImages subarrayWithRange:range];
-    }
-    return nil;
+    return self.itemImages ? [self.itemImages subarrayWithRange:range] : nil;
 }
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
 {
-    if (([self albumsList] || [self songsList]) && !self.selection)
-    {
-        return [self.itemDescriptions subarrayWithRange:range];
-    }
-    return nil;
+    return self.itemDescriptions ? [self.itemDescriptions subarrayWithRange:range] : nil;
+}
+
+- (NSArray *)getItemAttributesInRange:(NSRange)range
+{
+    return self.itemAttributes ? [self.itemAttributes subarrayWithRange:range] : nil;
 }
 
 - (BOOL)autoSelectSingleItem
@@ -213,6 +214,7 @@ static NSArray *kAllTitles;
 {
     [self initImages];
     [self initDescriptions];
+    [self initAttributes];
 }
 
 - (void)initImages
@@ -231,7 +233,7 @@ static NSArray *kAllTitles;
 
 - (void)initDescriptions
 {
-    if ([self albumsList] || [self songsList])
+    if (([self albumsList] || [self songsList]) && !self.selection)
     {
         NSArray *items = [self getItemsInRange:NSMakeRange(0, self.count)];
         self.itemDescriptions = [[NSMutableArray alloc] initWithCapacity:[items count]];
@@ -248,6 +250,23 @@ static NSArray *kAllTitles;
                 [self.itemDescriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
             }
         }
+    }
+}
+
+- (void)initAttributes
+{
+    if ([self songsList] && [self.items count] > 15)
+    {
+        self.itemAttributes = [[NSMutableArray alloc] initWithCapacity:self.count];
+        for (int i = 0; i < self.count - 1; i++)
+        {
+            [self.itemAttributes addObject:[NSNull null]];
+        }
+        ItemAttributes *attr = [[ItemAttributes alloc] init];
+        attr.textColor = [UIColor blueColor];
+        attr.descriptionTextColor = [UIColor redColor];
+        attr.userInteractionEnabled = NO;
+        [self.itemAttributes addObject:attr];
     }
 }
 

@@ -20,23 +20,16 @@
         cell = [[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:cellReuseIdentifier];
     }
     
-    cell.userInteractionEnabled = YES;
     cell.textLabel.text = text;
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.imageView.image = image;
     cell.detailTextLabel.text = description;
-    cell.detailTextLabel.textColor = [UIColor grayColor];
     
-    if (itemAttributes)
-    {
-        cell.textLabel.textColor = itemAttributes.textColor;
-        if (description)
-        {
-            cell.detailTextLabel.textColor = itemAttributes.textColor;
-        }
-        cell.userInteractionEnabled = itemAttributes.userInteractionEnabled;
-    }
+    itemAttributes = itemAttributes ? itemAttributes : [ItemAttributes getDefaultItemAttributes];
     
+    cell.userInteractionEnabled = itemAttributes.userInteractionEnabled;
+    cell.textLabel.textColor = itemAttributes.textColor;
+    cell.detailTextLabel.textColor = itemAttributes.descriptionTextColor;
+        
     return cell;
 }
 

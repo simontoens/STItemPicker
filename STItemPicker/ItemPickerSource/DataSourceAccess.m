@@ -174,15 +174,17 @@ static NSRange kUnsetRange;
         return nil;
     }
     
+    id desc = nil;
     if (_tableSectionHandler)
     {
-        return [_tableSectionHandler.itemDescriptions objectAtIndex:index];
+        desc = [_tableSectionHandler.itemDescriptions objectAtIndex:index];
     }
     else
     {
         index = [_itemCache ensureAvailability:index];
-        return [_itemCache.descriptions objectAtIndex:index];
+        desc = [_itemCache.descriptions objectAtIndex:index];
     }
+    return desc == [NSNull null] ? nil : desc;
 }
 
 - (UIImage *)getItemImage:(NSIndexPath *)indexPath
@@ -206,7 +208,7 @@ static NSRange kUnsetRange;
     else
     {
         index = [_itemCache ensureAvailability:index];
-        return [_itemCache.images objectAtIndex:index];
+        image = [_itemCache.images objectAtIndex:index];
     }
     
     return image == [NSNull null] ? nil : image;
@@ -225,15 +227,18 @@ static NSRange kUnsetRange;
         return nil;
     }
     
+    id attrs = nil;
+    
     if (_tableSectionHandler)
     {
-        return [_tableSectionHandler.itemAttributes objectAtIndex:index];
+        attrs = [_tableSectionHandler.itemAttributes objectAtIndex:index];
     }
     else
     {
         index = [_itemCache ensureAvailability:index];
-        return [_itemCache.attributes objectAtIndex:index];
+        attrs = [_itemCache.attributes objectAtIndex:index];
     }
+    return attrs == [NSNull null] ? nil : attrs;
 }
 
 - (id<ItemPickerDataSource>)getUnwrappedDataSource
