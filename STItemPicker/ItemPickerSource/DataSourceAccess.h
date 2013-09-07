@@ -15,7 +15,10 @@
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected;
 
-- (NSUInteger)getCount;
+/**
+ * Returns the number of items provided by the underlying data source, excluding meta items (ie "no data found").
+ */
+- (NSUInteger)getDataSourceItemCount;
 
 - (BOOL)isLeaf;
 
@@ -43,6 +46,11 @@
 
 - (id<ItemPickerDataSource>)getDataSource;
 
-@property(nonatomic, strong, readonly) ItemCache *itemCache;
+/**
+ * Notifies this instance that the data provided by the underlying data source has changed, and needs to be reloaded.
+ */
+- (void)reloadData;
+
+@property(nonatomic) NSUInteger itemCacheSize;
 
 @end

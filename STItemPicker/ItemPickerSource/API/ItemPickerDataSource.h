@@ -70,6 +70,12 @@
 - (NSArray *)getItemImagesInRange:(NSRange)range;
 
 /**
+ * Attributes to tweak the appearance of each table view cell.  Elements in the returned NSArray may be NSNull 
+ * for those items that should use the default item attributes.  Return nil to not apply any attributes.
+ */
+- (NSArray *)getItemAttributesInRange:(NSRange)range;
+
+/**
  * Return YES to show section headers and a section index.  Defaults to NO.
  * The items will be sorted and sections will be calculated, unless sections are explicitly specified.
  */
@@ -93,7 +99,7 @@
 @property(nonatomic, assign, readonly) BOOL autoSelectSingleItem;
 
 /**
- * Optional table view header information.  Returning an ItemPickerHeader instance enables a header section
+ * Table view header information.  Returning an ItemPickerHeader instance enables a header section
  * with the specified information.
  *
  * Defaults to nil (no header enabled).
@@ -101,10 +107,10 @@
 @property(nonatomic, strong, readonly) ItemPickerHeader *header;
 
 /**
- * Optional attributes to tweak the appearance of each table view cell.  Elements in the returned NSArray may be NSNull 
- * for those items that should use the default item attributes.  Return nil to not apply any attributes.
+ * A fake, non-selectable item to show when this datasource does not have any items, for example "No cities found".
+ * Defauls to nil (don't show anything if this datasource does not have any items).
  */
-- (NSArray *)getItemAttributesInRange:(NSRange)range;
+@property(nonatomic, strong, readonly) NSString *noItemsItemText;
 
 /**
  * If not nil, add an extra first cell to the table view with this title.  When this cell is selected, 

@@ -90,6 +90,11 @@
     return [self.dataSource respondsToSelector:@selector(header)] ? self.dataSource.header : nil;
 }
 
+- (NSString *)noItemsItemText
+{
+    return [self.dataSource respondsToSelector:@selector(noItemsItemText)] ? self.dataSource.noItemsItemText : nil;
+}
+
 - (NSString *)metaCellTitle
 {
     return [self.dataSource respondsToSelector:@selector(metaCellTitle)] ? self.dataSource.metaCellTitle : nil;

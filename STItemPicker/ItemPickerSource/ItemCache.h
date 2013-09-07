@@ -8,6 +8,8 @@
  */
 @interface ItemCache : NSObject
 
++ (NSUInteger)defaultSize;
+
 - (id)initForDataSource:(id<ItemPickerDataSource>)dataSource;
 
 - (NSUInteger)ensureAvailability:(NSUInteger)index;

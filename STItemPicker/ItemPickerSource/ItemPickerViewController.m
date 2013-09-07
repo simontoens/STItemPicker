@@ -315,7 +315,8 @@ currentSelectionStack:(Stack *)currentSelectionStack
         NSArray *contexts = [self.currentSelectionStack allObjects];
         container.boldLabel.text = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;        
         container.label.text = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
-        container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", [self.dataSourceAccess getCount], [self.dataSourceAccess getTitle]];
+        container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", 
+                                      [self.dataSourceAccess getDataSourceItemCount], [self.dataSourceAccess getTitle]];
     }
     return container;
 }
@@ -377,7 +378,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
 - (void)reloadData
 {
-    [self.dataSourceAccess.itemCache invalidate];
+    [self.dataSourceAccess reloadData];
     [self.tableView reloadData];
 }
 

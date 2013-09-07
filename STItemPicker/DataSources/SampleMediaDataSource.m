@@ -6,7 +6,7 @@
 #import "SampleMediaDataSource.h"
 
 @interface SampleMediaDataSource()
-- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items;
+- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items selection:(ItemPickerSelection *)selection;
 
 - (BOOL)artistsList;
 - (BOOL)albumsList;
@@ -27,7 +27,7 @@
 
 @property(nonatomic, assign, readonly) NSUInteger depth;
 @property(nonatomic, strong, readonly) NSArray *items;
-@property(nonatomic, strong) ItemPickerSelection *selection;
+@property(nonatomic, strong, readonly) ItemPickerSelection *selection;
 
 @end
 
@@ -58,13 +58,13 @@ static NSArray *kAllTitles;
 @synthesize itemImages;
 @synthesize items = _items;
 @synthesize sectionsEnabled = _sectionsEnabled;
-@synthesize selection;
+@synthesize selection = _selection;
 @synthesize tabImage;
 @synthesize title = _title;
 
 + (id)artistsDataSource
 {
-    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistToAlbums allKeys]];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:0 items:[kArtistToAlbums allKeys] selection:nil];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Artists.png"];
     return ds;
@@ -72,7 +72,7 @@ static NSArray *kAllTitles;
 
 + (id)albumsDataSource
 {
-    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumToSongs allKeys]];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:1 items:[kAlbumToSongs allKeys] selection:nil];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Albums.png"];
     return ds;
@@ -80,20 +80,21 @@ static NSArray *kAllTitles;
 
 + (id)songsDataSource
 {
-    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumToSongs allValues]];
+    SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:2 items:[kAlbumToSongs allValues] selection:nil];
     ds.sectionsEnabled = YES;
     ds.tabImage = [UIImage imageNamed:@"Songs.png"];
     return ds;
 }
 
-- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items
+- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items selection:(ItemPickerSelection *)selection
 {
     if (self = [super init])
     {
         _depth = depth;
         _items = items;
         _sectionsEnabled = NO;
-        _title = [kAllTitles objectAtIndex:depth];
+        _selection = selection;
+        _title = [kAllTitles objectAtIndex:depth];        
         [self initSecondayLists];
     }
     return self;
@@ -124,7 +125,7 @@ static NSArray *kAllTitles;
             nextItems = [[[kArtistsToAllSongs objectsForKey:previousSelection.selectedItem] allObjects] 
                          sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
         }
-        SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:[kAllDictionaries count] items:nextItems];
+        SampleMediaDataSource *ds = [[SampleMediaDataSource alloc] initWithDepth:[kAllDictionaries count] items:nextItems selection:nil];
         ds.sectionsEnabled = sectionsEnabled;
         return ds;
     }
@@ -132,8 +133,9 @@ static NSArray *kAllTitles;
     {
         MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
         NSArray *nextItems = [[currentDict objectsForKey:itemPickerSelection.selectedItem] allObjects];
-        SampleMediaDataSource *nextDataSource = [[SampleMediaDataSource alloc] initWithDepth:self.depth+1 items:nextItems];
-        nextDataSource.selection = itemPickerSelection;
+        SampleMediaDataSource *nextDataSource = [[SampleMediaDataSource alloc] initWithDepth:self.depth+1 
+                                                                                       items:nextItems 
+                                                                                   selection:itemPickerSelection];
         if ([self albumsList])
         {
             UIImage *albumArtwork = [kAlbumToArtwork objectForKey:itemPickerSelection.selectedItem];
@@ -208,6 +210,11 @@ static NSArray *kAllTitles;
 - (NSString *)metaCellTitle
 {
     return [self albumsList] ? @"All Songs" : nil;
+}
+
+- (NSString *)noItemsItemText
+{
+    return @"No songs found";
 }
 
 - (void)initSecondayLists
@@ -303,6 +310,9 @@ static NSArray *kAllTitles;
     
     kAllDictionaries = [NSArray arrayWithObjects:kArtistToAlbums, kAlbumToSongs, nil];
     kAllTitles = [NSArray arrayWithObjects:kArtists, kAlbums, kSongs, nil];
+    
+    [SampleMediaDataSource addArtist:@"Band Without Songs" album:@"Album Without Songs" 
+                               songs:[NSArray array]];
     
     [SampleMediaDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
                                songs:[NSArray arrayWithObject:@"Midnight City"]];

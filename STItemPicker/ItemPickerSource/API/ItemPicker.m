@@ -72,7 +72,7 @@ NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDi
     controller.itemPickerDelegate = self.delegate;
     controller.maxSelectableItems = self.maxSelectableItems;
     controller.showDoneButton = self.showDoneButton;
-    controller.dataSourceAccess.itemCache.size = self.itemLoadRangeLength;
+    controller.dataSourceAccess.itemCacheSize = self.itemLoadRangeLength;
     return [[UINavigationController alloc] initWithRootViewController:controller];    
 }
 

@@ -30,7 +30,7 @@
     items = [NSArray arrayWithObjects:@"2", @"1", nil];
     dataSource = [OCMockObject mockForProtocol:@protocol(ItemPickerDataSource)];
     dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource autoSelected:NO];
-    dataSourceAccess.itemCache.size = 1;
+    dataSourceAccess.itemCacheSize = 1;
     otherRangeMethodsCalled = NO;
     initForRangeCalled = NO;
 }    
@@ -164,7 +164,7 @@
 - (void)dataSourceInitForRange:(NSRange)range
 {
     initForRangeCalled = YES;
-    STAssertFalse(otherRangeMethodsCalled, @"initForRange should only be called before any other range methods");
+    STAssertFalse(otherRangeMethodsCalled, @"initForRange should be called before any other range methods");
 }
 
 - (NSArray *)dataSourceGetItemsInRange:(NSRange)range

@@ -29,6 +29,11 @@
 @synthesize initialized = _initialized, size = _size, range = _range;
 @synthesize dataSource = _dataSource;
 
++ (NSUInteger)defaultSize
+{
+    return 500;
+}
+
 - (id)initForDataSource:(id<ItemPickerDataSource>)dataSource
 {
     if (self = [super init])
@@ -36,7 +41,7 @@
         _dataSource = dataSource;
         _initialized = NO;
         _range = NSMakeRange(0, 0);
-        _size = 500;
+        _size = [ItemCache defaultSize];
     }
     return self;
 }
@@ -46,13 +51,11 @@
     if (!_initialized || index < self.range.location || index >= self.range.location + self.range.length)
     {  
         _initialized = YES;
-
+        
         NSRange newRange = [self calculateNewRangeForIndex:index];
-                           
         NSRange oldDataRange;
         NSRange newDataRange;
         BOOL oldDataFirst = [self calculateOldDataRange:&oldDataRange andNewDataRange:&newDataRange newRange:newRange];
-                  
         [self loadDataWithNewDataRange:newDataRange oldDataRange:oldDataRange newRange:newRange oldDataFirst:oldDataFirst];
     }
     
@@ -119,7 +122,7 @@
             // old data overlaps to the left
             oldDataFirst = YES;
             int oldDataLength = currentLastIndexExclusive - newRange.location;
-            *oldDataRange = NSMakeRange(_range.length - oldDataLength, oldDataLength);                 
+            *oldDataRange = NSMakeRange(_range.length - oldDataLength, oldDataLength);
             *newDataRange = NSMakeRange(currentLastIndexExclusive, lastIndexExclusive - currentLastIndexExclusive);
         }
     }
