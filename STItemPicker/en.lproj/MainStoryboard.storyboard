@@ -1,58 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="10K549" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="oG7-CD-cCy">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="oG7-CD-cCy">
     <dependencies>
-        <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
+        <deployment defaultVersion="1280" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
+        <!--Test View Controller - ItemPicker Examples-->
         <scene sceneID="azz-Xf-ygG">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lk7-hO-21c" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="dsf-Bu-j57" customClass="TestViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="On7-Xi-nXt">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ohS-vn-5ag">
-                                <rect key="frame" x="53" y="42" width="247" height="37"/>
+                                <rect key="frame" x="5" y="66" width="196" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" title="SampleCityDataSource">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="onSampleCityDataSource:" destination="dsf-Bu-j57" eventType="touchUpInside" id="gk0-Vr-CEa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="l72-95-PjN">
-                                <rect key="frame" x="53" y="106" width="247" height="37"/>
+                                <rect key="frame" x="5" y="118" width="218" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" title="SampleMediaDataSource">
-                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="onSampleMediaDataSource:" destination="dsf-Bu-j57" eventType="touchUpInside" id="guc-NX-QaE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sOC-3k-5fd">
-                                <rect key="frame" x="53" y="169" width="247" height="37"/>
+                                <rect key="frame" x="5" y="173" width="187" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                 <state key="normal" title="MPMediaDataSource">
-                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="onMPMediaDataSource:" destination="dsf-Bu-j57" eventType="touchUpInside" id="bed-NV-1Ch"/>
@@ -60,7 +48,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="Xdy-PV-TWc" userLabel="pickLabel">
-                                <rect key="frame" x="42" y="251" width="243" height="144"/>
+                                <rect key="frame" x="16" y="242" width="284" height="218"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -74,21 +62,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok" lineBreakMode="tailTruncation" minimumFontSize="10" id="Zu3-5Y-wjm">
-                                <rect key="frame" x="56" y="75" width="109" height="21"/>
+                                <rect key="frame" x="8" y="93" width="91" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok" lineBreakMode="tailTruncation" minimumFontSize="10" id="bbI-6l-Hgx">
-                                <rect key="frame" x="56" y="139" width="244" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Simulator ok" lineBreakMode="tailTruncation" minimumFontSize="10" id="876-VB-fLj">
+                                <rect key="frame" x="8" y="144" width="91" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Requires device" lineBreakMode="tailTruncation" minimumFontSize="10" id="Gbv-gU-QoP">
-                                <rect key="frame" x="56" y="198" width="138" height="28"/>
+                                <rect key="frame" x="8" y="199" width="138" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -97,17 +85,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="vpX-TI-GeS"/>
+                    <navigationItem key="navigationItem" title="ItemPicker Examples" id="vpX-TI-GeS"/>
                     <connections>
                         <outlet property="pickLabel" destination="Xdy-PV-TWc" id="Cqw-ot-YMH"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lk7-hO-21c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-579" y="-417"/>
         </scene>
+        <!--Navigation Controller-->
         <scene sceneID="XUo-gN-bVL">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fN6-hN-H3Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="oG7-CD-cCy" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="84b-op-wPw">
                         <autoresizingMask key="autoresizingMask"/>
@@ -116,18 +105,11 @@
                         <segue destination="dsf-Bu-j57" kind="relationship" relationship="rootViewController" id="HUd-FB-TDP"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fN6-hN-H3Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1115" y="-417"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="TestViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TestViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="pickLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
