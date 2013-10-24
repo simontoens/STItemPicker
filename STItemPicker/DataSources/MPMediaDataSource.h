@@ -6,13 +6,15 @@
 
 @interface MPMediaDataSource : NSObject <ItemPickerDataSource>
 
-- (id)initArtistsDataSource;
-- (id)initAlbumsDataSource;
-- (id)initSongsDataSource;
+- (id)initArtistDataSource;
+- (id)initAlbumDataSource;
+- (id)initSongDataSource;
+- (id)initPlaylistDataSource;
 
 - (BOOL)artistList;
 - (BOOL)albumList;
 - (BOOL)songList;
+- (BOOL)playlistList;
 
 @property(nonatomic, strong) MPMediaQuery *query;
 

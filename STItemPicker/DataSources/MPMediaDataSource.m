@@ -13,25 +13,19 @@
 - (void)registerForLibraryChangeNotifications;
 - (void)unregisterForLibraryChangeNotifications;
 
-@property(nonatomic, assign) BOOL showAllSongs;
+@property(nonatomic, strong) UIImage *tabImage;
+@property(nonatomic, strong) NSString *title;
+
 @property(nonatomic, strong) NSMutableArray *items;
 @property(nonatomic, strong) NSMutableArray *itemDescriptions;
 @property(nonatomic, strong) NSMutableArray *itemImages;
+@property(nonatomic, assign) BOOL showAllSongs;
 
 @end
 
 @implementation MPMediaDataSource
 
-@synthesize showAllSongs = _showAllSongs;
-@synthesize items = _items;
-@synthesize itemDescriptions = _itemDescriptions;
-@synthesize itemImages = _itemImages;
-
 static UIImage *kDefaultArtwork;
-
-@synthesize itemProperty = _itemProperty;
-@synthesize query = _query;
-
 
 #pragma mark - Initializers/Dealloc
 
@@ -40,28 +34,45 @@ static UIImage *kDefaultArtwork;
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
 }
 
-- (id)initArtistsDataSource
+- (id)initArtistDataSource
 {
-    return [self initWithQuery:[MPMediaQuery artistsQuery] itemProperty:MPMediaItemPropertyArtist];    
+    MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery artistsQuery] itemProperty:MPMediaItemPropertyArtist];
+    ds.tabImage = [UIImage imageNamed:@"Artists.png"];
+    ds.title = @"Artists";
+    return ds;
 }
 
-- (id)initAlbumsDataSource
+- (id)initAlbumDataSource
 {
-    return [self initWithQuery:[MPMediaQuery albumsQuery] itemProperty:MPMediaItemPropertyAlbumTitle];
+    MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery albumsQuery] itemProperty:MPMediaItemPropertyAlbumTitle];
+    ds.tabImage = [UIImage imageNamed:@"Albums"];
+    ds.title = @"Albums";
+    return ds;
 }
 
-- (id)initSongsDataSource
+- (id)initSongDataSource
 {
-    return [self initWithQuery:[MPMediaQuery songsQuery] itemProperty:MPMediaItemPropertyTitle];
+    MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery songsQuery] itemProperty:MPMediaItemPropertyTitle];
+    ds.tabImage = [UIImage imageNamed:@"Songs.png"];
+    ds.title = @"Songs";
+    return ds;
+}
+
+- (id)initPlaylistDataSource
+{
+    MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery playlistsQuery] itemProperty:MPMediaPlaylistPropertyName];
+    ds.tabImage = [UIImage imageNamed:@"Albums"];
+    ds.title = @"Playlists";
+    return ds;
 }
 
 - (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty
 {
     if (self = [super init])
     {
-        _showAllSongs = NO;
         _itemProperty = itemProperty;
         _query = query;
+        _showAllSongs = NO;
         [self registerForLibraryChangeNotifications];
         
     }
@@ -104,32 +115,43 @@ static UIImage *kDefaultArtwork;
     _itemDescriptions = [[NSMutableArray alloc] initWithCapacity:range.length];
     _itemImages = [[NSMutableArray alloc] initWithCapacity:range.length];
     
+    BOOL collectionQuery = [self playlistList];
+    
     for (int i = range.location; i < range.location + range.length; i++)
     {
         MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:i];
-        MPMediaItem *item = [collection representativeItem];
-        [_items addObject:[item valueForProperty:_itemProperty]];
-        
-        NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
-        NSString *album = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
-        
-        if ([self albumList]) 
+        if (collectionQuery)
         {
-            [_itemImages addObject:[self getMediaItemAlbumImage:item]];
-            
-            [_itemDescriptions addObject:artist];
+            NSString *itemValue = [collection valueForProperty:_itemProperty];
+            [_items addObject:itemValue];
         }
-        else if ([self songList] && ([self.query.filterPredicates count] == 1 || self.showAllSongs))
+        else
         {
-            artist = artist ? artist : @"";
-            album = album ? album : @"";
-            if ([artist length] == 0 || [album length] == 0)
+            MPMediaItem *item = [collection representativeItem];
+            NSString *itemValue = [item valueForProperty:_itemProperty];
+            [_items addObject:itemValue];
+            
+            NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
+            NSString *album = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
+            
+            if ([self albumList]) 
             {
-                [_itemDescriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
+                [_itemImages addObject:[self getMediaItemAlbumImage:item]];
+                
+                [_itemDescriptions addObject:artist];
             }
-            else
+            else if ([self songList] && ([self.query.filterPredicates count] == 1 || self.showAllSongs))
             {
-                [_itemDescriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
+                artist = artist ? artist : @"";
+                album = album ? album : @"";
+                if ([artist length] == 0 || [album length] == 0)
+                {
+                    [_itemDescriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
+                }
+                else
+                {
+                    [_itemDescriptions addObject:[NSString stringWithFormat:@"%@ - %@", artist, album]];
+                }
             }
         }
     }
@@ -152,23 +174,7 @@ static UIImage *kDefaultArtwork;
 
 - (BOOL)isLeaf
 {
-    return [self songList];
-}
-
-- (NSString *)title
-{
-    if ([self artistList])
-    {
-        return @"Artists";
-    }
-    else if ([self albumList])
-    {
-        return @"Albums";
-    }
-    else 
-    {
-        return @"Songs";
-    }
+    return [self songList] || [self playlistList];
 }
 
 - (BOOL)sectionsEnabled
@@ -189,22 +195,6 @@ static UIImage *kDefaultArtwork;
 - (NSString *)metaCellTitle
 {
     return [self albumList] && [self.query.filterPredicates count] > 1 ? @"All Songs" : nil;
-}
-
-- (UIImage *)tabImage
-{
-    if ([self artistList])
-    {
-        return [UIImage imageNamed:@"Artists.png"];
-    }
-    else if ([self albumList])
-    {
-        return [UIImage imageNamed:@"Albums.png"];        
-    } 
-    else
-    {
-        return [UIImage imageNamed:@"Songs.png"];                
-    }
 }
 
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)selection 
@@ -292,6 +282,11 @@ static UIImage *kDefaultArtwork;
 - (BOOL)songList 
 {
     return self.query.groupingType == MPMediaGroupingTitle;
+}
+
+- (BOOL)playlistList
+{
+    return self.query.groupingType == MPMediaGroupingPlaylist;
 }
 
 - (void)onLibraryChanged

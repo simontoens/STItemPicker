@@ -45,9 +45,10 @@
 {
     ItemPicker *itemPicker = [self getItemPickerWithDataSources:
                                  [NSArray arrayWithObjects:
-                                     [[MPMediaDataSource alloc] initArtistsDataSource],
-                                     [[MPMediaDataSource alloc] initAlbumsDataSource],
-                                     [[MPMediaDataSource alloc] initSongsDataSource],
+                                     [[MPMediaDataSource alloc] initArtistDataSource],
+                                     [[MPMediaDataSource alloc] initAlbumDataSource],
+                                     [[MPMediaDataSource alloc] initSongDataSource],
+                                     [[MPMediaDataSource alloc] initPlaylistDataSource],
                                      nil]];
     itemPicker.showDoneButton = YES;
     itemPicker.itemLoadRangeLength = 100;
