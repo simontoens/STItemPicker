@@ -86,8 +86,8 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
         if (self.tabBarItem) 
         {
-            self.title = [_dataSourceAccess getTitle];
-            self.tabBarItem.image = [_dataSourceAccess getTabImage];
+            self.title = dataSource.title;
+            self.tabBarItem.image = dataSource.tabImage;
         }        
     }
     return self;
