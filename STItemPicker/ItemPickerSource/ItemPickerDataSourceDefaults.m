@@ -100,4 +100,9 @@
     return [self.dataSource respondsToSelector:@selector(metaCellTitle)] ? self.dataSource.metaCellTitle : nil;
 }
 
+- (NSString *)metaCellDescription
+{
+    return [self.dataSource respondsToSelector:@selector(metaCellDescription)] ? self.dataSource.metaCellDescription : nil;
+}
+
 @end

@@ -154,6 +154,7 @@
     [[[dataSource stub] andCall:@selector(dataSourceGetAttributesInRange:) onObject:self] getItemAttributesInRange:range];
     [[dataSource expect] isLeaf];
     [[dataSource expect] metaCellTitle];
+    [[dataSource expect] metaCellDescription];
     [[[dataSource stub] andReturnValue:OCMOCK_VALUE((BOOL){sectionsEnabled})] sectionsEnabled];
     if (sectionsEnabled)
     {

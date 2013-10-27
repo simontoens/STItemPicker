@@ -197,7 +197,7 @@ static UIImage *kDefaultArtwork;
     return [self albumList] && [self.query.filterPredicates count] > 1 ? @"All Songs" : nil;
 }
 
-- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)selection 
+- (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)selection
                                        previousSelections:(NSArray *)previousSelections
 {
     MPMediaQuery *nextQuery = nil;

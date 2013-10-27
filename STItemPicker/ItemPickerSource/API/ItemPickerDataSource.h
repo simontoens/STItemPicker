@@ -70,7 +70,7 @@
 - (NSArray *)getItemImagesInRange:(NSRange)range;
 
 /**
- * Attributes to tweak the appearance of each table view cell.  Elements in the returned NSArray may be NSNull 
+ * Return ItemAttributes instances to tweak the appearance of each table view cell.  Elements in the returned NSArray may be NSNull
  * for those items that should use the default item attributes.  Return nil to not apply any attributes.
  */
 - (NSArray *)getItemAttributesInRange:(NSRange)range;
@@ -121,5 +121,12 @@
  * Defaults to nil.
  */
 @property(nonatomic, strong, readonly) NSString *metaCellTitle;
+
+/**
+ * The description for the metaCell.
+ *
+ * Defaults to nil.
+ */
+@property(nonatomic, strong, readonly) NSString *metaCellDescription;
 
 @end

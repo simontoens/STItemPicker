@@ -10,6 +10,7 @@
 @interface DataSourceAccess()
 @property(nonatomic, assign) BOOL autoSelected;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
+@property(nonatomic, strong) NSString *metaCellDescription;
 @property(nonatomic, strong) ItemCache *itemCache;
 @property(nonatomic, strong) NSString *metaCellTitle;
 @property(nonatomic, assign) BOOL processed;
@@ -39,6 +40,7 @@ static NSRange kUnsetRange;
 @synthesize itemCache = _itemCache;
 @synthesize itemCacheSize = _itemCacheSize;
 @synthesize dataSource = _dataSource;
+@synthesize metaCellDescription = _metaCellDescription;
 @synthesize metaCellTitle;
 @synthesize processed = _processed;
 @synthesize sections = _sections;
@@ -180,7 +182,7 @@ static NSRange kUnsetRange;
     
     if (index == kMetaCellRowIndex)
     {
-        return nil;
+        return _metaCellDescription;
     }
     
     id desc = nil;
@@ -279,6 +281,7 @@ static NSRange kUnsetRange;
 {
     id<ItemPickerDataSource> ds = self.dataSource;
     self.metaCellTitle = ds.metaCellTitle;
+    self.metaCellDescription = ds.metaCellDescription;
     self.dataSourceItemCount = self.dataSourceInternalItemCount = ds.count;
     
     if (self.metaCellTitle)
