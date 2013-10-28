@@ -5,7 +5,7 @@
 #import "ItemPickerViewController.h"
 #import "Preconditions.h"
 #import "Stack.h"
-#import "TableHeaderViewContainer.h"
+#import "TableHeaderView.h"
 #import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
@@ -302,51 +302,13 @@ currentSelectionStack:(Stack *)currentSelectionStack
     return [contexts count] > 0 ? [contexts objectAtIndex:[contexts count] - 1] : nil;
 }
 
-- (ItemPickerSelection *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
-{
-    return [contexts count] > offset ? [contexts objectAtIndex:[contexts count] - 1 - offset] : nil;
-}
-
-- (TableHeaderViewContainer *)getHeaderViewContainerWithImage:(UIImage *)image defaultLabels:(BOOL)defaultLabels
-{
-    TableHeaderViewContainer *container = [TableHeaderViewContainer newTableHeaderViewWithImage:image];
-    if (defaultLabels)
-    {
-        NSArray *contexts = [self.currentSelectionStack allObjects];
-        container.boldLabel.text = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;        
-        container.label.text = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
-        container.smallerLabel.text = [NSString stringWithFormat:@"%i %@", 
-                                      [self.dataSourceAccess getDataSourceItemCount], [self.dataSourceAccess getTitle]];
-    }
-    return container;
-}
-
 - (void)configureHeaderView 
 {
-    TableHeaderViewContainer *container = nil;
-    
     ItemPickerHeader *header = [self.dataSourceAccess getHeader];    
     if (header)
     {
-        container = [self getHeaderViewContainerWithImage:header.image defaultLabels:header.defaultNilLabels];
-        if (header.boldLabel) 
-        {
-            container.boldLabel.text = header.boldLabel;
-        }
-        if (header.label) 
-        {
-            container.label.text = header.label;
-        }
-        if (header.smallerLabel)
-        {
-            container.smallerLabel.text = header.smallerLabel;
-        }
-        if (header.smallestLabel)
-        {
-            container.smallestLabel.text = header.smallestLabel;
-        }
+        self.tableView.tableHeaderView = [TableHeaderView initWithHeader:header selectionStack:self.currentSelectionStack dataSourceAccess:self.dataSourceAccess];
     }
-    self.tableView.tableHeaderView = container.tableHeaderView;
 }
 
 - (void)configureTitle 

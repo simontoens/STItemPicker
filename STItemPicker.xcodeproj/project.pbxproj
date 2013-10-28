@@ -11,7 +11,6 @@
 		BE074E57172397FD001681EE /* Tuple.m in Sources */ = {isa = PBXBuildFile; fileRef = BE074E56172397FD001681EE /* Tuple.m */; };
 		BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
 		BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
-		BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
 		BE148AFB17C038D9000BF30C /* ItemAttributesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE148AFA17C038D9000BF30C /* ItemAttributesTest.m */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
@@ -59,6 +58,7 @@
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
 		BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */; };
+		BEEE8078181DD89400030E7D /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEE8077181DD89400030E7D /* TableHeaderView.m */; };
 		BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */; };
 		BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */; };
 		BEF2916D1730C96D002D3BB3 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */; };
@@ -80,8 +80,6 @@
 		BE074E56172397FD001681EE /* Tuple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tuple.m; path = Submodules/STObjCToolbelt/Source/Tuple.m; sourceTree = "<group>"; };
 		BE0A762C1733770900D40692 /* ItemPickerSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerSection.h; path = ItemPickerSource/ItemPickerSection.h; sourceTree = "<group>"; };
 		BE0A762D1733770A00D40692 /* ItemPickerSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerSection.m; path = ItemPickerSource/ItemPickerSection.m; sourceTree = "<group>"; };
-		BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderViewContainer.h; path = ItemPickerSource/TableHeaderViewContainer.h; sourceTree = "<group>"; };
-		BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderViewContainer.m; path = ItemPickerSource/TableHeaderViewContainer.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
 		BE148AFA17C038D9000BF30C /* ItemAttributesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemAttributesTest.m; sourceTree = "<group>"; };
 		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
@@ -152,6 +150,8 @@
 		BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preconditions.h; path = Submodules/STObjCToolbelt/Source/Preconditions.h; sourceTree = "<group>"; };
 		BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preconditions.m; path = Submodules/STObjCToolbelt/Source/Preconditions.m; sourceTree = "<group>"; };
 		BEEB9D1316FFEA760021E035 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		BEEE8076181DD89400030E7D /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderView.h; path = ItemPickerSource/TableHeaderView.h; sourceTree = "<group>"; };
+		BEEE8077181DD89400030E7D /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderView.m; path = ItemPickerSource/TableHeaderView.m; sourceTree = "<group>"; };
 		BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPickerContextTest.m; sourceTree = "<group>"; };
 		BEF291661730C7FA002D3BB3 /* MPMediaDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MPMediaDataSource.h; path = DataSources/MPMediaDataSource.h; sourceTree = "<group>"; };
 		BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MPMediaDataSource.m; path = DataSources/MPMediaDataSource.m; sourceTree = "<group>"; };
@@ -343,9 +343,9 @@
 				BEC5914D17DA4AEB0002A93B /* NoItemsDataSource.m */,
 				BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */,
 				BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */,
+				BEEE8076181DD89400030E7D /* TableHeaderView.h */,
+				BEEE8077181DD89400030E7D /* TableHeaderView.m */,
 				BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */,
-				BE0E2D881707B58300A5F7AC /* TableHeaderViewContainer.h */,
-				BE0E2D891707B58400A5F7AC /* TableHeaderViewContainer.m */,
 				BEEB9CDE16FFE4990021E035 /* TableSectionHandler.h */,
 				BEEB9CDF16FFE4990021E035 /* TableSectionHandler.m */,
 			);
@@ -503,7 +503,6 @@
 				BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */,
 				BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */,
 				BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */,
-				BE0E2D8A1707B58400A5F7AC /* TableHeaderViewContainer.m in Sources */,
 				BEB54D4B17080731002042CD /* Stack.m in Sources */,
 				BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */,
 				BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */,
@@ -517,6 +516,7 @@
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
 				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
 				BE4463C617547769003B9134 /* ItemAttributes.m in Sources */,
+				BEEE8078181DD89400030E7D /* TableHeaderView.m in Sources */,
 				BEB322EC176B634F00360B76 /* ItemPickerContext.m in Sources */,
 				BE52C7A01791143300F0EEC5 /* ItemCache.m in Sources */,
 				BEC5914E17DA4AEB0002A93B /* NoItemsDataSource.m in Sources */,
