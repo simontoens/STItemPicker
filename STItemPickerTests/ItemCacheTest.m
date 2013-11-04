@@ -11,8 +11,6 @@
     id dataSource;
     ItemCache *itemCache;
 }
-- (void)mockDataSourceForRange:(NSRange)range itemCount:(NSUInteger)itemCount;
-- (void)mockDataSourceForRange:(NSRange)range items:(NSArray *)items itemCount:(NSUInteger)itemCount;
 
 @end
 

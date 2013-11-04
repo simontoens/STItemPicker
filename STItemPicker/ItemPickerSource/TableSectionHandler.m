@@ -22,11 +22,9 @@
 @implementation ItemRecord
 @end
 
-@interface TableSectionHandler() 
-- (void)buildSections;
+@interface TableSectionHandler()
+
 - (NSString *)getSectionNameForItem:(NSString *)item;
-- (void)process;
-- (void)sortItems;
 
 @property(nonatomic, assign) BOOL processed;
 
@@ -50,13 +48,7 @@ static NSCharacterSet *kNumberCharacterSet;
 static NSCharacterSet *kPunctuationCharacterSet;
 static NSDictionary *kCharacterSetToCharacter;
 
-@synthesize itemAttributes = _itemAttributes;
-@synthesize items = _items;
-@synthesize itemDescriptions = _itemDescriptions;
 @synthesize itemImages = _itemImages;
-@synthesize processed = _processed;
-@synthesize sections = _sections;
-
 
 + (NSCharacterSet *)getEnglishCharacterSet
 {
@@ -127,7 +119,7 @@ static NSDictionary *kCharacterSetToCharacter;
     return _itemImages;
 }
 
-- (NSArray *)sections 
+- (NSArray *)sections
 {
     [self process];
     return _sections;

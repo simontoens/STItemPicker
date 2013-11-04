@@ -16,11 +16,6 @@
 
 @implementation ItemPicker
 
-@synthesize dataSources = _dataSources;
-@synthesize delegate;
-@synthesize itemLoadRangeLength = _itemLoadRangeLength;
-@synthesize maxSelectableItems = _maxSelectableItems;
-@synthesize showDoneButton = _showDoneButton;
 @synthesize viewController = _viewController;
 
 NSString *ItemPickerDataSourceDidChangeNotification = @"STItemPickerDataSourceDidUpdate";

@@ -4,8 +4,6 @@
 
 @implementation ItemPickerSection
 
-@synthesize title = _title;
-@synthesize range = _range;
 
 - (id)initWithTitle:(NSString *)title range:(NSRange)range
 {

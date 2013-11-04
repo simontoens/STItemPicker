@@ -6,12 +6,6 @@
 
 @interface MPMediaDataSource() 
 @property(nonatomic, strong) NSString *itemProperty;
-- (id)initWithQuery:(MPMediaQuery *)runQuery itemProperty:(NSString *)itemProperty;
-- (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerSelection *)selection;
-- (void)addFilterPredicatesFromQuery:(MPMediaQuery *)fromQuery toQuery:(MPMediaQuery *)toQuery;
-- (UIImage *)getMediaItemAlbumImage:(MPMediaItem *)item;
-- (void)registerForLibraryChangeNotifications;
-- (void)unregisterForLibraryChangeNotifications;
 
 @property(nonatomic, strong) UIImage *tabImage;
 @property(nonatomic, strong) NSString *title;

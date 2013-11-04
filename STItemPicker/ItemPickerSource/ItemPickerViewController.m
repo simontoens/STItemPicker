@@ -9,44 +9,13 @@
 #import "TableViewCellContainer.h"
 
 @interface ItemPickerViewController()
-- (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
-      itemPickerContext:(ItemPickerContext *)context
-   currentSelectionStack:(Stack *)currentSelectionStack;
-
-- (id)initWithNibName:(NSString *)nibName 
-           dataSource:(id<ItemPickerDataSource>)dataSource 
-    itemPickerContext:(ItemPickerContext *)itemPickerContext
-currentSelectionStack:(Stack *)currentSelectionStack;
-
-- (BOOL)moreCellsAreSelectable;
-- (void)configureHeaderView;
-- (void)configureNavigationItem;
-- (void)configureTitle;
-- (void)deselectAllItems;
-
-- (ItemPickerSelection *)getPreviousContext;
-- (void)handleSelection:(NSIndexPath *)indexPath;
-- (BOOL)isCellSelectedAtIndexPath:(NSIndexPath *)indexPath;
-- (void)pushDataSource:(id<ItemPickerDataSource>)dataSource;
-- (void)registerForNotifications;
-- (void)selectedItemAtIndexPath:(NSIndexPath *)indexPath
-                      selection:(ItemPickerSelection *)selection
-                     dataSource:(id<ItemPickerDataSource>)dataSource;
-
 @property(nonatomic, strong) Stack *currentSelectionStack;
 @property(nonatomic, strong) ItemPickerContext *itemPickerContext;
 @property(nonatomic, strong) UIBarButtonItem *doneButton;
-
 @end
 
 @implementation ItemPickerViewController
 
-@synthesize currentSelectionStack = _currentSelectionStack;
-@synthesize dataSourceAccess = _dataSourceAccess;
-@synthesize doneButton;
-@synthesize itemPickerContext = _itemPickerContext;
-@synthesize itemPickerDelegate;
-@synthesize maxSelectableItems = _maxSelectableItems;
 @synthesize showDoneButton = _showCancelButton;
 
 static NSString* ReloadTableDataNotification = @"STItemPickerReloadTableDataNotification";

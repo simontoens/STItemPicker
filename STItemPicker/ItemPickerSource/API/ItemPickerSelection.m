@@ -5,12 +5,6 @@
 
 @implementation ItemPickerSelection
 
-@synthesize autoSelected = _autoSelected;
-@synthesize dataSource = _dataSource;
-@synthesize metaCell = _metaCell;
-@synthesize selectedIndex = _selectedIndex; 
-@synthesize selectedItem = _selectedItem;
-
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource 
            selectedIndex:(NSUInteger)selectedIndex
             selectedItem:(NSString *)selectedItem

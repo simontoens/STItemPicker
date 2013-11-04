@@ -8,10 +8,6 @@
 
 @implementation ItemAttributes
 
-@synthesize descriptionTextColor = _descriptionTextColor;
-@synthesize textColor = _textColor;
-@synthesize userInteractionEnabled = _userInteractionEnabled;
-
 static ItemAttributes *kDefaultAttributes;
 
 + (void)initialize

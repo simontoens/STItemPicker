@@ -4,8 +4,4 @@
 
 @implementation ItemPickerHeader
 
-@synthesize image;
-@synthesize boldLabel, label, smallerLabel, smallestLabel;
-@synthesize defaultNilLabels;
-
 @end

@@ -7,27 +7,9 @@
 @property(nonatomic) BOOL initialized;
 @property(nonatomic) NSRange range;
 @property(nonatomic, strong) id<ItemPickerDataSource> dataSource;
-- (NSRange)calculateNewRangeForIndex:(int)index;
-
-/**
- * Calculates ranges for new data to load from the datasource and currently cached data to keep.
- * @return oldDataFirst  Whether the currently cached data is at the beginning or the end of the new data array being build.
- */
-- (BOOL)calculateOldDataRange:(NSRange *)oldDataRange andNewDataRange:(NSRange *)newDataRange newRange:(NSRange)newRange;
-- (void)loadDataWithNewDataRange:(NSRange)newDataRange oldDataRange:(NSRange)oldDataRange 
-                        newRange:(NSRange)newRange oldDataFirst:(BOOL)oldDataFirst;
-- (NSArray *)combineOldData:(NSArray *)oldData oldRange:(NSRange)oldRange withNewData:(NSArray *)newData oldDataFirst:(BOOL)oldDataFirst;
-
 @end
+
 @implementation ItemCache
-
-@synthesize attributes = _attributes;
-@synthesize descriptions = _descriptions;
-@synthesize images = _images;
-@synthesize items = _items;
-
-@synthesize initialized = _initialized, size = _size, range = _range;
-@synthesize dataSource = _dataSource;
 
 + (NSUInteger)defaultSize
 {
@@ -97,6 +79,10 @@
     return NSMakeRange(newLocation, newLength);
 }
 
+/**
+ * Calculates ranges for new data to load from the datasource and currently cached data to keep.
+ * @return oldDataFirst  Whether the currently cached data is at the beginning or the end of the new data array being build.
+ */
 - (BOOL)calculateOldDataRange:(NSRange *)oldDataRange andNewDataRange:(NSRange *)newDataRange newRange:(NSRange)newRange
 {
     // determine whether there is any overlap with data currently cached

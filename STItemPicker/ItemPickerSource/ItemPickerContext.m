@@ -4,8 +4,6 @@
 
 @implementation ItemPickerContext
 
-@synthesize selectedItems = _selectedItems;
-
 - (id)init
 {
     if (self = [super init])

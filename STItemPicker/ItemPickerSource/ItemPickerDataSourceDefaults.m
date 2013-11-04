@@ -4,7 +4,6 @@
 
 @implementation ItemPickerDataSourceDefaults
 
-@synthesize dataSource = _dataSource;
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource
 {

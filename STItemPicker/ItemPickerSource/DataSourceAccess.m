@@ -21,33 +21,12 @@
 @property(nonatomic, assign) NSUInteger dataSourceItemCount;
 @property(nonatomic, assign) NSUInteger dataSourceInternalItemCount;
 
-- (void)addFixedSections;
-- (void)buildDefaultSection;
-- (void)buildSections;
-- (void)buildSectionTitles;
-- (NSUInteger)convertIndexPathToArrayIndex:(NSIndexPath *)indexPath;
-- (void)process;
-
 @end
 
 @implementation DataSourceAccess
 
 static NSUInteger kMetaCellRowIndex = NSUIntegerMax;
 static NSRange kUnsetRange;
-
-@synthesize autoSelected = _autoSelected;
-@synthesize currentRange = _currentRange;
-@synthesize itemCache = _itemCache;
-@synthesize itemCacheSize = _itemCacheSize;
-@synthesize dataSource = _dataSource;
-@synthesize metaCellDescription = _metaCellDescription;
-@synthesize metaCellTitle;
-@synthesize processed = _processed;
-@synthesize sections = _sections;
-@synthesize dataSourceItemCount = _dataSourceItemCount;
-@synthesize dataSourceInternalItemCount = _dataSourceInternalItemCount;
-@synthesize sectionTitles;
-@synthesize tableSectionHandler = _tableSectionHandler;
 
 + (void)initialize
 {

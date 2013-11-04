@@ -18,8 +18,6 @@
     BOOL initForRangeCalled;
     BOOL otherRangeMethodsCalled;
 }
-- (void)callMethodsOnDataSourceAccessWithIndexPath:(NSIndexPath *)indexPath expectedItem:(NSString *)expectedItem;
-- (void)mockDataSourceForRange:(NSRange)range sectionsEnabled:(BOOL)sectionsEnabled;
 @end
 
 @implementation DataSourceAccessTest

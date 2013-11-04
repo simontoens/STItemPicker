@@ -6,17 +6,6 @@
 #import "SampleMediaDataSource.h"
 
 @interface SampleMediaDataSource()
-- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items selection:(ItemPickerSelection *)selection;
-
-- (BOOL)artistsList;
-- (BOOL)albumsList;
-- (BOOL)songsList;
-+ (void)addArtist:(NSString *)artist album:(NSString *)album imageName:(NSString *)imageName songs:(NSArray *)songs;
-- (void)initAttributes;
-- (void)initDescriptions;
-- (void)initImages;
-- (void)initSecondayLists;
-
 @property(nonatomic, strong, readwrite) UIImage *headerImage;
 @property(nonatomic, strong, readwrite) NSMutableArray *itemDescriptions;
 @property(nonatomic, strong, readwrite) NSMutableArray *itemImages;
@@ -51,16 +40,6 @@ static UIImage *kDefaultArtwork;
 static NSArray *kAllDictionaries;
 static NSArray *kAllTitles;
 
-@synthesize depth = _depth;
-@synthesize headerImage;
-@synthesize itemAttributes;
-@synthesize itemDescriptions;
-@synthesize itemImages;
-@synthesize items = _items;
-@synthesize sectionsEnabled = _sectionsEnabled;
-@synthesize selection = _selection;
-@synthesize tabImage;
-@synthesize title = _title;
 
 + (id)artistsDataSource
 {

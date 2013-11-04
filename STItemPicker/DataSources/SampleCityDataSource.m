@@ -7,7 +7,6 @@
 @property(nonatomic, assign) NSUInteger depth;
 @property(nonatomic, assign, readwrite) BOOL isLeaf;
 @property(nonatomic, strong) NSArray *items;
-- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items;
 @end
 
 @implementation SampleCityDataSource
@@ -18,10 +17,6 @@ static MultiDictionary* kRegionsToStates;
 static MultiDictionary* kStatesToCities;
 
 static NSArray *kAllDictionaries;
-
-@synthesize depth = _depth;
-@synthesize isLeaf = _isLeaf;
-@synthesize items = _items;
 
 - (id)init
 {

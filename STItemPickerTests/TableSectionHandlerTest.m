@@ -16,15 +16,6 @@
 @end
 
 @interface TableSectionHandlerTest : SenTestCase
-
-- (void)runTestItems:(NSArray *)items
-    expectedSections:(NSArray *)expectedSections 
-  expectedItemCounts:(int[])expectedItemCounts;
-
-- (void)runTestItems:(NSArray *)expectedSections 
-  expectedItemCounts:(int[])expectedItemCounts
- tableSectionHandler:(TableSectionHandler *)tableSectionHandler;
-
 @end
 
 @implementation TableSectionHandlerTest
