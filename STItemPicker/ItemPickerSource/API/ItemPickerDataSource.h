@@ -18,7 +18,8 @@
 @property(nonatomic, assign, readonly) NSUInteger count;
 
 /**
- * YES if this instance is a leaf data source, ie none of the items provided by this data have any further detail data source.
+ * YES if this instance is a leaf data source, ie none of the items provided by this data source have any further 
+ * detail data source.
  *
  * Note that if this property's value is YES, getNextDataSourceForSelection must return nil.
  */
@@ -70,8 +71,8 @@
 - (NSArray *)getItemImagesInRange:(NSRange)range;
 
 /**
- * Return ItemAttributes instances to tweak the appearance of each table view cell.  Elements in the returned NSArray may be NSNull
- * for those items that should use the default item attributes.  Return nil to not apply any attributes.
+ * Return ItemAttributes instances to tweak the appearance of each table view cell.  Elements in the returned NSArray 
+ * may be NSNull for those items that should use the default item attributes.  Return nil to not apply any attributes.
  */
 - (NSArray *)getItemAttributesInRange:(NSRange)range;
 
