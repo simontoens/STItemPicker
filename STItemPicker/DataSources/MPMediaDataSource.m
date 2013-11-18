@@ -31,7 +31,7 @@ static UIImage *kDefaultArtwork;
 - (id)initArtistDataSource
 {
     MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery artistsQuery] itemProperty:MPMediaItemPropertyArtist];
-    ds.tabImage = [UIImage imageNamed:@"Artists.png"];
+    ds.tabImage = [UIImage imageNamed:@"Artists"];
     ds.title = @"Artists";
     return ds;
 }
@@ -47,7 +47,7 @@ static UIImage *kDefaultArtwork;
 - (id)initSongDataSource
 {
     MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery songsQuery] itemProperty:MPMediaItemPropertyTitle];
-    ds.tabImage = [UIImage imageNamed:@"Songs.png"];
+    ds.tabImage = [UIImage imageNamed:@"Songs"];
     ds.title = @"Songs";
     return ds;
 }
@@ -55,7 +55,7 @@ static UIImage *kDefaultArtwork;
 - (id)initPlaylistDataSource
 {
     MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery playlistsQuery] itemProperty:MPMediaPlaylistPropertyName];
-    ds.tabImage = [UIImage imageNamed:@"Albums"];
+    ds.tabImage = [UIImage imageNamed:@"Playlists"];
     ds.title = @"Playlists";
     return ds;
 }
