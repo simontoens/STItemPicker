@@ -58,6 +58,11 @@
 		BEEB9D0416FFE8AE0021E035 /* MultiDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */; };
 		BEEB9D0616FFE8AE0021E035 /* Preconditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */; };
 		BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9D1216FFEA760021E035 /* MainStoryboard.storyboard */; };
+		BEEDF0A51839999000358E76 /* Albums@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEEDF0A01839999000358E76 /* Albums@2x.png */; };
+		BEEDF0A61839999000358E76 /* Artists@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEEDF0A11839999000358E76 /* Artists@2x.png */; };
+		BEEDF0A71839999000358E76 /* Playlists.png in Resources */ = {isa = PBXBuildFile; fileRef = BEEDF0A21839999000358E76 /* Playlists.png */; };
+		BEEDF0A81839999000358E76 /* Playlists@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEEDF0A31839999000358E76 /* Playlists@2x.png */; };
+		BEEDF0A91839999000358E76 /* Songs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEEDF0A41839999000358E76 /* Songs@2x.png */; };
 		BEEE8078181DD89400030E7D /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEE8077181DD89400030E7D /* TableHeaderView.m */; };
 		BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */; };
 		BEF291681730C7FA002D3BB3 /* MPMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF291671730C7FA002D3BB3 /* MPMediaDataSource.m */; };
@@ -150,6 +155,11 @@
 		BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preconditions.h; path = Submodules/STObjCToolbelt/Source/Preconditions.h; sourceTree = "<group>"; };
 		BEEB9CFC16FFE8AE0021E035 /* Preconditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preconditions.m; path = Submodules/STObjCToolbelt/Source/Preconditions.m; sourceTree = "<group>"; };
 		BEEB9D1316FFEA760021E035 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		BEEDF0A01839999000358E76 /* Albums@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Albums@2x.png"; path = "Images/Sample/Albums@2x.png"; sourceTree = "<group>"; };
+		BEEDF0A11839999000358E76 /* Artists@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Artists@2x.png"; path = "Images/Sample/Artists@2x.png"; sourceTree = "<group>"; };
+		BEEDF0A21839999000358E76 /* Playlists.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Playlists.png; path = Images/Sample/Playlists.png; sourceTree = "<group>"; };
+		BEEDF0A31839999000358E76 /* Playlists@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Playlists@2x.png"; path = "Images/Sample/Playlists@2x.png"; sourceTree = "<group>"; };
+		BEEDF0A41839999000358E76 /* Songs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Songs@2x.png"; path = "Images/Sample/Songs@2x.png"; sourceTree = "<group>"; };
 		BEEE8076181DD89400030E7D /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableHeaderView.h; path = ItemPickerSource/TableHeaderView.h; sourceTree = "<group>"; };
 		BEEE8077181DD89400030E7D /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableHeaderView.m; path = ItemPickerSource/TableHeaderView.m; sourceTree = "<group>"; };
 		BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemPickerContextTest.m; sourceTree = "<group>"; };
@@ -201,14 +211,19 @@
 		BE4751A81708E9AB0082AF30 /* Sample */ = {
 			isa = PBXGroup;
 			children = (
-				BE541ED317234072001088BC /* Albums.png */,
 				BE541ED417234072001088BC /* Artists.png */,
+				BEEDF0A11839999000358E76 /* Artists@2x.png */,
+				BE541ED317234072001088BC /* Albums.png */,
+				BEEDF0A01839999000358E76 /* Albums@2x.png */,
 				BE0400861708F04900B09BDA /* DefaultNoArtwork.png */,
 				BE4751B41708EF990082AF30 /* Innuendo.jpg */,
 				BE4751B61708EFC80082AF30 /* ModernLife.jpg */,
 				BE4751B71708EFC80082AF30 /* MoonSafari.jpg */,
 				BE4751B81708EFC80082AF30 /* Parklife.jpg */,
+				BEEDF0A21839999000358E76 /* Playlists.png */,
+				BEEDF0A31839999000358E76 /* Playlists@2x.png */,
 				BE541ED517234072001088BC /* Songs.png */,
+				BEEDF0A41839999000358E76 /* Songs@2x.png */,
 				BE41BBFC170BF2C000223945 /* TalkieWalkie.jpg */,
 				BE4751B91708EFC80082AF30 /* TheLastBroadcast.jpg */,
 			);
@@ -452,14 +467,19 @@
 				BEEB9D1416FFEA760021E035 /* MainStoryboard.storyboard in Resources */,
 				BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */,
 				BE4751B51708EF990082AF30 /* Innuendo.jpg in Resources */,
+				BEEDF0A61839999000358E76 /* Artists@2x.png in Resources */,
 				BE4751BA1708EFC80082AF30 /* ModernLife.jpg in Resources */,
 				BE4751BB1708EFC80082AF30 /* MoonSafari.jpg in Resources */,
+				BEEDF0A81839999000358E76 /* Playlists@2x.png in Resources */,
 				BE4751BC1708EFC80082AF30 /* Parklife.jpg in Resources */,
+				BEEDF0A71839999000358E76 /* Playlists.png in Resources */,
 				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
 				BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */,
+				BEEDF0A91839999000358E76 /* Songs@2x.png in Resources */,
 				BE541ED617234072001088BC /* Albums.png in Resources */,
 				BE541ED717234072001088BC /* Artists.png in Resources */,
+				BEEDF0A51839999000358E76 /* Albums@2x.png in Resources */,
 				BE541ED817234072001088BC /* Songs.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
