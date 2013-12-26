@@ -26,7 +26,7 @@
     if (header.image)
     {
         [view.imageView setImage:header.image];
-        [view.reflectedImageView setImage:[view.imageView reflectedImageWithHeight:view.reflectedImageView.bounds.size.height]];
+        [view.reflectedImageView setImage:[view.imageView reflectedBottomImageWithHeight:view.reflectedImageView.bounds.size.height]];
     }
     
     view.boldLabel.text = header.boldLabel ? header.boldLabel : nil;
