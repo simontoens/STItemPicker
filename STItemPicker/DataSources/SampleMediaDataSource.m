@@ -344,6 +344,16 @@ static NSArray *kAllTitles;
     [SampleMediaDataSource addArtist:@"Lets Start A Band With A Really Long Name" 
                                album:@"Lets Make An Abum With A Really Long Name" 
                                songs:[NSArray arrayWithObject:@"Lets Write A Song With A Really Long Name"]];
+
+    static int numSongs = 1000;
+    NSMutableArray *manySongs = [[NSMutableArray alloc] initWithCapacity:numSongs];
+    for (int i = 0; i < numSongs; i++) {
+        [manySongs addObject:[NSString stringWithFormat:@"Song-%i", i]];
+    }
+    
+    [SampleMediaDataSource addArtist:@"Many Songs Band"
+                               album:@"Many Songs Album"
+                               songs:manySongs];
 }
 
 @end
