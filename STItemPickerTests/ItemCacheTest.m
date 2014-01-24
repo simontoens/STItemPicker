@@ -193,32 +193,32 @@
     int itemCount = 11;
     itemCache.size = 4;
     
-    NSArray *items = [NSArray arrayWithObjects:@"0", @"1", @"2", @"3", nil];
+    NSArray *items = @[@"0", @"1", @"2", @"3"];
     [self mockDataSourceForRange:NSMakeRange(0, 4) items:items itemCount:itemCount];
     [itemCache ensureAvailability:0];
     [dataSource verify];
     
     // now cache has 0, 1, 2, 3
 
-    items = [NSArray arrayWithObjects:@"4", @"5", nil];
+    items = @[@"4", @"5"];
     [self mockDataSourceForRange:NSMakeRange(4, 2) items:items itemCount:itemCount];
     [itemCache ensureAvailability:4];
     [dataSource verify];
     
     // now cache has 2, 3, 4, 5
 
-    NSArray *expectedCachedItems = [NSArray arrayWithObjects:@"2", @"3", @"4", @"5", nil];
+    NSArray *expectedCachedItems = @[@"2", @"3", @"4", @"5"];
     STAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
 
     
-    items = [NSArray arrayWithObjects:@"a", @"b", nil];
+    items = @[@"a", @"b"];
     [self mockDataSourceForRange:NSMakeRange(0, 2) items:items itemCount:itemCount];
     [itemCache ensureAvailability:1];
     [dataSource verify];
 
     // now cache has a, b, 2, 3
     
-    expectedCachedItems = [NSArray arrayWithObjects:@"a", @"b", @"2", @"3", nil];
+    expectedCachedItems = @[@"a", @"b", @"2", @"3"];
     STAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
 }
 
@@ -226,7 +226,7 @@
 {
     int itemCount = 11;
     itemCache.size = 4;    
-    NSArray *items = [NSArray arrayWithObjects:@"0", @"1", @"2", @"3", nil];
+    NSArray *items = @[@"0", @"1", @"2", @"3"];
     
     [self mockDataSourceForRange:NSMakeRange(0, 4) items:items itemCount:itemCount];
     [itemCache ensureAvailability:0];

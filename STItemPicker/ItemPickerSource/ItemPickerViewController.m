@@ -238,7 +238,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
     }
     else
     {
-        [self.itemPickerDelegate onItemPickerPickedItems:[NSArray arrayWithObject:[self.currentSelectionStack allObjects]]];
+        [self.itemPickerDelegate onItemPickerPickedItems:@[[self.currentSelectionStack allObjects]]];
     }
 }
 

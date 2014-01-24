@@ -81,31 +81,31 @@ static NSArray *kAllDictionaries;
     kRegionsToStates = [[MultiDictionary alloc] init];
     kStatesToCities = [[MultiDictionary alloc] init];
     
-    kAllDictionaries = [NSArray arrayWithObjects:kContinentsToCountries, kCountriesToRegions, kRegionsToStates, kStatesToCities, nil];
+    kAllDictionaries = @[kContinentsToCountries, kCountriesToRegions, kRegionsToStates, kStatesToCities];
     
     [self addContinent:@"America" 
                country:@"USA" 
                 region:@"Pacific Northwest" 
                  state:@"Oregon" 
-                  cities:[NSArray arrayWithObjects:@"Portland", @"Salem", @"Eugene", @"Bend", @"Ashland", nil]];
+                  cities:@[@"Portland", @"Salem", @"Eugene", @"Bend", @"Ashland"]];
     
     [self addContinent:@"America" 
                country:@"USA" 
                 region:@"Pacific Northwest" 
                  state:@"Washington" 
-                cities:[NSArray arrayWithObjects:@"Seattle", @"Kirkland", @"Bellevue", @"Olympia", nil]];
+                cities:@[@"Seattle", @"Kirkland", @"Bellevue", @"Olympia"]];
     
     [self addContinent:@"Europe" 
                country:@"Spain" 
                 region:@"Andalusia" 
                  state:@"Cadiz" 
-                cities:[NSArray arrayWithObjects:@"Barbate", @"Conil de la Frontera", @"Medina Sidonia", nil]];
+                cities:@[@"Barbate", @"Conil de la Frontera", @"Medina Sidonia"]];
     
     [self addContinent:@"Europe" 
                country:@"Spain" 
                 region:@"Catalonia" 
                  state:@"Tarragona" 
-                cities:[NSArray arrayWithObjects:@"Reus", @"Salou", @"Tortosa", @"Valls", nil]];
+                cities:@[@"Reus", @"Salou", @"Tortosa", @"Valls"]];
 }
 
 @end

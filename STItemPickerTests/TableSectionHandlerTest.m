@@ -22,48 +22,45 @@
 
 - (void)testBasicSections 
 {
-    [self runTestItems:[NSArray arrayWithObjects:@"a", @"b", @"c", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A", @"B", @"C", nil]
+    [self runTestItems:@[@"a", @"b", @"c"]
+      expectedSections:@[@"A", @"B", @"C"]
     expectedItemCounts:(int[]){1, 1, 1}];
     
-    [self runTestItems:[NSArray arrayWithObjects:@"aa", @"bb", @"cc", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A", @"B", @"C", nil]
+    [self runTestItems:@[@"aa", @"bb", @"cc"]
+      expectedSections:@[@"A", @"B", @"C"]
     expectedItemCounts:(int[]){1, 1, 1}];
     
-    [self runTestItems:[NSArray arrayWithObjects:@"aa", @"bb", @"cc", @"ccc", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A", @"B", @"C", nil]
+    [self runTestItems:@[@"aa", @"bb", @"cc", @"ccc"]
+      expectedSections:@[@"A", @"B", @"C"]
     expectedItemCounts:(int[]){1, 1, 2}];
     
-    [self runTestItems:[NSArray arrayWithObjects:@"aa", @"AABB", @"AACC", @"cc", @"ccc", @"CCCAABB", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A",@"C", nil]
+    [self runTestItems:@[@"aa", @"AABB", @"AACC", @"cc", @"ccc", @"CCCAA"]
+      expectedSections:@[@"A",@"C"]
     expectedItemCounts:(int[]){3, 3}];
 }
 
 - (void)testNonEnglishAlphabetSections
 {
-    [self runTestItems:[NSArray arrayWithObjects:
-        @"äa", @"ÄB", @"éa", @"üC", @"ßa", @"øa", @"Øa", @"åa", @"Å", @"Œa", @"Ücc", @"あんまり", 
-        @"œa", @"öc", @"ça", @"Ça", @"ÖB", nil]
-      expectedSections:[NSArray arrayWithObjects:
-        @"A", @"C", @"E", @"O", @"S", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader, nil]
+    [self runTestItems:@[@"äa", @"ÄB", @"éa", @"üC", @"ßa", @"øa", @"Øa", @"åa", @"Å", @"Œa", @"Ücc", @"あんまり", @"œa", @"öc", @"ça", @"Ça", @"ÖB"]
+      expectedSections:@[@"A", @"C", @"E", @"O", @"S", @"U", kTableSectionHandlerNonLatinLetterSymbolHeader]
     expectedItemCounts:(int[]){4, 2, 1, 6, 1, 2, 1}];
     
-    [self runTestItems:[NSArray arrayWithObjects:@"(äÄÜ)", nil]
-      expectedSections:[NSArray arrayWithObjects:@"A", nil]
+    [self runTestItems:@[@"(äÄÜ)"]
+      expectedSections:@[@"A"]
     expectedItemCounts:(int[]){1}];
 }
 
 - (void)testNumberSections 
 {
-    [self runTestItems:[NSArray arrayWithObjects:@"3", @"3003", nil]
-      expectedSections:[NSArray arrayWithObjects:kTableSectionHandlerNumberHeader, nil]
+    [self runTestItems:@[@"3", @"3003"]
+      expectedSections:@[kTableSectionHandlerNumberHeader]
     expectedItemCounts:(int[]){2}];
 }
 
 - (void)testSymbolSections 
 {
-    [self runTestItems:[NSArray arrayWithObjects:@"*a", @"(zzz)", @"!44", @"@444", @"%$#", nil]
-      expectedSections:[NSArray arrayWithObjects:kTableSectionHandlerSymbolHeader, kTableSectionHandlerNumberHeader, @"A", @"Z", nil]
+    [self runTestItems:@[@"*a", @"(zzz)", @"!44", @"@444", @"%$#"]
+      expectedSections:@[kTableSectionHandlerSymbolHeader, kTableSectionHandlerNumberHeader, @"A", @"Z"]
     expectedItemCounts:(int[]){1, 2, 1, 1}];
 }
 
@@ -101,35 +98,35 @@
     }
     
     [self runTestItems:items 
-      expectedSections:[NSArray arrayWithObject:kTableSectionHandlerNumberHeader] 
+      expectedSections:@[kTableSectionHandlerNumberHeader]
     expectedItemCounts:(int[]){10}];
 }
 
 - (void)testItemImagesSort 
 {
-    NSArray *items = [NSArray arrayWithObjects:@"3", @"2", @"1", nil];
-    NSArray *images = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", nil];
+    NSArray *items = @[@"3", @"2", @"1"];
+    NSArray *images = @[@"aa", @"bb", @"cc"];
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemImages = images;
 
-    NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
+    NSArray *expectedItems = @[@"1", @"2", @"3"];
     STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
     
-    NSArray *expectedImages = [NSArray arrayWithObjects:@"cc", @"bb", @"aa", nil];
+    NSArray *expectedImages = @[@"cc", @"bb", @"aa"];
     STAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
 }
 
 - (void)testItemDescriptionsSort 
 {
-    NSArray *items = [NSArray arrayWithObjects:@"3", @"2", @"1", @"3", nil];
-    NSArray *descriptions = [NSArray arrayWithObjects:@"aa", @"bb", @"cc", @"dd", nil];
+    NSArray *items = @[@"3", @"2", @"1", @"3"];
+    NSArray *descriptions = @[@"aa", @"bb", @"cc", @"dd"];
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.itemDescriptions = descriptions;
     
-    NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", @"3", nil];
+    NSArray *expectedItems = @[@"1", @"2", @"3", @"3"];
     STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
     
-    NSArray *expectedDescriptions = [NSArray arrayWithObjects:@"cc", @"bb", @"aa", @"dd", nil];
+    NSArray *expectedDescriptions = @[@"cc", @"bb", @"aa", @"dd"];
     STAssertEqualObjects(handler.itemDescriptions, expectedDescriptions, @"Bad sort order");
 }
 
@@ -138,15 +135,15 @@
     ItemAttributes *a1 = [[ItemAttributes alloc] init];
     ItemAttributes *a2 = [[ItemAttributes alloc] init];
     ItemAttributes *a3 = [[ItemAttributes alloc] init];
-    NSArray *items = [NSArray arrayWithObjects:@"3", @"1", @"2", nil];
-    NSArray *ItemAttributes = [NSArray arrayWithObjects:a1, a2, a3, nil];
+    NSArray *items = @[@"3", @"1", @"2"];
+    NSArray *ItemAttributes = @[a1, a2, a3];
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
     handler.ItemAttributes = ItemAttributes;
     
-    NSArray *expectedItems = [NSArray arrayWithObjects:@"1", @"2", @"3", nil];
+    NSArray *expectedItems = @[@"1", @"2", @"3"];
     STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
     
-    NSArray *expectedAttributes = [NSArray arrayWithObjects:a2, a3, a1, nil];
+    NSArray *expectedAttributes = @[a2, a3, a1];
     STAssertEqualObjects(handler.itemAttributes, expectedAttributes, @"Bad sort order");
 }
 

@@ -199,7 +199,7 @@ static UIImage *kDefaultArtwork;
     if ([self artistList])
     {
         nextQuery = [MPMediaQuery albumsQuery];
-        [self addFilterPredicates:[NSArray arrayWithObjects:MPMediaItemPropertyAlbumArtist, MPMediaItemPropertyArtist, nil] 
+        [self addFilterPredicates:@[MPMediaItemPropertyAlbumArtist, MPMediaItemPropertyArtist] 
                           toQuery:nextQuery basedOnSelection:selection];
         nextItemProperty = MPMediaItemPropertyAlbumTitle;
     }
@@ -208,7 +208,7 @@ static UIImage *kDefaultArtwork;
         nextQuery = [MPMediaQuery songsQuery];
         if (!selection.metaCell)
         {
-            [self addFilterPredicates:[NSArray arrayWithObject:MPMediaItemPropertyAlbumTitle] 
+            [self addFilterPredicates:@[MPMediaItemPropertyAlbumTitle] 
                               toQuery:nextQuery basedOnSelection:selection];
         }
         nextItemProperty = MPMediaItemPropertyTitle;

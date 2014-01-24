@@ -19,7 +19,7 @@
 
 - (NSArray *)getItemsInRange:(NSRange)range
 {
-    return [NSArray arrayWithObject:self.dataSource.noItemsItemText];
+    return @[self.dataSource.noItemsItemText];
 }
 
 - (NSArray *)getItemDescriptionsInRange:(NSRange)range
@@ -36,7 +36,7 @@
 {
     ItemAttributes *attributes = [[ItemAttributes alloc] init];
     attributes.userInteractionEnabled = NO;
-    return [NSArray arrayWithObject:attributes];
+    return @[attributes];
 }
 
 - (NSString *)noItemsItemText

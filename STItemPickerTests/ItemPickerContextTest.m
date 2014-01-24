@@ -33,7 +33,7 @@
                                                                autoSelected:NO
                                                                metaCell:NO];
                                
-    NSArray *array = [NSArray arrayWithObjects:ctx1, ctx2, ctx3, nil];
+    NSArray *array = @[ctx1, ctx2, ctx3];
     STAssertTrue([array containsObject:ctx1], @"Where's the ctx?");
     STAssertTrue([array containsObject:ctx2], @"Where's the ctx?");
     STAssertTrue([array containsObject:ctx3], @"Where's the ctx?");

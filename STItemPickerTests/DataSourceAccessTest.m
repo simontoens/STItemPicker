@@ -25,7 +25,7 @@
 - (void)setUp
 {
     [super setUp];
-    items = [NSArray arrayWithObjects:@"2", @"1", nil];
+    items = @[@"2", @"1"];
     dataSource = [OCMockObject mockForProtocol:@protocol(ItemPickerDataSource)];
     dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:dataSource autoSelected:NO];
     dataSourceAccess.itemCacheSize = 1;
@@ -111,7 +111,7 @@
 
 - (void)testNSNullForDescriptions
 {
-    itemDescriptions = [NSArray arrayWithObjects:[NSNull null], @"desc", nil];
+    itemDescriptions = @[[NSNull null], @"desc"];
     [self mockDataSourceForRange:NSMakeRange(0, 2) sectionsEnabled:YES];    
     
     [self assertPropertyValue:@selector(getItemDescription:) atIndex:0 expectedValue:@"desc"];        
@@ -120,14 +120,14 @@
 
 - (void)testNSNullForImages
 {
-    itemImages = [NSArray arrayWithObject:[NSNull null]];
+    itemImages = @[[NSNull null]];
     [self mockDataSourceForRange:NSMakeRange(0, 1) sectionsEnabled:NO];    
     [self assertPropertyValue:@selector(getItemImage:) atIndex:0 expectedValue:[NSNull null]];        
 }
 
 - (void)testNSNullForAttributes
 {
-    itemAttributes = [NSArray arrayWithObject:[NSNull null]];
+    itemAttributes = @[[NSNull null]];
     [self mockDataSourceForRange:NSMakeRange(0, 1) sectionsEnabled:NO];    
     [self assertPropertyValue:@selector(getItemAttributes:) atIndex:0 expectedValue:[NSNull null]];            
 }

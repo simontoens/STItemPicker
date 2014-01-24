@@ -287,63 +287,63 @@ static NSArray *kAllTitles;
     kAlbumToArtwork = [[NSMutableDictionary alloc] init];
     kDefaultArtwork = [UIImage imageNamed:@"DefaultNoArtwork.png"];
     
-    kAllDictionaries = [NSArray arrayWithObjects:kArtistToAlbums, kAlbumToSongs, nil];
-    kAllTitles = [NSArray arrayWithObjects:kArtists, kAlbums, kSongs, nil];
+    kAllDictionaries = @[kArtistToAlbums, kAlbumToSongs];
+    kAllTitles = @[kArtists, kAlbums, kSongs];
     
     [SampleMediaDataSource addArtist:@"Band Without Songs" album:@"Album Without Songs" 
                                songs:[NSArray array]];
     
     [SampleMediaDataSource addArtist:@"M83" album:@"Hurry Up, We're Dreaming" 
-                               songs:[NSArray arrayWithObject:@"Midnight City"]];
+                               songs:@[@"Midnight City"]];
     
     [SampleMediaDataSource addArtist:@"Gene" album:@"Drawn To The Deep End" 
-                               songs:[NSArray arrayWithObject:@"Fighting Fit"]];
+                               songs:@[@"Fighting Fit"]];
     
     [SampleMediaDataSource addArtist:@"Doves" album:@"The Last Broadcast" imageName:@"TheLastBroadcast.jpg"
-                               songs:[NSArray arrayWithObject:@"Words"]];
+                               songs:@[@"Words"]];
     
     [SampleMediaDataSource addArtist:@"Kent" album:@"Isola" 
-                               songs:[NSArray arrayWithObjects:@"747", @"Things She Said", nil]];
+                               songs:@[@"747", @"Things She Said"]];
     
     [SampleMediaDataSource addArtist:@"Happy Mondays" album:@"Pills 'N' Thrills And Belly Aches" 
-                               songs:[NSArray arrayWithObject:@"Kinky Afro"]];
+                               songs:@[@"Kinky Afro"]];
     
     [SampleMediaDataSource addArtist:@"Air" album:@"Moon Safari" imageName:@"MoonSafari.jpg"
-                               songs:[NSArray arrayWithObjects:@"La Femme d'Argent", @"Sexy Boy", @"All I Need", @"Kelly Watch The Stars", @"Talisman", @"Remember", @"You Make It Easy", @"Ce Matin-La", @"New Star In The Sky", @"Le Voyage De Penelope", nil]];
+                               songs:@[@"La Femme d'Argent", @"Sexy Boy", @"All I Need", @"Kelly Watch The Stars", @"Talisman", @"Remember", @"You Make It Easy", @"Ce Matin-La", @"New Star In The Sky", @"Le Voyage De Penel"]];
     
     [SampleMediaDataSource addArtist:@"Air" album:@"Talkie Walkie" imageName:@"TalkieWalkie.jpg"
-                               songs:[NSArray arrayWithObjects:@"Venus", @"Cherry Blossom Girl", @"Run", @"Universal Traveler", @"Mike Millis", @"Surfing On A Rocket", @"Another Day", @"Alpha Beta Gaga", @"Biological", @"Alone In Kyoto", nil]];
+                               songs:@[@"Venus", @"Cherry Blossom Girl", @"Run", @"Universal Traveler", @"Mike Millis", @"Surfing On A Rocket", @"Another Day", @"Alpha Beta Gaga", @"Biological", @"Alone In Kyoto"]];
     
     [SampleMediaDataSource addArtist:@"Badly Drawn Boy" album:@"The Hour of Bewilderbeast" 
-                               songs:[NSArray arrayWithObjects:@"The Shining", @"Disillusion", nil]];
+                               songs:@[@"The Shining", @"Disillusion"]];
     
     [SampleMediaDataSource addArtist:@"Chemical Borthers" album:@"Push The Button" 
-                               songs:[NSArray arrayWithObjects:@"Come Inside", @"The Big Jump", nil]];
+                               songs:@[@"Come Inside", @"The Big Jump"]];
     
     [SampleMediaDataSource addArtist:@"Queen" album:@"Innuendo" imageName:@"Innuendo.jpg"
-                               songs:[NSArray arrayWithObjects:@"I'm Going Slightly Mad", @"The Show Must Go On", nil]];
+                               songs:@[@"I'm Going Slightly Mad", @"The Show Must Go On"]];
     
     [SampleMediaDataSource addArtist:@"Blur" album:@"Parklife" imageName:@"Parklife.jpg"
-                               songs:[NSArray arrayWithObjects:@"Girls and Boys", @"Tracy Jacks", @"This is a Low", nil]];
+                               songs:@[@"Girls and Boys", @"Tracy Jacks", @"This is a Low"]];
     
     [SampleMediaDataSource addArtist:@"Blur" album:@"Modern Life Is Rubbish" imageName:@"ModernLife.jpg"
-                               songs:[NSArray arrayWithObjects:@"For Tomorrow", @"Chemical World", @"Blue Jeans", nil]];
+                               songs:@[@"For Tomorrow", @"Chemical World", @"Blue Jeans"]];
     
     [SampleMediaDataSource addArtist:@"Wilco" album:@"A Ghost is Born" 
-                               songs:[NSArray arrayWithObjects:@"Handshake Drugs", @"The Late Greats", nil]];
+                               songs:@[@"Handshake Drugs", @"The Late Great"]];
     
     [SampleMediaDataSource addArtist:@"Wilco" album:@"Summer Teeth" 
-                               songs:[NSArray arrayWithObjects:@"A Shot in the Arm", @"Candy Floss", nil]];
+                               songs:@[@"A Shot in the Arm", @"Candy Floss"]];
     
     [SampleMediaDataSource addArtist:@"Oscar's Band" album:@"That's Stupid" 
-                               songs:[NSArray arrayWithObject:@"### stupid!"]];
+                               songs:@[@"### stupid!"]];
     
     [SampleMediaDataSource addArtist:@"Daft Punk" album:@"Homework" 
-                               songs:[NSArray arrayWithObjects:@"Revolution 909", @"Around The World", nil]];
+                               songs:@[@"Revolution 909", @"Around The World"]];
     
     [SampleMediaDataSource addArtist:@"Lets Start A Band With A Really Long Name" 
                                album:@"Lets Make An Abum With A Really Long Name" 
-                               songs:[NSArray arrayWithObject:@"Lets Write A Song With A Really Long Name"]];
+                               songs:@[@"Lets Write A Song With A Really Long Name"]];
 
     static int numSongs = 1000;
     NSMutableArray *manySongs = [[NSMutableArray alloc] initWithCapacity:numSongs];

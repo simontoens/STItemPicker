@@ -338,7 +338,7 @@ static NSRange kUnsetRange;
 - (void)buildDefaultSection
 {
     ItemPickerSection *defaultSection = [[ItemPickerSection alloc] initWithTitle:@"" range:NSMakeRange(0, self.dataSourceInternalItemCount)];
-    self.sections = [NSArray arrayWithObject:defaultSection];
+    self.sections = @[defaultSection];
 }
 
 - (void)buildSectionTitles

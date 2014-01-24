@@ -21,7 +21,7 @@
 
 - (IBAction)onSampleCityDataSource:(id)sender
 {
-    ItemPicker *itemPicker = [self getItemPickerWithDataSources:[NSArray arrayWithObject:[[SampleCityDataSource alloc] init]]];
+    ItemPicker *itemPicker = [self getItemPickerWithDataSources:@[[[SampleCityDataSource alloc] init]]];
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
 }
 
@@ -30,11 +30,9 @@
     if (!self.sampleMediaItemPicker)
     {
         self.sampleMediaItemPicker = [self getItemPickerWithDataSources:
-                                         [NSArray arrayWithObjects:
-                                             [SampleMediaDataSource artistsDataSource], 
-                                             [SampleMediaDataSource albumsDataSource],
-                                             [SampleMediaDataSource songsDataSource], 
-                                             nil]];
+                                         @[[SampleMediaDataSource artistsDataSource],
+                                           [SampleMediaDataSource albumsDataSource],
+                                           [SampleMediaDataSource songsDataSource]]];
         self.sampleMediaItemPicker.maxSelectableItems = 3;
     }
 
@@ -44,12 +42,10 @@
 - (IBAction)onMPMediaDataSource:(id)sender
 {
     ItemPicker *itemPicker = [self getItemPickerWithDataSources:
-                                 [NSArray arrayWithObjects:
-                                     [[MPMediaDataSource alloc] initArtistDataSource],
-                                     [[MPMediaDataSource alloc] initAlbumDataSource],
-                                     [[MPMediaDataSource alloc] initSongDataSource],
-                                     [[MPMediaDataSource alloc] initPlaylistDataSource],
-                                     nil]];
+                                 @[[[MPMediaDataSource alloc] initArtistDataSource],
+                                    [[MPMediaDataSource alloc] initAlbumDataSource],
+                                    [[MPMediaDataSource alloc] initSongDataSource],
+                                    [[MPMediaDataSource alloc] initPlaylistDataSource]]];
     itemPicker.showDoneButton = YES;
     itemPicker.itemLoadRangeLength = 100;
     [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
