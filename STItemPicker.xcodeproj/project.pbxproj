@@ -32,6 +32,8 @@
 		BE669C4317257E58007F153A /* ItemPickerDataSourceDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */; };
 		BE7ADDE9175BBD9100E565DF /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7ADDE8175BBD9100E565DF /* libOCMock.a */; };
 		BE7ADDED175BBDC200E565DF /* DataSourceAccessTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */; };
+		BE80BF8718926B8F00F68206 /* MPMediaDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE80BF8618926B8F00F68206 /* MPMediaDataSourceTest.m */; };
+		BE80BF891892704000F68206 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */; };
 		BEA82F651793B38A00098F41 /* ItemCacheTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA82F641793B38A00098F41 /* ItemCacheTest.m */; };
 		BEB322EC176B634F00360B76 /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB322EB176B634F00360B76 /* ItemPickerContext.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
@@ -112,6 +114,7 @@
 		BE669C4217257E58007F153A /* ItemPickerDataSourceDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerDataSourceDefaults.m; path = ItemPickerSource/ItemPickerDataSourceDefaults.m; sourceTree = "<group>"; };
 		BE7ADDE8175BBD9100E565DF /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = Submodules/OCMock/lib/libOCMock.a; sourceTree = "<group>"; };
 		BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSourceAccessTest.m; sourceTree = "<group>"; };
+		BE80BF8618926B8F00F68206 /* MPMediaDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMediaDataSourceTest.m; sourceTree = "<group>"; };
 		BEA82F641793B38A00098F41 /* ItemCacheTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCacheTest.m; sourceTree = "<group>"; };
 		BEB322EA176B634F00360B76 /* ItemPickerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerContext.h; path = ItemPickerSource/ItemPickerContext.h; sourceTree = "<group>"; };
 		BEB322EB176B634F00360B76 /* ItemPickerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerContext.m; path = ItemPickerSource/ItemPickerContext.m; sourceTree = "<group>"; };
@@ -185,6 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE80BF891892704000F68206 /* MediaPlayer.framework in Frameworks */,
 				BE7ADDE9175BBD9100E565DF /* libOCMock.a in Frameworks */,
 				BEEB9CC716FFE3B60021E035 /* SenTestingKit.framework in Frameworks */,
 				BEEB9CC816FFE3B60021E035 /* UIKit.framework in Frameworks */,
@@ -322,6 +326,7 @@
 				BEA82F641793B38A00098F41 /* ItemCacheTest.m */,
 				BEEE9087173F4D09002E869D /* ItemPickerContextTest.m */,
 				BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */,
+				BE80BF8618926B8F00F68206 /* MPMediaDataSourceTest.m */,
 				BEEB9CE116FFE4DC0021E035 /* TableSectionHandlerTest.m */,
 				BEEB9CCD16FFE3B60021E035 /* Supporting Files */,
 			);
@@ -549,6 +554,7 @@
 			files = (
 				BE40E319173F4F3A0040038C /* SampleCityDataSource.m in Sources */,
 				BEEB9CE316FFE50A0021E035 /* TableSectionHandlerTest.m in Sources */,
+				BE80BF8718926B8F00F68206 /* MPMediaDataSourceTest.m in Sources */,
 				BE0A762F1733770A00D40692 /* ItemPickerSection.m in Sources */,
 				BEEE9088173F4D09002E869D /* ItemPickerContextTest.m in Sources */,
 				BE7ADDED175BBDC200E565DF /* DataSourceAccessTest.m in Sources */,

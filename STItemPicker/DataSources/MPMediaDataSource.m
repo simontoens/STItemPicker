@@ -113,7 +113,7 @@ static UIImage *kDefaultArtwork;
     
     for (int i = range.location; i < range.location + range.length; i++)
     {
-        MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:i];
+        MPMediaItemCollection *collection = [self.query.collections objectAtIndex:i];
         if (collectionQuery)
         {
             NSString *itemValue = [collection valueForProperty:_itemProperty];
