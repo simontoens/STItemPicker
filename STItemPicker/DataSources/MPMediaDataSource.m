@@ -125,19 +125,16 @@ static UIImage *kDefaultArtwork;
             NSString *itemValue = [item valueForProperty:_itemProperty];
             [_items addObject:itemValue];
             
-            NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
-            NSString *album = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
-            
             if ([self albumList]) 
             {
                 [_itemImages addObject:[self getMediaItemAlbumImage:item]];
-                
-                [_itemDescriptions addObject:artist];
+                [_itemDescriptions addObject:[self valueForPropertyEmptyStringIfNil:item property:MPMediaItemPropertyArtist]];
             }
             else if ([self songList] && ([self.query.filterPredicates count] == 1 || self.showAllSongs))
             {
-                artist = artist ? artist : @"";
-                album = album ? album : @"";
+                NSString *artist = [self valueForPropertyEmptyStringIfNil:item property:MPMediaItemPropertyArtist];
+                NSString *album = [self valueForPropertyEmptyStringIfNil:item property:MPMediaItemPropertyAlbumTitle];
+
                 if ([artist length] == 0 || [album length] == 0)
                 {
                     [_itemDescriptions addObject:[artist length] > 0 ? artist : [album length] > 0 ? album : @""];
@@ -299,6 +296,12 @@ static UIImage *kDefaultArtwork;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
+}
+
+- (NSString *)valueForPropertyEmptyStringIfNil:(MPMediaItem *)item property:(NSString *)property
+{
+    NSString *value = [item valueForProperty:property];
+    return value ? value : @"";
 }
 
 @end

@@ -10,29 +10,128 @@
 
 @interface MPMediaDataSource()
 - (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty;
+@property(nonatomic, assign) BOOL showAllSongs;
 @end
 
 @implementation MPMediaDataSourceTest
 
-- (void)testNilItem
+- (void)testArtistList
 {
-    NSString * const property = MPMediaItemPropertyArtist;
-    
-    MPMediaItem *mediaItem = [OCMockObject mockForClass:[MPMediaItem class]];
-    [[[((id)mediaItem) stub] andReturn:nil] valueForProperty:property];
-    
-    MPMediaItemCollection *mediaCollection = [OCMockObject mockForClass:[MPMediaItemCollection class]];
-    [[[((id)mediaCollection) stub] andReturn:mediaItem] representativeItem];
-    NSArray *mediaCollections = @[mediaCollection];
-    
-    MPMediaQuery *query = [OCMockObject mockForClass:[MPMediaQuery class]];
-    [[[((id)query) stub] andReturn:mediaCollections] collections];
-    [[[((id)query) stub] andReturnValue:[NSNumber numberWithInt:MPMediaGroupingAlbum]] groupingType];
-    
-    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:property];
+    NSArray *artists = @[@"Oasis", @"Blur", @"Dodgy"];
+    MPMediaQuery *query = [self mockQuery:@{MPMediaItemPropertyArtist : artists} groupingType:MPMediaGroupingArtist];
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyArtist];
+    [self assertDataSource:dataSource expectedItems:artists expectedDescriptions:nil];
+}
 
-    [dataSource description];
-    //[dataSource initForRange:NSMakeRange(0, 1)];
+- (void)testAlbumsList
+{
+    NSArray *albums = @[@"Definitely Maybe", @"Parklife", @"Homegrown"];
+    NSArray *artists = @[@"Oasis", @"Blur", @"Dodgy"];
+    MPMediaQuery *query = [self mockQuery:@{MPMediaItemPropertyAlbumTitle : albums,
+                                            MPMediaItemPropertyArtwork : [NSNull null],
+                                            MPMediaItemPropertyArtist : artists}
+                             groupingType:MPMediaGroupingAlbum];
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyAlbumTitle];
+    [self assertDataSource:dataSource expectedItems:albums expectedDescriptions:artists];
+}
+
+- (void)testSongsList
+{
+    NSArray *songs = @[@"Telegraph Road", @"Flick of the Finger", @"Recoil"];
+    NSArray *albums = @[@"Love Over Gold", @"Be", @"Lost Sirens"];
+    NSArray *artists = @[@"Dire Straits", @"Beady Eye", @"No Order"];
+    MPMediaQuery *query = [self mockQuery:@{MPMediaItemPropertyTitle : songs,
+                                            MPMediaItemPropertyAlbumTitle : albums,
+                                            MPMediaItemPropertyArtwork : [NSNull null],
+                                            MPMediaItemPropertyArtist : artists}
+                             groupingType:MPMediaGroupingTitle];
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyTitle];
+    dataSource.showAllSongs = YES;
+    NSArray *expectedDescriptions = @[@"Dire Straits - Love Over Gold", @"Beady Eye - Be", @"No Order - Lost Sirens"];
+    [self assertDataSource:dataSource expectedItems:songs expectedDescriptions:expectedDescriptions];
+}
+
+- (void)testSongsListWithMissingArtistsAndAlbums
+{
+    NSArray *songs = @[@"Telegraph Road", @"Flick of the Finger", @"Recoil"];
+    NSArray *albums = @[@"Love Over Gold", [NSNull null], @"Lost Sirens"];
+    NSArray *artists = @[[NSNull null], [NSNull null], @"No Order"];
+    MPMediaQuery *query = [self mockQuery:@{MPMediaItemPropertyTitle : songs,
+                                            MPMediaItemPropertyAlbumTitle : albums,
+                                            MPMediaItemPropertyArtwork : [NSNull null],
+                                            MPMediaItemPropertyArtist : artists}
+                             groupingType:MPMediaGroupingTitle];
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyTitle];
+    dataSource.showAllSongs = YES;
+    NSArray *expectedDescriptions = @[@"Love Over Gold", @"", @"No Order - Lost Sirens"];
+    [self assertDataSource:dataSource expectedItems:songs expectedDescriptions:expectedDescriptions];
+}
+
+- (void)assertDataSource:(MPMediaDataSource *)dataSource expectedItems:(NSArray *)expectedItems expectedDescriptions:(NSArray *)expectedDescriptions
+{
+    for (int i = 0; i < [expectedItems count]; i++)
+    {
+        NSRange range = NSMakeRange(i, 1);
+        [dataSource initForRange:range];
+        
+        NSArray *items = [dataSource getItemsInRange:range];
+        STAssertEquals([items count], (NSUInteger)1, @"Bad number of items returned");
+        STAssertEqualObjects([items objectAtIndex:0], expectedItems[i], @"Bad item value");
+
+        NSArray *descriptions = [dataSource getItemDescriptionsInRange:range];
+        if (expectedDescriptions)
+        {
+            STAssertEquals([descriptions count], (NSUInteger)1, @"Bad number of descriptions returned");
+            STAssertEqualObjects([descriptions objectAtIndex:0], expectedDescriptions[i], @"Bad description value");
+        }
+        else
+        {
+            STAssertNil(descriptions, @"Expected descriptions to be nil but they were %@", descriptions);
+        }
+    }
+}
+
+- (MPMediaQuery *)mockQuery:(NSDictionary *)propertyNameToPropertyValues groupingType:(NSUInteger)groupingType
+{
+    int itemIndex = 0;
+    NSMutableArray *collections = [[NSMutableArray alloc] init];
+    BOOL done = NO;
+    while (!done)
+    {
+        MPMediaItem *mediaItem = [OCMockObject mockForClass:[MPMediaItem class]];
+        MPMediaItemCollection *collection = [self mockMediaItemCollectionWithRepresentativeItem:mediaItem];
+        [collections addObject:collection];
+        for (NSString *propertyName in [propertyNameToPropertyValues keyEnumerator])
+        {
+            NSArray *propertyValues = [propertyNameToPropertyValues objectForKey:propertyName];
+            if (![propertyValues isEqual:[NSNull null]] && itemIndex == [propertyValues count])
+            {
+                done = YES;
+                break;
+            }
+            NSString *propertyValue = [propertyValues isEqual:[NSNull null]] ? nil : [propertyValues objectAtIndex:itemIndex];
+            propertyValue = [propertyValue isEqual:[NSNull null]] ? nil : propertyValue;
+            [[[((id)mediaItem) stub] andReturn:propertyValue] valueForProperty:propertyName];
+        }
+        itemIndex += 1;
+    }
+    return [self mockMediaQueryWithCollections:collections groupingType:groupingType];
+}
+
+- (MPMediaQuery *)mockMediaQueryWithCollections:(NSArray *)collections groupingType:(MPMediaGrouping)grouping
+{
+    MPMediaQuery *query = [OCMockObject mockForClass:[MPMediaQuery class]];
+    [[[((id)query) stub] andReturn:collections] collections];
+    [[[((id)query) stub] andReturnValue:[NSNumber numberWithInt:grouping]] groupingType];
+    [[[((id)query) stub] andReturn:[NSArray array]] filterPredicates];
+    return query;
+}
+
+- (MPMediaItemCollection *)mockMediaItemCollectionWithRepresentativeItem:(MPMediaItem *)representativeItem
+{
+    MPMediaItemCollection *mediaCollection = [OCMockObject mockForClass:[MPMediaItemCollection class]];
+    [[[((id)mediaCollection) stub] andReturn:representativeItem] representativeItem];
+    return mediaCollection;
 }
 
 @end
