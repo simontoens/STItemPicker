@@ -55,13 +55,13 @@
     _size = size;
 }
 
-- (NSRange)calculateNewRangeForIndex:(int)index
+- (NSRange)calculateNewRangeForIndex:(NSUInteger)index
 {
     // index is the midpoint the cached arrays         
-    int newLocation = MAX(0, (int)(index - (_size / 2)));
-    int newLength = _size;
+    NSInteger newLocation = MAX(0, (NSUInteger)(index - (_size / 2)));
+    NSUInteger newLength = _size;
     
-    int totalItemCount = _dataSource.count;
+    NSUInteger totalItemCount = _dataSource.count;
         
     if (newLocation + newLength > totalItemCount)
     {
@@ -90,7 +90,7 @@
     // calculate NSRanges for the old data we want to keep and the new data we
     // want to load from the datasource.
     
-    int lastIndexExclusive = newRange.location + newRange.length;
+    NSUInteger lastIndexExclusive = newRange.location + newRange.length;
 
     *newDataRange = newRange;
     BOOL oldDataFirst = NO;
@@ -102,12 +102,12 @@
     }
     else  
     {
-        int currentLastIndexExclusive = _range.location + _range.length;
+        NSUInteger currentLastIndexExclusive = _range.location + _range.length;
         if (_range.location < newRange.location && currentLastIndexExclusive > newRange.location)
         {
             // old data overlaps to the left
             oldDataFirst = YES;
-            int oldDataLength = currentLastIndexExclusive - newRange.location;
+            NSUInteger oldDataLength = currentLastIndexExclusive - newRange.location;
             *oldDataRange = NSMakeRange(_range.length - oldDataLength, oldDataLength);
             *newDataRange = NSMakeRange(currentLastIndexExclusive, lastIndexExclusive - currentLastIndexExclusive);
         }

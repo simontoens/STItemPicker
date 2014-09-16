@@ -1,10 +1,10 @@
 // @author Simon Toens 01/24/14
 
 #import <OCMock/OCMock.h>
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "MPMediaDataSource.h"
 
-@interface MPMediaDataSourceTest : SenTestCase
+@interface MPMediaDataSourceTest : XCTestCase
 
 @end
 
@@ -75,18 +75,18 @@
         [dataSource initForRange:range];
         
         NSArray *items = [dataSource getItemsInRange:range];
-        STAssertEquals([items count], (NSUInteger)1, @"Bad number of items returned");
-        STAssertEqualObjects([items objectAtIndex:0], expectedItems[i], @"Bad item value");
+        XCTAssertEqual([items count], (NSUInteger)1, @"Bad number of items returned");
+        XCTAssertEqualObjects([items objectAtIndex:0], expectedItems[i], @"Bad item value");
 
         NSArray *descriptions = [dataSource getItemDescriptionsInRange:range];
         if (expectedDescriptions)
         {
-            STAssertEquals([descriptions count], (NSUInteger)1, @"Bad number of descriptions returned");
-            STAssertEqualObjects([descriptions objectAtIndex:0], expectedDescriptions[i], @"Bad description value");
+            XCTAssertEqual([descriptions count], (NSUInteger)1, @"Bad number of descriptions returned");
+            XCTAssertEqualObjects([descriptions objectAtIndex:0], expectedDescriptions[i], @"Bad description value");
         }
         else
         {
-            STAssertNil(descriptions, @"Expected descriptions to be nil but they were %@", descriptions);
+            XCTAssertNil(descriptions, @"Expected descriptions to be nil but they were %@", descriptions);
         }
     }
 }

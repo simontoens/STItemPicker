@@ -1,11 +1,11 @@
 // @author Simon Toens 07/14/13
 
 #import <OCMock/OCMock.h>
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ItemCache.h"
 #import "ItemPickerDataSource.h"
 
-@interface ItemCacheTest : SenTestCase
+@interface ItemCacheTest : XCTestCase
 {
     @private
     id dataSource;
@@ -27,7 +27,7 @@
 {
     for (int i = startIndex; i < startIndex + itemCache.size; i++)
     {
-        STAssertEquals([itemCache ensureAvailability:i], (NSUInteger)i - startIndex, @"Bad index returned");
+        XCTAssertEqual([itemCache ensureAvailability:i], (NSUInteger)i - startIndex, @"Bad index returned");
         [dataSource verify];      
     }
 }
@@ -38,19 +38,19 @@
     itemCache.size = 10;
     
     [self mockDataSourceForRange:NSMakeRange(0, itemCount) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
     [dataSource verify];
 
     // cached, nothing should be called on data source
-    STAssertEquals([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
     [dataSource verify];
     
     // cached, nothing should be called on data source
-    STAssertEquals([itemCache ensureAvailability:4], (NSUInteger)4, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:4], (NSUInteger)4, @"Bad index returned");
     [dataSource verify];
     
     // cached, nothing should be called on data source
-    STAssertEquals([itemCache ensureAvailability:2], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:2], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];
 }
 
@@ -60,25 +60,25 @@
     itemCache.size = 4;
     
     [self mockDataSourceForRange:NSMakeRange(0, 4) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:0];
 
     // cache has 0,1,2,3, keep 2,3 load 4,5
     [self mockDataSourceForRange:NSMakeRange(4, 2) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:4], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:4], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:2];    
     
     // cache has 2,3,4,5, keep 4,5 load 6,7
     [self mockDataSourceForRange:NSMakeRange(6, 2) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:6], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:6], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:4];
 
     // cache has 4,5,6,7 keep 6,7 load 8,9
     [self mockDataSourceForRange:NSMakeRange(8, 2) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:8], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:8], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:6];
     
@@ -86,56 +86,56 @@
     // only one item left at index 10 - cache only needs to load that single item 
     // cache should have the last <cache size> items
     [self mockDataSourceForRange:NSMakeRange(10, 1) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:10], (NSUInteger)3, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:10], (NSUInteger)3, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:7];
     
     // going backwards - datasource will get asked for items on the lower side
     // index 6 has not been loaded yet - index 7 remains in the cache - need to load 4,5,6
     [self mockDataSourceForRange:NSMakeRange(4, 3) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:6], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:6], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:4];
     
     // cache has 4,5,6,7, get index 3, load 1,2,3 keep 4
     [self mockDataSourceForRange:NSMakeRange(1, 3) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:3], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:3], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:1];
     
     // cache has 1,2,3,4 get index 0, load 0, keep 1,2,3
     [self mockDataSourceForRange:NSMakeRange(0, 1) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:0], (NSUInteger)0, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:0];
     
     // jump around - go to index 9 cache loads 7,8,9,10
     [self mockDataSourceForRange:NSMakeRange(7, 4) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:9], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:9], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:7];
     
     // jump around - go to index 1 cache loads 0,1,2,3
     [self mockDataSourceForRange:NSMakeRange(0, 4) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:1], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:1], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:0];
     
     // jump around - go to index 9 cache loads 7,8,9,10
     [self mockDataSourceForRange:NSMakeRange(7, 4) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:9], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:9], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:7];
     
     // jump around - go to index 2 cache loads 0,1,2,3
     [self mockDataSourceForRange:NSMakeRange(0, 4) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:2], (NSUInteger)2, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:2], (NSUInteger)2, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:0];
     
     // jump around - go to index 10 cache loads 7,8,9,10
     [self mockDataSourceForRange:NSMakeRange(7, 4) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:10], (NSUInteger)3, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:10], (NSUInteger)3, @"Bad index returned");
     [dataSource verify];    
     [self assertItemsAreCachedAtStartIndex:7];
 }
@@ -147,19 +147,19 @@
     
     // index 8: cache loads 7,8,9
     [self mockDataSourceForRange:NSMakeRange(7, 3) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:8], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:8], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:7];
     
     // index 6: cache loads 5,6
     [self mockDataSourceForRange:NSMakeRange(5, 2) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:6], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:6], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:5];
     
     // index 3: cache loads 2,3,4
     [self mockDataSourceForRange:NSMakeRange(2, 3) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:3], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:3], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:2];
 }
@@ -171,19 +171,19 @@
     
     // index 3: cache loads 2,3,4
     [self mockDataSourceForRange:NSMakeRange(2, 3) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:3], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:3], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:2];
     
     // index 5: cache loads 5,6
     [self mockDataSourceForRange:NSMakeRange(5, 2) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:5], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:5], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:4];
     
     // index 8: cache loads 7,8,9
     [self mockDataSourceForRange:NSMakeRange(7, 3) itemCount:itemCount];
-    STAssertEquals([itemCache ensureAvailability:8], (NSUInteger)1, @"Bad index returned");
+    XCTAssertEqual([itemCache ensureAvailability:8], (NSUInteger)1, @"Bad index returned");
     [dataSource verify];
     [self assertItemsAreCachedAtStartIndex:7];
 }
@@ -208,7 +208,7 @@
     // now cache has 2, 3, 4, 5
 
     NSArray *expectedCachedItems = @[@"2", @"3", @"4", @"5"];
-    STAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
+    XCTAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
 
     
     items = @[@"a", @"b"];
@@ -219,7 +219,7 @@
     // now cache has a, b, 2, 3
     
     expectedCachedItems = @[@"a", @"b", @"2", @"3"];
-    STAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
+    XCTAssertEqualObjects(itemCache.items, expectedCachedItems, @"Unexpected items");
 }
 
 - (void)testInvalidate

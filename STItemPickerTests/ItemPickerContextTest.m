@@ -1,10 +1,10 @@
 // @author Simon Toens 05/11/13
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ItemPickerSelection.h"
 #import "SampleCityDataSource.h"
 
-@interface ItemPickerContextTest : SenTestCase
+@interface ItemPickerContextTest : XCTestCase
 @end
 
 @implementation ItemPickerContextTest
@@ -25,7 +25,7 @@
                                                                autoSelected:NO
                                                                metaCell:NO];
     
-    STAssertEqualObjects(ctx1, ctx2, @"bad equality");
+    XCTAssertEqualObjects(ctx1, ctx2, @"bad equality");
     
     ItemPickerSelection *ctx3 = [[ItemPickerSelection alloc] initWithDataSource:ds 
                                                               selectedIndex:13 
@@ -34,12 +34,12 @@
                                                                metaCell:NO];
                                
     NSArray *array = @[ctx1, ctx2, ctx3];
-    STAssertTrue([array containsObject:ctx1], @"Where's the ctx?");
-    STAssertTrue([array containsObject:ctx2], @"Where's the ctx?");
-    STAssertTrue([array containsObject:ctx3], @"Where's the ctx?");
-    STAssertFalse([array containsObject:[[ItemPickerSelection alloc] initWithDataSource:ds selectedIndex:1 selectedItem:@"1" autoSelected:NO metaCell:NO]], @"No way");
+    XCTAssertTrue([array containsObject:ctx1], @"Where's the ctx?");
+    XCTAssertTrue([array containsObject:ctx2], @"Where's the ctx?");
+    XCTAssertTrue([array containsObject:ctx3], @"Where's the ctx?");
+    XCTAssertFalse([array containsObject:[[ItemPickerSelection alloc] initWithDataSource:ds selectedIndex:1 selectedItem:@"1" autoSelected:NO metaCell:NO]], @"No way");
     
-    STAssertEquals([ctx1 hash], [ctx2 hash], @"bad hash");
+    XCTAssertEqual([ctx1 hash], [ctx2 hash], @"bad hash");
 }
 
 - (void)testCopy
@@ -49,8 +49,8 @@
     ItemPickerSelection *ctx = [[ItemPickerSelection alloc] initWithDataSource:ds selectedIndex:4 selectedItem:@"a" 
                                                                   autoSelected:NO metaCell:NO];
     ItemPickerSelection *copy = [ctx copy];
-    STAssertFalse(ctx == copy, @"Copy, what did you do?");
-    STAssertEqualObjects(ctx, copy, @"Bad copy!");
+    XCTAssertFalse(ctx == copy, @"Copy, what did you do?");
+    XCTAssertEqualObjects(ctx, copy, @"Bad copy!");
 }
 
 @end

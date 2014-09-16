@@ -89,7 +89,7 @@ static UIImage *kDefaultArtwork;
 {
     if ([self songList] && [self.query.filterPredicates count] > 1 && !self.showAllSongs)
     {
-        int numSongs = self.count;
+        NSUInteger numSongs = self.count;
         ItemPickerHeader *header = [[ItemPickerHeader alloc] init];
         header.defaultNilLabels = NO;
         MPMediaItemCollection *collection  = [self.query.collections objectAtIndex:0];
@@ -97,7 +97,7 @@ static UIImage *kDefaultArtwork;
         header.image = [self getMediaItemAlbumImage:item];
         header.boldLabel = [item valueForProperty:MPMediaItemPropertyArtist];
         header.label = [item valueForProperty:MPMediaItemPropertyAlbumTitle];
-        header.smallerLabel = [NSString stringWithFormat:@"%i %@%@", numSongs, @"Song", numSongs > 1 ? @"s" : @""];
+        header.smallerLabel = [NSString stringWithFormat:@"%lu %@%@", (unsigned long)numSongs, @"Song", numSongs > 1 ? @"s" : @""];
         return header;
     }
     return nil;
@@ -111,7 +111,7 @@ static UIImage *kDefaultArtwork;
     
     BOOL collectionQuery = [self playlistList];
     
-    for (int i = range.location; i < range.location + range.length; i++)
+    for (NSUInteger i = range.location; i < range.location + range.length; i++)
     {
         MPMediaItemCollection *collection = [self.query.collections objectAtIndex:i];
         if (collectionQuery)

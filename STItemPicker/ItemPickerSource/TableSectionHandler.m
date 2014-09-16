@@ -231,7 +231,7 @@ static NSDictionary *kCharacterSetToCharacter;
     self.itemAttributes = sortedItemAttributes;
 }
 
-- (void)addSection:(NSString *)title location:(int)location length:(int)length sections:(NSMutableArray *)sections
+- (void)addSection:(NSString *)title location:(NSUInteger)location length:(NSInteger)length sections:(NSMutableArray *)sections
 {
     ItemPickerSection *section = [[ItemPickerSection alloc] initWithTitle:title range:NSMakeRange(location, length)];
     [sections addObject:section];
@@ -240,7 +240,7 @@ static NSDictionary *kCharacterSetToCharacter;
 - (void)buildSections
 {        
     NSMutableArray *sections = [[NSMutableArray alloc] init];
-    int itemsInSectionCount = 0;
+    NSUInteger itemsInSectionCount = 0;
     NSString *previousSectionName = nil;
     
     for (int i = 0; i < [_items count]; i++)

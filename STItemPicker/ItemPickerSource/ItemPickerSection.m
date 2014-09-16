@@ -17,7 +17,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"title: %@, range:{%i, %i}", _title, _range.location, _range.length];
+    return [NSString stringWithFormat:@"title: %@, range:{%lu, %lu}", _title, (unsigned long)_range.location, (unsigned long)_range.length];
 }
 
 @end

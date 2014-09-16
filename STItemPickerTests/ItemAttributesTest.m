@@ -1,9 +1,9 @@
 // @author Simon Toens 05/27/13
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "ItemAttributes.h"
 
-@interface ItemAttributesTest : SenTestCase
+@interface ItemAttributesTest : XCTestCase
 @end
 
 @implementation ItemAttributesTest
@@ -17,33 +17,33 @@
 {
     ItemAttributes *attributes = [ItemAttributes getDefaultItemAttributes];
     
-    STAssertEquals(attributes.userInteractionEnabled, YES, @"Bad value");
+    XCTAssertEqual(attributes.userInteractionEnabled, YES, @"Bad value");
     
     @try 
     {
         attributes.textColor = nil;
-        STAssertTrue(NO, @"Not ok");
+        XCTAssertTrue(NO, @"Not ok");
     }
     @catch (NSException *exception) {
-        STAssertTrue(YES, @"Ok");
+        XCTAssertTrue(YES, @"Ok");
     }
     
     @try 
     {
         attributes.descriptionTextColor = nil;
-        STAssertTrue(NO, @"Not ok");
+        XCTAssertTrue(NO, @"Not ok");
     }
     @catch (NSException *exception) {
-        STAssertTrue(YES, @"Ok");
+        XCTAssertTrue(YES, @"Ok");
     }
     
     @try 
     {
         attributes.userInteractionEnabled = NO;
-        STAssertTrue(NO, @"Not ok");
+        XCTAssertTrue(NO, @"Not ok");
     }
     @catch (NSException *exception) {
-        STAssertTrue(YES, @"Ok");
+        XCTAssertTrue(YES, @"Ok");
     }
 }
 

@@ -1,6 +1,6 @@
 // @author Simon Toens 03/23/13
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 #import "ItemAttributes.h"
 #import "TableSectionHandler.h"
@@ -15,7 +15,7 @@
 @synthesize title, range;
 @end
 
-@interface TableSectionHandlerTest : SenTestCase
+@interface TableSectionHandlerTest : XCTestCase
 @end
 
 @implementation TableSectionHandlerTest
@@ -67,7 +67,7 @@
 - (void)testAllLetters 
 {
     NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz";
-    STAssertEquals([alphabet length], (NSUInteger)26, @"bad number of letters");
+    XCTAssertEqual([alphabet length], (NSUInteger)26, @"bad number of letters");
     NSMutableArray *lowerCaseItems = [NSMutableArray arrayWithCapacity:[alphabet length]];
     NSMutableArray *upperCaseItems = [NSMutableArray arrayWithCapacity:[alphabet length]];
     int counts[[alphabet length]];
@@ -110,10 +110,10 @@
     handler.itemImages = images;
 
     NSArray *expectedItems = @[@"1", @"2", @"3"];
-    STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
+    XCTAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
     
     NSArray *expectedImages = @[@"cc", @"bb", @"aa"];
-    STAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
+    XCTAssertEqualObjects(handler.itemImages, expectedImages, @"Bad sort order");
 }
 
 - (void)testItemDescriptionsSort 
@@ -124,10 +124,10 @@
     handler.itemDescriptions = descriptions;
     
     NSArray *expectedItems = @[@"1", @"2", @"3", @"3"];
-    STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
+    XCTAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
     
     NSArray *expectedDescriptions = @[@"cc", @"bb", @"aa", @"dd"];
-    STAssertEqualObjects(handler.itemDescriptions, expectedDescriptions, @"Bad sort order");
+    XCTAssertEqualObjects(handler.itemDescriptions, expectedDescriptions, @"Bad sort order");
 }
 
 - (void)testItemAttributesSort
@@ -141,10 +141,10 @@
     handler.ItemAttributes = ItemAttributes;
     
     NSArray *expectedItems = @[@"1", @"2", @"3"];
-    STAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
+    XCTAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");
     
     NSArray *expectedAttributes = @[a2, a3, a1];
-    STAssertEqualObjects(handler.itemAttributes, expectedAttributes, @"Bad sort order");
+    XCTAssertEqualObjects(handler.itemAttributes, expectedAttributes, @"Bad sort order");
 }
 
 - (void)runTestItems:(NSArray *)items
@@ -159,16 +159,16 @@
   expectedItemCounts:(int[])expectedItemCounts 
  tableSectionHandler:(TableSectionHandler *)handler
 {
-    STAssertEquals([handler.sections count], [expectedSections count], @"Unexpected number of sections");
+    XCTAssertEqual([handler.sections count], [expectedSections count], @"Unexpected number of sections");
 
     int expectedLocation = 0;
     for (int numSection = 0; numSection < [handler.sections count]; numSection++) {
         id section = [handler.sections objectAtIndex:numSection];
         NSString *title = [section title];
         NSRange range = [section range];
-        STAssertEqualObjects(title, [expectedSections objectAtIndex:numSection], @"Unexpected section title for section: %@", section);        
-        STAssertEquals(range.location, (NSUInteger)expectedLocation, @"Unexpected section location for section: %@", section);
-        STAssertEquals(range.length, (NSUInteger)expectedItemCounts[numSection], @"Unexpected item count for section: %@", section);
+        XCTAssertEqualObjects(title, [expectedSections objectAtIndex:numSection], @"Unexpected section title for section: %@", section);        
+        XCTAssertEqual(range.location, (NSUInteger)expectedLocation, @"Unexpected section location for section: %@", section);
+        XCTAssertEqual(range.length, (NSUInteger)expectedItemCounts[numSection], @"Unexpected item count for section: %@", section);
         expectedLocation += range.length;
     }
 }

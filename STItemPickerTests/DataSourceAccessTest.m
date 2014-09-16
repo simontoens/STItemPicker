@@ -1,11 +1,11 @@
 // @author Simon Toens 06/02/13
 
 #import <OCMock/OCMock.h>
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "DataSourceAccess.h"
 #import "ItemPickerDataSource.h"
 
-@interface DataSourceAccessTest : SenTestCase
+@interface DataSourceAccessTest : XCTestCase
 {
     @private
     NSArray *items;
@@ -41,15 +41,15 @@
     [self mockDataSourceForRange:range sectionsEnabled:NO];
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"2"];
-    STAssertTrue(initForRangeCalled, @"Expected initForRange to be called");
-    STAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
+    XCTAssertTrue(initForRangeCalled, @"Expected initForRange to be called");
+    XCTAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
     
     initForRangeCalled = NO;
     otherRangeMethodsCalled = NO;
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"2"];
-    STAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
-    STAssertFalse(otherRangeMethodsCalled, @"Did not expect other range methods to be called");
+    XCTAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
+    XCTAssertFalse(otherRangeMethodsCalled, @"Did not expect other range methods to be called");
 
     otherRangeMethodsCalled = NO;
     range = NSMakeRange(1, 1);
@@ -58,8 +58,8 @@
     [self mockDataSourceForRange:range sectionsEnabled:NO];
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"1"];
-    STAssertTrue(initForRangeCalled, @"Expected initForRange to be called");
-    STAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
+    XCTAssertTrue(initForRangeCalled, @"Expected initForRange to be called");
+    XCTAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
 }
 
 - (void)testInitForRangeCalledOnceWithCalculatedSections
@@ -70,15 +70,15 @@
     [self mockDataSourceForRange:range sectionsEnabled:YES];
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"1"];
-    STAssertTrue(initForRangeCalled, @"Expected initForRange to be called");
-    STAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
+    XCTAssertTrue(initForRangeCalled, @"Expected initForRange to be called");
+    XCTAssertTrue(otherRangeMethodsCalled, @"Expected other range methods to be called");
     
     initForRangeCalled = NO;
     otherRangeMethodsCalled = NO;
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"1"];
-    STAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
-    STAssertFalse(otherRangeMethodsCalled, @"Did not expect other range methods to be called");
+    XCTAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
+    XCTAssertFalse(otherRangeMethodsCalled, @"Did not expect other range methods to be called");
     
     otherRangeMethodsCalled = NO;
     range = NSMakeRange(1, 1);
@@ -87,8 +87,8 @@
     [self mockDataSourceForRange:range sectionsEnabled:YES];
     
     [self callMethodsOnDataSourceAccessWithIndexPath:indexPath expectedItem:@"2"];
-    STAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
-    STAssertFalse(otherRangeMethodsCalled, @"Expected other range methods to be called");
+    XCTAssertFalse(initForRangeCalled, @"Did not expect initForRange to be called again");
+    XCTAssertFalse(otherRangeMethodsCalled, @"Expected other range methods to be called");
 }
 
 - (void)assertPropertyValue:(SEL)property atIndex:(int)index expectedValue:(id)expectedValue
@@ -101,11 +101,11 @@
 
     if (expectedValue == [NSNull null])
     {
-        STAssertNil(val, @"Expected nil but got %@", val);    
+        XCTAssertNil(val, @"Expected nil but got %@", val);    
     }
     else
     {
-        STAssertEquals(val, expectedValue, @"Unexpected desc");
+        XCTAssertEqual(val, expectedValue, @"Unexpected desc");
     }
 }
 
@@ -135,7 +135,7 @@
 - (void)callMethodsOnDataSourceAccessWithIndexPath:(NSIndexPath *)indexPath expectedItem:(NSString *)expectedItem
 {
     NSString *item = [dataSourceAccess getItem:indexPath];
-    STAssertEqualObjects(item, expectedItem, @"getItem returned an unexpected item");
+    XCTAssertEqualObjects(item, expectedItem, @"getItem returned an unexpected item");
     
     [dataSourceAccess getItemDescription:indexPath];
     [dataSourceAccess getItemImage:indexPath];
@@ -163,7 +163,7 @@
 - (void)dataSourceInitForRange:(NSRange)range
 {
     initForRangeCalled = YES;
-    STAssertFalse(otherRangeMethodsCalled, @"initForRange should be called before any other range methods");
+    XCTAssertFalse(otherRangeMethodsCalled, @"initForRange should be called before any other range methods");
 }
 
 - (NSArray *)dataSourceGetItemsInRange:(NSRange)range

@@ -39,7 +39,7 @@
         NSArray *contexts = [selectionStack allObjects];
         view.boldLabel.text = [self getContextFrom:contexts atOffsetFromEnd:1].selectedItem;
         view.label.text = [self getContextFrom:contexts atOffsetFromEnd:0].selectedItem;
-        view.smallerLabel.text = [NSString stringWithFormat:@"%i %@", [dataSourceAccess getDataSourceItemCount], [dataSourceAccess getTitle]];        
+        view.smallerLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)[dataSourceAccess getDataSourceItemCount], [dataSourceAccess getTitle]];        
     }
     
     return view;

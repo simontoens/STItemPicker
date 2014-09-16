@@ -68,7 +68,7 @@
         NSString *s = [NSString stringWithFormat:@"%@Selection %i: ", self.pickLabel.text, selectionCounter++];
         for (ItemPickerSelection *ctx in selections)
         {
-            s = [NSString stringWithFormat:@"%@->%@ (index %i%@)\n", s, ctx.selectedItem, ctx.selectedIndex, ctx.autoSelected ? @" auto" : @""];
+            s = [NSString stringWithFormat:@"%@->%@ (index %lu%@)\n", s, ctx.selectedItem, (unsigned long)ctx.selectedIndex, ctx.autoSelected ? @" auto" : @""];
         }
         self.pickLabel.text = s;
     }

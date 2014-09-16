@@ -34,6 +34,8 @@
 		BE7ADDED175BBDC200E565DF /* DataSourceAccessTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */; };
 		BE80BF8718926B8F00F68206 /* MPMediaDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE80BF8618926B8F00F68206 /* MPMediaDataSourceTest.m */; };
 		BE80BF891892704000F68206 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */; };
+		BEA80D0D19C86D7A00BF42A0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEA80D0C19C86D7A00BF42A0 /* Default-568h@2x.png */; };
+		BEA80D0F19C8718900BF42A0 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEA80D0E19C8718900BF42A0 /* XCTest.framework */; };
 		BEA82F651793B38A00098F41 /* ItemCacheTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA82F641793B38A00098F41 /* ItemCacheTest.m */; };
 		BEB322EC176B634F00360B76 /* ItemPickerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB322EB176B634F00360B76 /* ItemPickerContext.m */; };
 		BEB54D4B17080731002042CD /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB54D4A17080731002042CD /* Stack.m */; };
@@ -48,7 +50,6 @@
 		BEEB9CB916FFE3B60021E035 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9CB716FFE3B60021E035 /* InfoPlist.strings */; };
 		BEEB9CBB16FFE3B60021E035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CBA16FFE3B60021E035 /* main.m */; };
 		BEEB9CBF16FFE3B60021E035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEB9CBE16FFE3B60021E035 /* AppDelegate.m */; };
-		BEEB9CC716FFE3B60021E035 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CC616FFE3B60021E035 /* SenTestingKit.framework */; };
 		BEEB9CC816FFE3B60021E035 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CAE16FFE3B60021E035 /* UIKit.framework */; };
 		BEEB9CC916FFE3B60021E035 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEB9CB016FFE3B60021E035 /* Foundation.framework */; };
 		BEEB9CD116FFE3B60021E035 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEB9CCF16FFE3B60021E035 /* InfoPlist.strings */; };
@@ -115,6 +116,9 @@
 		BE7ADDE8175BBD9100E565DF /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = Submodules/OCMock/lib/libOCMock.a; sourceTree = "<group>"; };
 		BE7ADDEC175BBDC200E565DF /* DataSourceAccessTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSourceAccessTest.m; sourceTree = "<group>"; };
 		BE80BF8618926B8F00F68206 /* MPMediaDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMediaDataSourceTest.m; sourceTree = "<group>"; };
+		BEA80D0C19C86D7A00BF42A0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		BEA80D0E19C8718900BF42A0 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		BEA80D1019C871BA00BF42A0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		BEA82F641793B38A00098F41 /* ItemCacheTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCacheTest.m; sourceTree = "<group>"; };
 		BEB322EA176B634F00360B76 /* ItemPickerContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerContext.h; path = ItemPickerSource/ItemPickerContext.h; sourceTree = "<group>"; };
 		BEB322EB176B634F00360B76 /* ItemPickerContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerContext.m; path = ItemPickerSource/ItemPickerContext.m; sourceTree = "<group>"; };
@@ -141,8 +145,7 @@
 		BEEB9CBC16FFE3B60021E035 /* STItemPicker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "STItemPicker-Prefix.pch"; sourceTree = "<group>"; };
 		BEEB9CBD16FFE3B60021E035 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BEEB9CBE16FFE3B60021E035 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BEEB9CC516FFE3B60021E035 /* STItemPickerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = STItemPickerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEEB9CC616FFE3B60021E035 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		BEEB9CC516FFE3B60021E035 /* STItemPickerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = STItemPickerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEEB9CCE16FFE3B60021E035 /* STItemPickerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "STItemPickerTests-Info.plist"; sourceTree = "<group>"; };
 		BEEB9CD016FFE3B60021E035 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEEB9CDE16FFE4990021E035 /* TableSectionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableSectionHandler.h; path = ItemPickerSource/TableSectionHandler.h; sourceTree = "<group>"; };
@@ -188,9 +191,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEA80D0F19C8718900BF42A0 /* XCTest.framework in Frameworks */,
 				BE80BF891892704000F68206 /* MediaPlayer.framework in Frameworks */,
 				BE7ADDE9175BBD9100E565DF /* libOCMock.a in Frameworks */,
-				BEEB9CC716FFE3B60021E035 /* SenTestingKit.framework in Frameworks */,
 				BEEB9CC816FFE3B60021E035 /* UIKit.framework in Frameworks */,
 				BEEB9CC916FFE3B60021E035 /* Foundation.framework in Frameworks */,
 			);
@@ -261,6 +264,7 @@
 		BEEB9C9F16FFE3B60021E035 = {
 			isa = PBXGroup;
 			children = (
+				BEA80D0C19C86D7A00BF42A0 /* Default-568h@2x.png */,
 				BE7ADDE8175BBD9100E565DF /* libOCMock.a */,
 				BEF2916C1730C96D002D3BB3 /* MediaPlayer.framework */,
 				BEF2916A1730C900002D3BB3 /* CoreMedia.framework */,
@@ -276,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				BEEB9CAA16FFE3B60021E035 /* STItemPicker.app */,
-				BEEB9CC516FFE3B60021E035 /* STItemPickerTests.octest */,
+				BEEB9CC516FFE3B60021E035 /* STItemPickerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -284,10 +288,11 @@
 		BEEB9CAD16FFE3B60021E035 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEA80D1019C871BA00BF42A0 /* SenTestingKit.framework */,
+				BEA80D0E19C8718900BF42A0 /* XCTest.framework */,
 				BEEB9CAE16FFE3B60021E035 /* UIKit.framework */,
 				BEEB9CB016FFE3B60021E035 /* Foundation.framework */,
 				BEEB9CB216FFE3B60021E035 /* CoreGraphics.framework */,
-				BEEB9CC616FFE3B60021E035 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -433,8 +438,8 @@
 			);
 			name = STItemPickerTests;
 			productName = STItemPickerTests;
-			productReference = BEEB9CC516FFE3B60021E035 /* STItemPickerTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = BEEB9CC516FFE3B60021E035 /* STItemPickerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -442,6 +447,7 @@
 		BEEB9CA116FFE3B60021E035 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = BEEB9CA416FFE3B60021E035 /* Build configuration list for PBXProject "STItemPicker" */;
@@ -480,6 +486,7 @@
 				BEEDF0A71839999000358E76 /* Playlists.png in Resources */,
 				BE4751BD1708EFC80082AF30 /* TheLastBroadcast.jpg in Resources */,
 				BE0400871708F04900B09BDA /* DefaultNoArtwork.png in Resources */,
+				BEA80D0D19C86D7A00BF42A0 /* Default-568h@2x.png in Resources */,
 				BE41BBFD170BF2C000223945 /* TalkieWalkie.jpg in Resources */,
 				BEEDF0A91839999000358E76 /* Songs@2x.png in Resources */,
 				BE541ED617234072001088BC /* Albums.png in Resources */,
@@ -693,7 +700,8 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/STItemPicker.app/STItemPicker";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STItemPicker/STItemPicker-Prefix.pch";
@@ -710,7 +718,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -720,7 +727,8 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/STItemPicker.app/STItemPicker";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STItemPicker/STItemPicker-Prefix.pch";
@@ -731,7 +739,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

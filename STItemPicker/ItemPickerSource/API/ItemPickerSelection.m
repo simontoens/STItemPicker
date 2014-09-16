@@ -39,8 +39,8 @@
 
 - (NSUInteger)hash 
 {
-    int prime = 31;
-    int result = prime + self.selectedIndex;
+    NSUInteger prime = 31;
+    NSUInteger result = prime + self.selectedIndex;
     result = prime * result + [self.selectedItem hash];
     return result;
 }
@@ -56,7 +56,7 @@
 
 - (NSString *)description 
 {
-    return [NSString stringWithFormat:@"%@ %i %@", self.dataSource, self.selectedIndex, self.selectedItem];
+    return [NSString stringWithFormat:@"%@ %lu %@", self.dataSource, (unsigned long)self.selectedIndex, self.selectedItem];
 }
 
 @end
