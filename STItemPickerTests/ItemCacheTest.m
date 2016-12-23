@@ -25,7 +25,7 @@
 
 - (void)assertItemsAreCachedAtStartIndex:(NSUInteger)startIndex
 {
-    for (int i = startIndex; i < startIndex + itemCache.size; i++)
+    for (NSUInteger i = startIndex; i < startIndex + itemCache.size; i++)
     {
         XCTAssertEqual([itemCache ensureAvailability:i], (NSUInteger)i - startIndex, @"Bad index returned");
         [dataSource verify];      

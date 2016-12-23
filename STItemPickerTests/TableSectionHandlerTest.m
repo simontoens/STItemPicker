@@ -136,9 +136,9 @@
     ItemAttributes *a2 = [[ItemAttributes alloc] init];
     ItemAttributes *a3 = [[ItemAttributes alloc] init];
     NSArray *items = @[@"3", @"1", @"2"];
-    NSArray *ItemAttributes = @[a1, a2, a3];
+    NSArray *itemAttributes = @[a1, a2, a3];
     TableSectionHandler *handler = [[TableSectionHandler alloc] initWithItems:items];
-    handler.ItemAttributes = ItemAttributes;
+    handler.itemAttributes = itemAttributes;
     
     NSArray *expectedItems = @[@"1", @"2", @"3"];
     XCTAssertEqualObjects(handler.items, expectedItems, @"Bad sort order");

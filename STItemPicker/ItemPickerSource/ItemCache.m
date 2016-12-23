@@ -58,7 +58,7 @@
 - (NSRange)calculateNewRangeForIndex:(NSUInteger)index
 {
     // index is the midpoint the cached arrays         
-    NSInteger newLocation = MAX(0, (NSUInteger)(index - (_size / 2)));
+    NSInteger newLocation = MAX(0, (NSInteger)(index - (_size / 2)));
     NSUInteger newLength = _size;
     
     NSUInteger totalItemCount = _dataSource.count;
