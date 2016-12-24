@@ -11,6 +11,7 @@
 		BE074E57172397FD001681EE /* Tuple.m in Sources */ = {isa = PBXBuildFile; fileRef = BE074E56172397FD001681EE /* Tuple.m */; };
 		BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0A762D1733770A00D40692 /* ItemPickerSection.m */; };
 		BE0E2D8C1707B5AD00A5F7AC /* TableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */; };
+		BE17624C1E0E6B5C00353E13 /* Assertion.m in Sources */ = {isa = PBXBuildFile; fileRef = BE17624B1E0E6B5C00353E13 /* Assertion.m */; };
 		BE26E7CF1709032F000850F2 /* TableViewCellContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */; };
 		BE26E7E217093CA6000850F2 /* UIImageView+Reflection.m in Sources */ = {isa = PBXBuildFile; fileRef = BE26E7E117093CA6000850F2 /* UIImageView+Reflection.m */; };
 		BE3A0C071702BE26001B18EC /* SampleMediaDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3A0C061702BE26001B18EC /* SampleMediaDataSource.m */; };
@@ -82,6 +83,8 @@
 		BE0A762C1733770900D40692 /* ItemPickerSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemPickerSection.h; path = ItemPickerSource/ItemPickerSection.h; sourceTree = "<group>"; };
 		BE0A762D1733770A00D40692 /* ItemPickerSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemPickerSection.m; path = ItemPickerSource/ItemPickerSection.m; sourceTree = "<group>"; };
 		BE0E2D8B1707B5AD00A5F7AC /* TableHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TableHeaderView.xib; path = ItemPickerSource/TableHeaderView.xib; sourceTree = "<group>"; };
+		BE17624A1E0E6B5C00353E13 /* Assertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Assertion.h; path = Submodules/STObjCToolbelt/Source/Assertion.h; sourceTree = "<group>"; };
+		BE17624B1E0E6B5C00353E13 /* Assertion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Assertion.m; path = Submodules/STObjCToolbelt/Source/Assertion.m; sourceTree = "<group>"; };
 		BE26E7CD1709032F000850F2 /* TableViewCellContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellContainer.h; path = ItemPickerSource/TableViewCellContainer.h; sourceTree = "<group>"; };
 		BE26E7CE1709032F000850F2 /* TableViewCellContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellContainer.m; path = ItemPickerSource/TableViewCellContainer.m; sourceTree = "<group>"; };
 		BE26E7E017093CA6000850F2 /* UIImageView+Reflection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Reflection.h"; path = "Submodules/STObjCToolbelt/Source/UIImageView+Reflection.h"; sourceTree = "<group>"; };
@@ -363,6 +366,8 @@
 		BEEB9CF416FFE8930021E035 /* STObjCToolbelt */ = {
 			isa = PBXGroup;
 			children = (
+				BE17624A1E0E6B5C00353E13 /* Assertion.h */,
+				BE17624B1E0E6B5C00353E13 /* Assertion.m */,
 				BEEB9CF716FFE8AE0021E035 /* MultiDictionary.h */,
 				BEEB9CF816FFE8AE0021E035 /* MultiDictionary.m */,
 				BEEB9CFB16FFE8AE0021E035 /* Preconditions.h */,
@@ -522,6 +527,7 @@
 				BE0A762E1733770A00D40692 /* ItemPickerSection.m in Sources */,
 				BED14D9317456C1100A145BA /* DataSourceAccess.m in Sources */,
 				BEE0400A174C557E00362C73 /* ItemPickerSelection.m in Sources */,
+				BE17624C1E0E6B5C00353E13 /* Assertion.m in Sources */,
 				BEE0400E174C55FF00362C73 /* ItemPicker.m in Sources */,
 				BE3FFC97174D92C3002806DD /* ItemPickerHeader.m in Sources */,
 				BE4463C617547769003B9134 /* ItemAttributes.m in Sources */,
@@ -735,6 +741,7 @@
 				BE7DF2801E0CCF6A009DDA6F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BEEB9CA416FFE3B60021E035 /* Build configuration list for PBXProject "STItemPicker" */ = {
 			isa = XCConfigurationList;
