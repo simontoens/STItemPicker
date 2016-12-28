@@ -291,7 +291,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
     if (self.showDoneButton || self.maxSelectableItems > 1)
     {
         self.navigationItem.rightBarButtonItem = 
-            [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered 
+            [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain 
                                                           target:self
                                                           action:@selector(onDone)];
     }    

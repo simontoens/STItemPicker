@@ -22,7 +22,7 @@
 - (IBAction)onSampleCityDataSource:(id)sender
 {
     ItemPicker *itemPicker = [self getItemPickerWithDataSources:@[[[SampleCityDataSource alloc] init]]];
-    [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
+    [self.navigationController presentViewController:itemPicker.viewController animated:YES completion:NULL];
 }
 
 - (IBAction)onSampleMediaDataSource:(id)sender 
@@ -36,7 +36,7 @@
         self.sampleMediaItemPicker.maxSelectableItems = 3;
     }
 
-    [self.navigationController presentModalViewController:self.sampleMediaItemPicker.viewController animated:YES];    
+    [self.navigationController presentViewController:self.sampleMediaItemPicker.viewController animated:YES completion:NULL];
 }
 
 - (IBAction)onMPMediaDataSource:(id)sender
@@ -48,7 +48,7 @@
                                     [[MPMediaDataSource alloc] initPlaylistDataSource]]];
     itemPicker.showDoneButton = YES;
     itemPicker.itemLoadRangeLength = 100;
-    [self.navigationController presentModalViewController:itemPicker.viewController animated:YES];        
+    [self.navigationController presentViewController:itemPicker.viewController animated:YES completion:NULL];
 }
 
 - (ItemPicker *)getItemPickerWithDataSources:(NSArray *)dataSources
@@ -61,7 +61,7 @@
 - (void)onItemPickerPickedItems:(NSArray *)pickedItemSelections
 {
     self.pickLabel.text = @"";
-    [self.navigationController dismissModalViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
     int selectionCounter = 1;
     for (NSArray *selections in pickedItemSelections)
     {
@@ -76,7 +76,7 @@
 
 - (void)onItemPickerCanceled
 {
-    [self.navigationController dismissModalViewControllerAnimated:YES];    
+    [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end
