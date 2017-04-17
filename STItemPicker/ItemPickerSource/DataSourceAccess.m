@@ -17,7 +17,6 @@
 @property(nonatomic, strong) NSArray *sections;
 @property(nonatomic, strong) NSArray *sectionTitles;
 @property(nonatomic, strong) TableSectionHandler *tableSectionHandler;
-@property(nonatomic, assign) NSRange currentRange;
 @property(nonatomic, assign) NSUInteger dataSourceItemCount;
 @property(nonatomic, assign) NSUInteger dataSourceInternalItemCount;
 
@@ -26,20 +25,13 @@
 @implementation DataSourceAccess
 
 static NSUInteger kMetaCellRowIndex = NSUIntegerMax;
-static NSRange kUnsetRange;
-
-+ (void)initialize
-{
-    kUnsetRange = NSMakeRange(0, 0);
-}
 
 - (id)initWithDataSource:(id<ItemPickerDataSource>)dataSource autoSelected:(BOOL)autoSelected
 {
     if (self = [super init])
     {
         _autoSelected = autoSelected;
-        _currentRange = kUnsetRange;
-        _dataSource = dataSource;        
+        _dataSource = dataSource;
         _itemCacheSize = [ItemCache defaultSize];
         _processed = NO;
     }
@@ -239,10 +231,7 @@ static NSRange kUnsetRange;
 
 - (void)reloadData
 {
-    if (!_processed) 
-    {
-        [self process];
-    }
+    self.processed = NO;
     [self.itemCache invalidate];
 }
 

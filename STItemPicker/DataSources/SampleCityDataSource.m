@@ -1,12 +1,13 @@
 // @author Simon Toens 04/21/13
 
+#include <stdlib.h>
 #import "MultiDictionary.h"
 #import "SampleCityDataSource.h"
 
 @interface SampleCityDataSource()
 @property(nonatomic, assign) NSUInteger depth;
 @property(nonatomic, assign, readwrite) BOOL isLeaf;
-@property(nonatomic, strong) NSArray *items;
+@property(nonatomic, strong) NSArray *(^itemsProducer)(void);
 @end
 
 @implementation SampleCityDataSource
@@ -16,32 +17,48 @@ static MultiDictionary* kCountriesToRegions;
 static MultiDictionary* kRegionsToStates;
 static MultiDictionary* kStatesToCities;
 
+static NSArray *kAdditionalCitiesInOregon;
+
 static NSArray *kAllDictionaries;
 
 - (id)init
 {
-    return [self initWithDepth:0 items:[kContinentsToCountries allKeys]];
+    return [self initWithDepth:0 itemsProducer:^NSArray *(void) { return [kContinentsToCountries allKeys]; }];
 }
 
-- (id)initWithDepth:(NSUInteger)depth items:(NSArray *)items
+- (id)initWithDepth:(NSUInteger)depth itemsProducer:(NSArray *(^)(void))itemsProducer
 {
     if (self = [super init])
     {
         _depth = depth;
         _isLeaf = NO;
-        _items = items;
+        _itemsProducer = itemsProducer;
     }
     return self;
 }
 
 - (NSUInteger)count
 {
-    return [self.items count];
+    return [_itemsProducer() count];
 }
 
 - (NSArray *)getItemsInRange:(NSRange)range
 {
-    return [self.items subarrayWithRange:range];
+    NSArray *orgItems = [_itemsProducer() subarrayWithRange:range];
+    if (self.isLeaf)
+    {
+        NSMutableArray *items = [[NSMutableArray alloc] init];
+        for (NSString *item in orgItems)
+        {
+            [items addObject:[NSString stringWithFormat:@"%@-%i", item, arc4random_uniform(100)]];
+        }
+        return items;
+    }
+    else
+    {
+        return orgItems;
+    }
+
 }
 
 - (NSString *)title
@@ -55,8 +72,9 @@ static NSArray *kAllDictionaries;
     if (self.depth <= [kAllDictionaries count] - 1)
     {
         MultiDictionary *currentDict = [kAllDictionaries objectAtIndex:self.depth];
-        SampleCityDataSource *ds = [[SampleCityDataSource alloc] 
-            initWithDepth:self.depth+1 items:[[currentDict objectsForKey:context.selectedItem] allObjects]];
+        SampleCityDataSource *ds = [[SampleCityDataSource alloc] initWithDepth:self.depth+1 itemsProducer:^NSArray *(void) {
+            return [[currentDict objectsForKey:context.selectedItem] allObjects];
+        }];
         ds.isLeaf = self.depth == [kAllDictionaries count] - 1;
         return ds;
     }
@@ -74,7 +92,28 @@ static NSArray *kAllDictionaries;
     }
 }
 
-+ (void)initialize 
++ (NSString *)addCityToOregon
+{
+    static NSUInteger cityIndex = 0;
+    NSString *city = [kAdditionalCitiesInOregon objectAtIndex:cityIndex];
+    [kStatesToCities setObject:city forKey:@"Oregon"];
+    cityIndex = (cityIndex + 1) % [kAdditionalCitiesInOregon count];
+    return city;
+}
+
++ (NSString *)removeCityFromOregon
+{
+    NSSet *cities = [kStatesToCities objectsForKey:@"Oregon"];
+    if ([cities count] == 0)
+    {
+        return nil;
+    }
+    NSString *city = [cities anyObject];
+    [kStatesToCities removeValue:city];
+    return city;
+}
+
++ (void)initialize
 {
     kContinentsToCountries = [[MultiDictionary alloc] init];
     kCountriesToRegions = [[MultiDictionary alloc] init];
@@ -106,6 +145,8 @@ static NSArray *kAllDictionaries;
                 region:@"Catalonia" 
                  state:@"Tarragona" 
                 cities:@[@"Reus", @"Salou", @"Tortosa", @"Valls"]];
+    
+    kAdditionalCitiesInOregon = @[@"Springfield", @"Medford", @"Corvallis"];
 }
 
 @end

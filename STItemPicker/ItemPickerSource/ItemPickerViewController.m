@@ -62,6 +62,11 @@ currentSelectionStack:(Stack *)currentSelectionStack
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - UIViewController
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -80,8 +85,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
 
 - (void)viewWillDisappear:(BOOL)animated 
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) 
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound)
     {
         while ([[self.currentSelectionStack pop] autoSelected]);
     }

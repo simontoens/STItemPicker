@@ -10,6 +10,7 @@
 
 @interface TestViewController()
 @property(nonatomic, weak) IBOutlet UILabel *pickLabel;
+@property(nonatomic, strong) ItemPicker *sampleCityItemPicker;
 @property(nonatomic, strong) ItemPicker *sampleMediaItemPicker;
 - (ItemPicker *)getItemPickerWithDataSources:(NSArray *)dataSources;
 @end
@@ -17,12 +18,69 @@
 @implementation TestViewController
 
 @synthesize pickLabel;
+@synthesize sampleCityItemPicker;
 @synthesize sampleMediaItemPicker;
 
 - (IBAction)onSampleCityDataSource:(id)sender
 {
-    ItemPicker *itemPicker = [self getItemPickerWithDataSources:@[[[SampleCityDataSource alloc] init]]];
-    [self.navigationController presentViewController:itemPicker.viewController animated:YES completion:NULL];
+    if (!self.sampleCityItemPicker)
+    {
+        self.sampleCityItemPicker = [self getItemPickerWithDataSources:@[[[SampleCityDataSource alloc] init]]];
+    }
+    
+    [self.navigationController presentViewController:self.sampleCityItemPicker.viewController animated:YES completion:NULL];
+}
+
+- (IBAction)onAddCityToSampleCityDataSource:(id)sender
+{
+    NSString *city = [SampleCityDataSource addCityToOregon];
+    UIAlertController *alert = [UIAlertController
+                                alertControllerWithTitle:@"Added city"
+                                message:city
+                                preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"Ok"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (IBAction)onRemoveCityToSampleCityDataSource:(id)sender
+{
+    NSString *city = [SampleCityDataSource removeCityFromOregon];
+    UIAlertController *alert;
+    if (city)
+    {
+        alert = [UIAlertController
+                 alertControllerWithTitle:@"Removed city"
+                 message:city
+                 preferredStyle:UIAlertControllerStyleAlert];
+    }
+    else
+    {
+        alert = [UIAlertController
+                 alertControllerWithTitle:@"Error"
+                 message:@"No city left to remove"
+                 preferredStyle:UIAlertControllerStyleAlert];
+    }
+
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"Ok"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
+
+    
 }
 
 - (IBAction)onSampleMediaDataSource:(id)sender 
@@ -49,6 +107,11 @@
     itemPicker.showDoneButton = YES;
     itemPicker.itemLoadRangeLength = 100;
     [self.navigationController presentViewController:itemPicker.viewController animated:YES completion:NULL];
+}
+
+- (IBAction)onReloadDataSource:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:ItemPickerDataSourceDidChangeNotification object:nil];
 }
 
 - (ItemPicker *)getItemPickerWithDataSources:(NSArray *)dataSources
