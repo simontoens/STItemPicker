@@ -56,7 +56,7 @@ extern NSString *ItemPickerDataSourceDidChangeNotification;
 /**
  * Called when a leaf item is selected from the ItemPicker's viewController.
  *
- * @param pickedItemContexts  An array, one for each selection, of ItemPickerSelection arrays.  
+ * @param itemPickerSelections  An array, one for each selection, of ItemPickerSelection arrays.  
  * The outer array will only have multiple elements if multiSelect is enabled.
  * Within an array of ItemPickerSelection instances, the ItemPickerSelection instance at the
  * beginning (index 0) of the array represents the first selection, the instance at the end of the array 

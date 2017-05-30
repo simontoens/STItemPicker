@@ -201,24 +201,25 @@ currentSelectionStack:(Stack *)currentSelectionStack
     NSArray *prevSelections = [[self.currentSelectionStack allObjects] copy];
     id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:selection previousSelections:prevSelections];
     
-    [self.currentSelectionStack push:selection];
-
     if (nextDataSource)
     {
-        [self pushDataSource:nextDataSource];    
+        [self.currentSelectionStack push:selection];
+        [self pushDataSource:nextDataSource];
     } 
     else
     {
-        [self handleSelection:indexPath];
+        // build copy of current selection path and add final leaf selection
+        NSMutableArray *selectionPath = [[NSMutableArray alloc] initWithArray:[self.currentSelectionStack allObjects]];
+        [selectionPath addObject:selection];
+        [self handleSelection:selectionPath atIndexPath:indexPath];
     }
 }
 
-- (void)handleSelection:(NSIndexPath *)indexPath
+- (void)handleSelection:(NSArray *)selectionPath atIndexPath:(NSIndexPath *)indexPath
 {
     if (self.maxSelectableItems > 1)
     {
         UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];            
-        NSArray *selectionPath = [self.currentSelectionStack allObjects];            
         if ([self.itemPickerContext.selectedItems containsObject:selectionPath])
         {
             [self.itemPickerContext.selectedItems removeObject:selectionPath];
@@ -229,7 +230,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
         {
             if ([self moreCellsAreSelectable])
             {
-                [self.itemPickerContext.selectedItems addObject:[selectionPath copy]];
+                [self.itemPickerContext.selectedItems addObject:selectionPath];
                 cell.accessoryType = UITableViewCellAccessoryCheckmark;    
             }
             else 
@@ -238,11 +239,10 @@ currentSelectionStack:(Stack *)currentSelectionStack
             }
         }
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.currentSelectionStack pop];
     }
     else
     {
-        [self.itemPickerDelegate onItemPickerPickedItems:@[[self.currentSelectionStack allObjects]]];
+        [self.itemPickerDelegate onItemPickerPickedItems:@[selectionPath]];
     }
 }
 
