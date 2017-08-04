@@ -301,6 +301,11 @@ currentSelectionStack:(Stack *)currentSelectionStack
         {
             continue;
         }
+        ItemAttributes *attributes = [self.dataSourceAccess getItemAttributes:indexPath];
+        if (attributes && !attributes.userInteractionEnabled)
+        {
+            continue;
+        }        
         ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath];
         [self selectedItemAtIndexPath:indexPath selection:selection dataSource:[self.dataSourceAccess getDataSource]];
     }
