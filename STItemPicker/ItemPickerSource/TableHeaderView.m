@@ -15,11 +15,18 @@
 @property (nonatomic, weak) IBOutlet UIImageView *imageView;
 @property (nonatomic, weak) IBOutlet UIImageView *reflectedImageView;
 
+@property (nonatomic, weak) IBOutlet UIButton *selectAllButton;
+
+@property (nonatomic, strong) void (^selectAllCallback)();
+
 @end
 
 @implementation TableHeaderView
 
-+ (UIView *)initWithHeader:(ItemPickerHeader *)header selectionStack:(Stack *)selectionStack dataSourceAccess:(DataSourceAccess *)dataSourceAccess
++ (UIView *)initWithHeader:(ItemPickerHeader *)header
+            selectionStack:(Stack *)selectionStack
+          dataSourceAccess:(DataSourceAccess *)dataSourceAccess
+         selectAllCallback:(void (^)())selectAllCallback
 {
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:nil options:nil] firstObject];
 
@@ -42,12 +49,20 @@
         view.smallerLabel.text = [NSString stringWithFormat:@"%lu %@", (unsigned long)[dataSourceAccess getDataSourceItemCount], [dataSourceAccess getTitle]];        
     }
     
+    view.selectAllButton.hidden = !header.showSelectAllButton;
+    view.selectAllCallback = selectAllCallback;
+    
     return view;
 }
 
 + (ItemPickerSelection *)getContextFrom:(NSArray *)contexts atOffsetFromEnd:(NSUInteger)offset
 {
     return [contexts count] > offset ? [contexts objectAtIndex:[contexts count] - 1 - offset] : nil;
+}
+
+- (IBAction)onSelectAll
+{
+    self.selectAllCallback();
 }
 
 @end

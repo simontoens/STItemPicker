@@ -6,6 +6,9 @@
 
 @interface TableHeaderView : UIView
 
-+ (UIView *)initWithHeader:(ItemPickerHeader *)header selectionStack:(Stack *)selectionStack dataSourceAccess:(DataSourceAccess *)dataSourceAccess;
++ (UIView *)initWithHeader:(ItemPickerHeader *)header
+            selectionStack:(Stack *)selectionStack
+          dataSourceAccess:(DataSourceAccess *)dataSourceAccess
+         selectAllCallback:(void (^)())selectAllCallback;
 
 @end

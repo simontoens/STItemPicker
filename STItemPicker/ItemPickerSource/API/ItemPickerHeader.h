@@ -19,4 +19,14 @@
  */
 @property(nonatomic, assign) BOOL defaultNilLabels;
 
+/**
+ * If YES, the header shows a button that allows the user to select all items
+ * in the table view, up to the maximum number of selections allowed.
+ *
+ * This button only makes sense if more than one item is selectable.
+ * 
+ * Defaults to NO.
+ */
+@property(nonatomic, assign) BOOL showSelectAllButton;
+
 @end

@@ -159,6 +159,7 @@ static NSArray *kAllTitles;
         header.image = self.headerImage;
         header.smallestLabel = @"Copyright 1987 Sony Music Lausanne";
         header.defaultNilLabels = YES;
+        header.showSelectAllButton = YES;
         return header;
     }
     return nil;

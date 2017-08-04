@@ -280,11 +280,33 @@ currentSelectionStack:(Stack *)currentSelectionStack
     ItemPickerHeader *header = [self.dataSourceAccess getHeader];    
     if (header)
     {
-        self.tableView.tableHeaderView = [TableHeaderView initWithHeader:header selectionStack:self.currentSelectionStack dataSourceAccess:self.dataSourceAccess];
+        self.tableView.tableHeaderView = [TableHeaderView initWithHeader:header
+                                                          selectionStack:self.currentSelectionStack
+                                                        dataSourceAccess:self.dataSourceAccess
+                                                       selectAllCallback:^{ [self onSelectAll]; }];
     }
 }
 
-- (void)configureTitle 
+- (void)onSelectAll
+{
+    NSUInteger itemCount = [self.dataSourceAccess getDataSourceItemCount];
+    for (NSUInteger i = 0; i < itemCount; i++)
+    {
+        if (![self moreCellsAreSelectable])
+        {
+            return;
+        }
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        if ([self isCellSelectedAtIndexPath:indexPath])
+        {
+            continue;
+        }
+        ItemPickerSelection *selection = [self.dataSourceAccess getItemPickerSelection:indexPath];
+        [self selectedItemAtIndexPath:indexPath selection:selection dataSource:[self.dataSourceAccess getDataSource]];
+    }
+}
+
+- (void)configureTitle
 {
     ItemPickerSelection *prevSelection = [self getPreviousContext];
     self.title = prevSelection ? prevSelection.selectedItem : [self.dataSourceAccess getTitle];
