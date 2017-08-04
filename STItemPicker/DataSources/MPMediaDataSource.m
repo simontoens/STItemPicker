@@ -30,7 +30,11 @@ static UIImage *kDefaultArtwork;
 
 - (id)initArtistDataSource
 {
-    MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery artistsQuery] itemProperty:MPMediaItemPropertyArtist];
+    MPMediaQuery *query = [[MPMediaQuery alloc] init];
+    [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[NSNumber numberWithInt:MPMediaTypeMusic] forProperty:MPMediaItemPropertyMediaType]];
+    [query setGroupingType:MPMediaGroupingAlbumArtist];
+    
+    MPMediaDataSource *ds = [self initWithQuery:query itemProperty:MPMediaItemPropertyAlbumArtist];
     ds.tabImage = [UIImage imageNamed:@"Artists"];
     ds.title = @"Artists";
     return ds;
@@ -196,8 +200,7 @@ static UIImage *kDefaultArtwork;
     if ([self artistList])
     {
         nextQuery = [MPMediaQuery albumsQuery];
-        [self addFilterPredicates:@[MPMediaItemPropertyAlbumArtist, MPMediaItemPropertyArtist] 
-                          toQuery:nextQuery basedOnSelection:selection];
+        [self addFilterPredicates:@[MPMediaItemPropertyAlbumArtist] toQuery:nextQuery basedOnSelection:selection];
         nextItemProperty = MPMediaItemPropertyAlbumTitle;
     }
     else if ([self albumList])
@@ -262,7 +265,7 @@ static UIImage *kDefaultArtwork;
 
 - (BOOL)artistList
 {
-    return self.query.groupingType == MPMediaGroupingArtist;
+    return self.query.groupingType == MPMediaGroupingAlbumArtist;
 }
 
 - (BOOL)albumList
