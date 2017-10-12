@@ -70,11 +70,16 @@ static UIImage *kDefaultArtwork;
 
 - (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty
 {
+    return [self initWithQuery:query itemProperty:itemProperty showAllSongs:NO];
+}
+
+- (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty showAllSongs:(BOOL)showAllSongs
+{
     if (self = [super init])
     {
         _itemProperty = itemProperty;
         _currentQuery = query;
-        _showAllSongs = NO;
+        _showAllSongs = showAllSongs;
         [self registerForLibraryChangeNotifications];
         
     }
@@ -239,12 +244,10 @@ static UIImage *kDefaultArtwork;
         {
             nextItemProperty = MPMediaItemPropertyTitle;
         }
-        nextDataSource = [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
-        nextDataSource->_showAllSongs = selection.metaCell;
+        nextDataSource = [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty showAllSongs:selection.metaCell];
     }
     return nextDataSource;
 }
-
 
 # pragma mark - Private methods
 

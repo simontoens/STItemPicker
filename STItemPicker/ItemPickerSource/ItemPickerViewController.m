@@ -198,21 +198,34 @@ currentSelectionStack:(Stack *)currentSelectionStack
                       selection:(ItemPickerSelection *)selection
                      dataSource:(id<ItemPickerDataSource>)dataSource 
 {
-    NSArray *prevSelections = [[self.currentSelectionStack allObjects] copy];
-    id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:selection previousSelections:prevSelections];
-    
-    if (nextDataSource)
+    if ([self.dataSourceAccess isLeaf])
     {
-        [self.currentSelectionStack push:selection];
-        [self pushDataSource:nextDataSource];
-    } 
+        [self handleLeafSelection:selection atIndexPath:indexPath];
+    }
     else
     {
-        // build copy of current selection path and add final leaf selection
-        NSMutableArray *selectionPath = [[NSMutableArray alloc] initWithArray:[self.currentSelectionStack allObjects]];
-        [selectionPath addObject:selection];
-        [self handleSelection:selectionPath atIndexPath:indexPath];
+        NSArray *prevSelections = [[self.currentSelectionStack allObjects] copy];
+        id<ItemPickerDataSource> nextDataSource = [dataSource getNextDataSourceForSelection:selection previousSelections:prevSelections];
+        if (nextDataSource)
+        {
+            [self.currentSelectionStack push:selection];
+            [self pushDataSource:nextDataSource];
+        }
+        else
+        {
+            // programmer error - isLeaf but no nextDataSource?  we'll let it slide
+            [self handleLeafSelection:selection atIndexPath:indexPath];
+        }
     }
+}
+
+- (void)handleLeafSelection:(ItemPickerSelection *)selection atIndexPath:(NSIndexPath *)indexPath
+{
+    // build copy of current selection path and add final leaf selection
+    NSMutableArray *selectionPath = [[NSMutableArray alloc] initWithCapacity:[self.currentSelectionStack count] + 1];
+    [selectionPath addObjectsFromArray:[self.currentSelectionStack allObjects]];
+    [selectionPath addObject:selection];
+    [self handleSelection:selectionPath atIndexPath:indexPath];
 }
 
 - (void)handleSelection:(NSArray *)selectionPath atIndexPath:(NSIndexPath *)indexPath

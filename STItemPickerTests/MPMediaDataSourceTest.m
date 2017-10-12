@@ -9,8 +9,7 @@
 @end
 
 @interface MPMediaDataSource()
-- (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty;
-@property(nonatomic, assign) BOOL showAllSongs;
+- (id)initWithQuery:(MPMediaQuery *)query itemProperty:(NSString *)itemProperty showAllSongs:(BOOL)showAllSongs;
 @end
 
 @implementation MPMediaDataSourceTest
@@ -19,7 +18,7 @@
 {
     NSArray *artists = @[@"Oasis", @"Blur", @"Dodgy"];
     MPMediaQuery *query = [self mockQuery:@{MPMediaItemPropertyArtist : artists} groupingType:MPMediaGroupingArtist];
-    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyArtist];
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyArtist showAllSongs:NO];
     [self assertDataSource:dataSource expectedItems:artists expectedDescriptions:nil];
 }
 
@@ -31,7 +30,7 @@
                                             MPMediaItemPropertyArtwork : [NSNull null],
                                             MPMediaItemPropertyArtist : artists}
                              groupingType:MPMediaGroupingAlbum];
-    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyAlbumTitle];
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyAlbumTitle showAllSongs:NO];
     [self assertDataSource:dataSource expectedItems:albums expectedDescriptions:artists];
 }
 
@@ -45,8 +44,7 @@
                                             MPMediaItemPropertyArtwork : [NSNull null],
                                             MPMediaItemPropertyArtist : artists}
                              groupingType:MPMediaGroupingTitle];
-    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyTitle];
-    dataSource.showAllSongs = YES;
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyTitle showAllSongs:YES];
     NSArray *expectedDescriptions = @[@"Dire Straits - Love Over Gold", @"Beady Eye - Be", @"No Order - Lost Sirens"];
     [self assertDataSource:dataSource expectedItems:songs expectedDescriptions:expectedDescriptions];
 }
@@ -61,8 +59,7 @@
                                             MPMediaItemPropertyArtwork : [NSNull null],
                                             MPMediaItemPropertyArtist : artists}
                              groupingType:MPMediaGroupingTitle];
-    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyTitle];
-    dataSource.showAllSongs = YES;
+    MPMediaDataSource *dataSource = [[MPMediaDataSource alloc] initWithQuery:query itemProperty:MPMediaItemPropertyTitle showAllSongs:YES];
     NSArray *expectedDescriptions = @[@"Love Over Gold", @"", @"No Order - Lost Sirens"];
     [self assertDataSource:dataSource expectedItems:songs expectedDescriptions:expectedDescriptions];
 }
