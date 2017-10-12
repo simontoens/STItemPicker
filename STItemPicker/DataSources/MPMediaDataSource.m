@@ -25,7 +25,7 @@
 
 static UIImage *kDefaultArtwork;
 
-#pragma mark - Initializers/Dealloc
+#pragma mark - Initializers
 
 + (void)initialize
 {
@@ -86,7 +86,34 @@ static UIImage *kDefaultArtwork;
     [self unregisterForLibraryChangeNotifications];
 }
 
-#pragma mark - ItemPickerDataSource Protocol conformance
+#pragma mark - Public methods
+
+- (BOOL)artistList
+{
+    return _currentQuery.groupingType == MPMediaGroupingAlbumArtist;
+}
+
+- (BOOL)albumList
+{
+    return _currentQuery.groupingType == MPMediaGroupingAlbum;
+}
+
+- (BOOL)songList
+{
+    return _currentQuery.groupingType == MPMediaGroupingTitle;
+}
+
+- (BOOL)playlistList
+{
+    return _currentQuery.groupingType == MPMediaGroupingPlaylist;
+}
+
+- (MPMediaQuery *)query
+{
+    return _currentQuery;
+}
+
+#pragma mark - ItemPickerDataSource protocol
 
 - (NSUInteger)count
 {
@@ -218,6 +245,9 @@ static UIImage *kDefaultArtwork;
     return nextDataSource;
 }
 
+
+# pragma mark - Private methods
+
 - (MPMediaQuery *)queryBasedOnSelection:(ItemPickerSelection *)selection previousSelections:(NSArray *)previousSelections
 {
     MPMediaQuery *nextQuery = nil;
@@ -248,9 +278,6 @@ static UIImage *kDefaultArtwork;
     return nextQuery;
 }
 
-
-# pragma mark - Private methods
-
 - (void)addFilterPredicates:(NSArray *)itemProperties toQuery:(MPMediaQuery *)query basedOnSelection:(ItemPickerSelection *)selection
 {
     MPMediaDataSource *dataSource = selection.dataSource;    
@@ -280,26 +307,6 @@ static UIImage *kDefaultArtwork;
     CGSize size = artwork.bounds.size;
     UIImage *image = [artwork imageWithSize:CGSizeMake(size.height, size.width)];
     return image ? image : kDefaultArtwork;
-}
-
-- (BOOL)artistList
-{
-    return _currentQuery.groupingType == MPMediaGroupingAlbumArtist;
-}
-
-- (BOOL)albumList
-{
-    return _currentQuery.groupingType == MPMediaGroupingAlbum;
-}
-
-- (BOOL)songList 
-{
-    return _currentQuery.groupingType == MPMediaGroupingTitle;
-}
-
-- (BOOL)playlistList
-{
-    return _currentQuery.groupingType == MPMediaGroupingPlaylist;
 }
 
 - (void)onLibraryChanged
