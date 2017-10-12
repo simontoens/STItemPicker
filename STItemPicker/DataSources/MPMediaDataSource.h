@@ -16,6 +16,4 @@
 - (BOOL)songList;
 - (BOOL)playlistList;
 
-@property(nonatomic, strong) MPMediaQuery *query;
-
 @end
