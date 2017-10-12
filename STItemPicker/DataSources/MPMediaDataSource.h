@@ -16,4 +16,9 @@
 - (BOOL)songList;
 - (BOOL)playlistList;
 
+/**
+ * Returns the next "drill-down" media query based on the given selections.
+ */
+- (MPMediaQuery *)queryBasedOnSelection:(ItemPickerSelection *)selection previousSelections:(NSArray *)previousSelections;
+
 @end

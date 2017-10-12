@@ -199,40 +199,55 @@ static UIImage *kDefaultArtwork;
 - (id<ItemPickerDataSource>)getNextDataSourceForSelection:(ItemPickerSelection *)selection
                                        previousSelections:(NSArray *)previousSelections
 {
+    MPMediaDataSource *nextDataSource = nil;
+    MPMediaQuery *nextQuery = [self queryBasedOnSelection:selection previousSelections:previousSelections];
+    if (nextQuery)
+    {
+        NSString *nextItemProperty = nil;
+        if ([self artistList])
+        {
+            nextItemProperty = MPMediaItemPropertyAlbumTitle;
+        }
+        else if ([self albumList])
+        {
+            nextItemProperty = MPMediaItemPropertyTitle;
+        }
+        nextDataSource = [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
+        nextDataSource->_showAllSongs = selection.metaCell;
+    }
+    return nextDataSource;
+}
+
+- (MPMediaQuery *)queryBasedOnSelection:(ItemPickerSelection *)selection previousSelections:(NSArray *)previousSelections
+{
     MPMediaQuery *nextQuery = nil;
-    NSString *nextItemProperty = nil;
     if ([self artistList])
     {
         nextQuery = [MPMediaQuery albumsQuery];
         [self addFilterPredicates:@[MPMediaItemPropertyAlbumArtist] toQuery:nextQuery basedOnSelection:selection];
-        nextItemProperty = MPMediaItemPropertyAlbumTitle;
     }
     else if ([self albumList])
     {
         nextQuery = [MPMediaQuery songsQuery];
         if (!selection.metaCell)
         {
-            [self addFilterPredicates:@[MPMediaItemPropertyAlbumTitle] 
+            [self addFilterPredicates:@[MPMediaItemPropertyAlbumTitle]
                               toQuery:nextQuery basedOnSelection:selection];
         }
-        nextItemProperty = MPMediaItemPropertyTitle;
     }
     
     if (nextQuery)
-    {        
+    {
         if ([previousSelections count] > 0)
         {
             // not a top level data source, carry over previous filters
             [self addFilterPredicatesFromQuery:_currentQuery toQuery:nextQuery];
         }
-
-        MPMediaDataSource *nextDataSource = [[[self class] alloc] initWithQuery:nextQuery itemProperty:nextItemProperty];
-        nextDataSource->_showAllSongs = selection.metaCell;
-        return nextDataSource;
+        
     }
-
-    return nil;
+    return nextQuery;
 }
+
 
 # pragma mark - Private methods
 
