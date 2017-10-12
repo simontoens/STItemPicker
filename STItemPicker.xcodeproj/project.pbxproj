@@ -434,6 +434,9 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = BEEB9CA916FFE3B60021E035;
 					};
+					BEEB9CA916FFE3B60021E035 = {
+						DevelopmentTeam = WAJ9STR6KN;
+					};
 				};
 			};
 			buildConfigurationList = BEEB9CA416FFE3B60021E035 /* Build configuration list for PBXProject "STItemPicker" */;
@@ -710,6 +713,7 @@
 		BEEB9CD816FFE3B60021E035 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = WAJ9STR6KN;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STItemPicker/STItemPicker-Prefix.pch";
 				INFOPLIST_FILE = "STItemPicker/STItemPicker-Info.plist";
@@ -722,6 +726,7 @@
 		BEEB9CD916FFE3B60021E035 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEVELOPMENT_TEAM = WAJ9STR6KN;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "STItemPicker/STItemPicker-Prefix.pch";
 				INFOPLIST_FILE = "STItemPicker/STItemPicker-Info.plist";

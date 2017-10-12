@@ -5,8 +5,9 @@
 #import "MPMediaDataSource.h"
 
 @interface MPMediaDataSource()
-// redeclare as readwrite
+// properties from ItemPickerDataSource protocol, redeclared to be readwrite
 @property(nonatomic, readwrite, strong) NSString *title;
+@property(nonatomic, strong) UIImage *tabImage;
 @end
 
 @implementation MPMediaDataSource
@@ -14,7 +15,6 @@
     @private
     MPMediaQuery *_currentQuery;
     NSString *_itemProperty;
-    UIImage *_tabImage;
     NSMutableArray *_items;
     NSMutableArray *_itemDescriptions;
     NSMutableArray *_itemImages;
@@ -39,7 +39,7 @@ static UIImage *kDefaultArtwork;
     [query setGroupingType:MPMediaGroupingAlbumArtist];
     
     MPMediaDataSource *ds = [self initWithQuery:query itemProperty:MPMediaItemPropertyAlbumArtist];
-    ds->_tabImage = [UIImage imageNamed:@"Artists"];
+    ds.tabImage = [UIImage imageNamed:@"Artists"];
     ds.title = @"Artists";
     return ds;
 }
@@ -47,7 +47,7 @@ static UIImage *kDefaultArtwork;
 - (id)initAlbumDataSource
 {
     MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery albumsQuery] itemProperty:MPMediaItemPropertyAlbumTitle];
-    ds->_tabImage = [UIImage imageNamed:@"Albums"];
+    ds.tabImage = [UIImage imageNamed:@"Albums"];
     ds.title = @"Albums";
     return ds;
 }
@@ -55,7 +55,7 @@ static UIImage *kDefaultArtwork;
 - (id)initSongDataSource
 {
     MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery songsQuery] itemProperty:MPMediaItemPropertyTitle];
-    ds->_tabImage = [UIImage imageNamed:@"Songs"];
+    ds.tabImage = [UIImage imageNamed:@"Songs"];
     ds.title = @"Songs";
     return ds;
 }
@@ -63,7 +63,7 @@ static UIImage *kDefaultArtwork;
 - (id)initPlaylistDataSource
 {
     MPMediaDataSource *ds = [self initWithQuery:[MPMediaQuery playlistsQuery] itemProperty:MPMediaPlaylistPropertyName];
-    ds->_tabImage = [UIImage imageNamed:@"Playlists"];
+    ds.tabImage = [UIImage imageNamed:@"Playlists"];
     ds.title = @"Playlists";
     return ds;
 }
