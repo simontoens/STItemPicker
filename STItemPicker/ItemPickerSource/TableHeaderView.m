@@ -17,7 +17,7 @@
 
 @property (nonatomic, weak) IBOutlet UIButton *selectAllButton;
 
-@property (nonatomic, strong) void (^selectAllCallback)();
+@property (nonatomic, strong) void (^selectAllCallback)(void);
 
 @end
 
@@ -26,7 +26,7 @@
 + (UIView *)initWithHeader:(ItemPickerHeader *)header
             selectionStack:(Stack *)selectionStack
           dataSourceAccess:(DataSourceAccess *)dataSourceAccess
-         selectAllCallback:(void (^)())selectAllCallback
+         selectAllCallback:(void (^)(void))selectAllCallback
 {
     TableHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:nil options:nil] firstObject];
 
