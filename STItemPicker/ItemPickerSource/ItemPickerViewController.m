@@ -213,7 +213,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
         }
         else
         {
-            // programmer error - isLeaf but no nextDataSource?  we'll let it slide
+            // programmer error - !isLeaf but no nextDataSource?  we'll let it slide
             [self handleLeafSelection:selection atIndexPath:indexPath];
         }
     }
