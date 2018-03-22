@@ -8,11 +8,6 @@
 
 @implementation ItemAttributesTest
 
-- (void)testItemAttributes
-{
-    
-}
-
 - (void)testImmutabilityOfDefaultAttributes
 {
     ItemAttributes *attributes = [ItemAttributes getDefaultItemAttributes];
@@ -45,6 +40,16 @@
     @catch (NSException *exception) {
         XCTAssertTrue(YES, @"Ok");
     }
+    
+    @try
+    {
+        attributes.isLeafItem = nil;
+        XCTAssertTrue(NO, @"Not ok");
+    }
+    @catch (NSException *exception) {
+        XCTAssertTrue(YES, @"Ok");
+    }
+
 }
 
 @end

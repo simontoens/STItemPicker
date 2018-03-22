@@ -27,6 +27,7 @@ static ItemAttributes *kDefaultAttributes;
         _textColor = [UIColor blackColor];
         _descriptionTextColor = [UIColor grayColor];
         _userInteractionEnabled = YES;
+        _isLeafItem = nil;
     }
     return self;
 }
@@ -48,6 +49,11 @@ static ItemAttributes *kDefaultAttributes;
 - (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled
 {
     [Preconditions assert:NO message:@"Cannot modify this instance"];        
+}
+
+- (void)setIsLeafItem:(NSNumber *)isLeafItem
+{
+    [Preconditions assert:NO message:@"Cannot modify this instance"];
 }
 
 @end

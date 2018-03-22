@@ -92,13 +92,15 @@ static NSUInteger kMetaCellRowIndex = NSUIntegerMax;
     return self.dataSource.header;
 }
 
-- (BOOL)isLeaf
+- (BOOL)isLeafAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!_processed) 
     {
         [self process];
     }
-    return self.dataSource.isLeaf;
+    ItemAttributes *attrs = [self getItemAttributes:indexPath];
+    
+    return attrs && attrs.isLeafItem ? [attrs.isLeafItem boolValue] : self.dataSource.isLeaf;
 }
 
 - (id)getSection:(NSUInteger)index

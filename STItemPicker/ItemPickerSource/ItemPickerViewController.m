@@ -139,7 +139,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
                                                             description:description
                                                          itemAttributes:[self.dataSourceAccess getItemAttributes:indexPath]];
     
-    if (self.dataSourceAccess.isLeaf)
+    if ([self.dataSourceAccess isLeafAtIndexPath:indexPath])
     {
         if (self.maxSelectableItems > 1) 
         {
@@ -198,7 +198,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
                       selection:(ItemPickerSelection *)selection
                      dataSource:(id<ItemPickerDataSource>)dataSource 
 {
-    if ([self.dataSourceAccess isLeaf])
+    if ([self.dataSourceAccess isLeafAtIndexPath:indexPath])
     {
         [self handleLeafSelection:selection atIndexPath:indexPath];
     }
@@ -344,7 +344,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
 - (void)registerForNotifications
 {
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    if (self.dataSourceAccess.isLeaf)
+    if ([self.dataSourceAccess getDataSource].isLeaf)
     {
         [defaultCenter addObserver:self selector:@selector(reloadData) name:ReloadTableDataNotification object:nil];        
     }

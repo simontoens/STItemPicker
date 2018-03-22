@@ -20,7 +20,10 @@
  */
 - (NSUInteger)getDataSourceItemCount;
 
-- (BOOL)isLeaf;
+/**
+ * Returns YES if the cell at the specified index is a leaf, NO otherwise
+ */
+- (BOOL)isLeafAtIndexPath:(NSIndexPath *)indexPath;
 
 - (NSString *)getTitle;
 

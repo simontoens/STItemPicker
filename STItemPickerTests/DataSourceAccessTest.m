@@ -12,6 +12,7 @@
     NSArray *_itemDescriptions;
     NSArray *_itemImages;
     NSArray *_itemAttributes;
+    BOOL _isLeaf;
     BOOL _sectionsEnabled;
     id _dataSource;
     DataSourceAccess *_dataSourceAccess;
@@ -27,6 +28,7 @@
 {
     [super setUp];
     _items = @[@"2", @"1"];
+    _isLeaf = NO;
     _sectionsEnabled = NO;
     _dataSource = [OCMockObject mockForProtocol:@protocol(ItemPickerDataSource)];
     _dataSourceAccess = [[DataSourceAccess alloc] initWithDataSource:_dataSource autoSelected:NO];
@@ -160,6 +162,33 @@
     [dataSourceAccess getItemAttributes:indexPath];    
 }
 
+- (void)testIsLeaf_noItemAttributes
+{
+    _isLeaf = YES;
+    [self mockDataSourceForRange:NSMakeRange(0, 1)];
+    
+    XCTAssertTrue([_dataSourceAccess isLeafAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]);
+}
+
+- (void)testIsNotLeaf_noItemAttributes
+{
+    _isLeaf = NO;
+    [self mockDataSourceForRange:NSMakeRange(0, 1)];
+    
+    XCTAssertFalse([_dataSourceAccess isLeafAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]);
+}
+
+- (void)testIsNotLeaf_itemAttributeOverride
+{
+    _isLeaf = NO;
+    ItemAttributes *attrs = [[ItemAttributes alloc] init];
+    attrs.isLeafItem = [NSNumber numberWithBool:YES];
+    _itemAttributes = @[attrs];
+    [self mockDataSourceForRange:NSMakeRange(0, 1)];
+    
+    XCTAssertTrue([_dataSourceAccess isLeafAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]);
+}
+
 - (void)mockDataSourceForRange:(NSRange)range
 {
     [[[_dataSource stub] andCall:@selector(dataSourceCount) onObject:self] count];
@@ -168,8 +197,8 @@
     [[[_dataSource stub] andCall:@selector(dataSourceGetDescriptionsInRange:) onObject:self] getItemDescriptionsInRange:range];
     [[[_dataSource stub] andCall:@selector(dataSourceGetImagesInRange:) onObject:self] getItemImagesInRange:range];
     [[[_dataSource stub] andCall:@selector(dataSourceGetAttributesInRange:) onObject:self] getItemAttributesInRange:range];
+    [[[_dataSource stub] andCall:@selector(dataSourceIsLeaf) onObject:self] isLeaf];
     [[[_dataSource stub] andCall:@selector(dataSourceSectionsEnabled) onObject:self] sectionsEnabled];
-    [[_dataSource expect] isLeaf];
     [[_dataSource expect] metaCellTitle];
     [[_dataSource expect] metaCellDescription];
     if (_sectionsEnabled)
@@ -186,6 +215,11 @@
 - (BOOL)dataSourceSectionsEnabled
 {
     return _sectionsEnabled;
+}
+
+- (BOOL)dataSourceIsLeaf
+{
+    return _isLeaf;
 }
 
 - (void)dataSourceInitForRange:(NSRange)range
@@ -207,12 +241,12 @@
 
 - (NSArray *)dataSourceGetImagesInRange:(NSRange)range 
 {
-    return _itemImages ? [_itemImages subarrayWithRange:range] : [self dataSourceGetItemsInRange:range];
+    return _itemImages ? [_itemImages subarrayWithRange:range] : nil;
 }
 
 - (NSArray *)dataSourceGetAttributesInRange:(NSRange)range 
 {
-    return _itemAttributes ? [_itemAttributes subarrayWithRange:range] : [self dataSourceGetItemsInRange:range];
+    return _itemAttributes ? [_itemAttributes subarrayWithRange:range] : nil;
 }
 
 @end
