@@ -344,10 +344,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
 - (void)registerForNotifications
 {
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    if ([self.dataSourceAccess getDataSource].isLeaf)
-    {
-        [defaultCenter addObserver:self selector:@selector(reloadData) name:ReloadTableDataNotification object:nil];        
-    }
+    [defaultCenter addObserver:self selector:@selector(reloadData) name:ReloadTableDataNotification object:nil];
     [defaultCenter addObserver:self selector:@selector(reloadData) name:ItemPickerDataSourceDidChangeNotification object:nil];
 }
 
