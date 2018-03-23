@@ -278,6 +278,7 @@ currentSelectionStack:(Stack *)currentSelectionStack
         controller.itemPickerDelegate = self.itemPickerDelegate;
         controller.maxSelectableItems = self.maxSelectableItems;
         controller.showDoneButton = self.showDoneButton;
+        controller.dataSourceAccess.itemCacheSize = self.dataSourceAccess.itemCacheSize;
         [self.navigationController pushViewController:controller animated:YES];    
     }
 }
